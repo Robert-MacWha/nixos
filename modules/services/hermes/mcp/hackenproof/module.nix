@@ -35,8 +35,7 @@ in
     apiKeyFile = lib.mkOption {
       type = lib.types.path;
       description = ''
-        Path to a file containing the HackenProof API key, typically a
-        sops-nix secret path. Must be readable by the user hermes runs as.
+        Path to a file containing the HackenProof API key. Must be readable by the user hermes runs as.
       '';
     };
 
@@ -44,8 +43,7 @@ in
       type = lib.types.listOf lib.types.path;
       default = [ ];
       description = ''
-        Paths to ASCII-armored, passphrase-less private GPG keys, typically
-        sops-nix secret paths. Must be readable by the user hermes runs as.
+        Paths to ASCII-armored, passphrase-less private GPG keys. Must be readable by the user hermes runs as.
       '';
     };
 
@@ -63,7 +61,7 @@ in
         "get_report_details"
         "get_reports_details_batch"
       ];
-      description = "If non-empty, ONLY these upstream tools are exposed (default-deny).";
+      description = "Upstream tools that are allowed. If non-empty, ONLY these upstream tools are allowed.";
     };
 
     blockedTools = lib.mkOption {
@@ -80,8 +78,7 @@ in
       type = lib.types.str;
       readOnly = true;
       description = ''
-        Fully-configured launch command. Assign this to hermes's
-        mcpServers.hackenproof.command — it needs no further args.
+        Fully-configured launch command. Assign this to hermes's mcpServers.hackenproof.command.
       '';
     };
   };

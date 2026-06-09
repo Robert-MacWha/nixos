@@ -1,14 +1,27 @@
+TARGET ?=
+HOST ?=
+
+REBUILD_ARGS :=
+
+ifdef TARGET
+REBUILD_ARGS += --flake .#$(TARGET)
+endif
+
+ifdef HOST
+REBUILD_ARGS += --target-host root@$(HOST)
+endif
+
 .PHONY: update
 update:
-	sudo nixos-rebuild switch
 	git add .
+	nixos-rebuild switch $(REBUILD_ARGS)
 	git commit -m "update: $$(date -Iseconds)" || true
 
 .PHONY: upgrade
 upgrade:
-	nix flake update
-	sudo nixos-rebuild switch --upgrade
 	git add .
+	nix flake update
+	nixos-rebuild switch --upgrade $(REBUILD_ARGS)
 	git commit -m "upgrade: $$(date -Iseconds)" || true
 
 .PHONY: clean

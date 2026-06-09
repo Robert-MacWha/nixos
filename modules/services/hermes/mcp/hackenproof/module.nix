@@ -12,15 +12,7 @@ let
     exec ${lib.getExe cfg.package} \
       --api-key-file ${lib.escapeShellArg (toString cfg.apiKeyFile)} \
       ${lib.concatMapStringsSep " " (k: "--key-file ${lib.escapeShellArg (toString k)}") cfg.keyFiles} \
-      --upstream-url ${lib.escapeShellArg cfg.upstreamUrl} \
-      ${
-        lib.optionalString (
-          cfg.allowedTools != [ ]
-        ) "--allowed-tools ${lib.escapeShellArg (lib.concatStringsSep "," cfg.allowedTools)}"
-      } \
-      ${lib.optionalString (
-        cfg.blockedTools != [ ]
-      ) "--blocked-tools ${lib.escapeShellArg (lib.concatStringsSep "," cfg.blockedTools)}"}
+      --upstream-url ${lib.escapeShellArg cfg.upstreamUrl}
   '';
 in
 {
@@ -51,27 +43,6 @@ in
       type = lib.types.str;
       default = "https://mcp.hackenproof.com/mcp";
       description = "The upstream HackenProof MCP endpoint.";
-    };
-
-    allowedTools = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      example = [
-        "get_reports"
-        "get_report_details"
-        "get_reports_details_batch"
-      ];
-      description = "Upstream tools that are allowed. If non-empty, ONLY these upstream tools are allowed.";
-    };
-
-    blockedTools = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      example = [
-        "update_report"
-        "close_report"
-      ];
-      description = "Upstream tools that are always hidden and rejected.";
     };
 
     command = lib.mkOption {

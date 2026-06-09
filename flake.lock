@@ -41,6 +41,22 @@
         "type": "github"
       }
     },
+    "hackenproof-proxy": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./modules/services/hermes/mcp/hackenproof",
+        "type": "path"
+      },
+      "original": {
+        "path": "./modules/services/hermes/mcp/hackenproof",
+        "type": "path"
+      },
+      "parent": []
+    },
     "hermes-agent": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -246,6 +262,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "hackenproof-proxy": "hackenproof-proxy",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

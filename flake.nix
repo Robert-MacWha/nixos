@@ -14,6 +14,9 @@
 
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
+
+    hackenproof-proxy.url = "path:./modules/services/hermes/mcp/hackenproof";
+    hackenproof-proxy.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     inputs:
@@ -52,6 +55,7 @@
             inputs.disko.nixosModules.disko
             inputs.preservation.nixosModules.preservation
             inputs.hermes-agent.nixosModules.default
+            inputs.hackenproof-proxy.nixosModules.default
           ];
         };
       };

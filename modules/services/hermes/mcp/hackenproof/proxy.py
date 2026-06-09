@@ -45,7 +45,7 @@ def decrypt_armored(armored: str) -> str:
         msg = PGPMessage.from_blob(armored)
     except Exception as e:
         log.warning("pgpy failed to parse blob: %s", e)
-        return armored
+        return "...invalid pgp block..."
     
     last_err = None
     for key in KEYS:
@@ -61,7 +61,7 @@ def decrypt_armored(armored: str) -> str:
             last_err = e
     
     log.warning("no loaded key could decrypt a PGP block: %s", last_err)
-    return armored
+    return "...unable to decrypt pgp block with any loaded key..."
 
 def replace_block(match):
     block_content = match.group(1)

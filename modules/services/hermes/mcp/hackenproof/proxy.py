@@ -95,8 +95,9 @@ def decrypt_report(report) -> None:
 def decrypt_payload(text: str) -> str:
     """Parse the tool's JSON text and decrypt fields on the report(s)."""
     try:
-        payload = json.loads(text)
+        payload = [json.loads(line) for line in text.strip().split("\n")]
     except (ValueError, TypeError):
+        log.warning("payload is not valid JSON; cannot decrypt: %s", text)
         return text
     
     if isinstance(payload, list):
@@ -129,7 +130,6 @@ async def call_tool(name: str, arguments: dict | None):
         raise ValueError(f"tool {name!r} is not permitted by this proxy")
     
     log.info("calling tool %s(%s)", name, arguments or {})
-    result = None
     try:
         result = await UPSTREAM.call_tool(name, arguments or {})
     except Exception as e:

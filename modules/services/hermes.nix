@@ -81,10 +81,6 @@
         "set_visibility"
       ];
     };
-    # mcpServers.github = {
-    #   url = "https://api.githubcopilot.com/mcp/readonly";
-    #   headers.Authorization = "Bearer \${GITHUB_MCP_PAT}";
-    # };
 
     addToSystemPackages = true;
     restart = "no";

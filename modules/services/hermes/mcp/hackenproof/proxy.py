@@ -89,6 +89,7 @@ def transform_block(block):
         return types.TextContent(type="text", text=text)
     
     text = PGP_REGEX.sub(replace_block, text)
+    return types.TextContent(type="text", text=text)
 
 # --- MCP handlers (delegate to upstream) -----------------------------------
 

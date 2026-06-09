@@ -33,7 +33,6 @@ log = logging.getLogger("hackenproof")
 server = Server("hackenproof")
 
 DECRYPT_TOOLS = {"get_report_details", "get_reports_details_batch"}
-ENCRYPTED_FIELDS = ["vulnerability_description", "validation_steps"]
 PGP_REGEX = re.compile(
     r'(-----BEGIN PGP MESSAGE-----.*?-----END PGP MESSAGE-----)', 
     re.DOTALL
@@ -75,46 +74,21 @@ def decrypt_armored(armored: str) -> str:
     log.warning("no loaded key could decrypt a PGP block: %s", last_err)
     return armored
 
-
-def decrypt_report(report) -> None:
-    """Decrypt the configured field(s) on a single report dict, in place."""
-    if not isinstance(report, dict):
-        return
-    for field in ENCRYPTED_FIELDS:
-        val = report.get(field)
-        if isinstance(val, str) and "BEGIN PGP MESSAGE" in val:
-            # Find all PGP blocks in the text and replace them with their decrypted versions
-            def replace_block(match):
-                block = match.group(1)
-                decrypted = decrypt_armored(block)
-                return decrypted
-            
-            report[field] = PGP_REGEX.sub(replace_block, val)
-
-
-def decrypt_payload(text: str) -> str:
-    """Parse the tool's JSON text and decrypt fields on the report(s)."""
-    try:
-        payload = json.loads(text)
-    except (Exception) as e:
-        log.warning("failed to parse tool output as JSON: %s", e)
-        return text
-    
-    if isinstance(payload, list):
-        # list of reports from batch tool
-        for r in payload:
-            decrypt_report(r)
-    else:
-        # single report
-        decrypt_report(payload)
-    return json.dumps(payload)
-
+def replace_block(match):
+    block_content = match.group(1)
+    block_content = block_content.replace("\\n", "\n").replace("\\r", "\r")
+    decrypted = decrypt_armored(block_content)
+    return decrypted.replace('\n', '\\n').replace('\r', '')
 
 def transform_block(block):
-    if isinstance(block, types.TextContent):
-        return types.TextContent(type="text", text=decrypt_payload(block.text))
-    return block
-
+    if not isinstance(block, types.TextContent):
+        return block
+    
+    text = block.text
+    if not "BEGIN PGP MESSAGE" in text:
+        return types.TextContent(type="text", text=text)
+    
+    text = PGP_REGEX.sub(replace_block, text)
 
 # --- MCP handlers (delegate to upstream) -----------------------------------
 

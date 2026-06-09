@@ -95,9 +95,9 @@ def decrypt_report(report) -> None:
 def decrypt_payload(text: str) -> str:
     """Parse the tool's JSON text and decrypt fields on the report(s)."""
     try:
-        payload = [json.loads(line) for line in text.strip().split("\n")]
-    except (ValueError, TypeError):
-        log.warning("payload is not valid JSON; cannot decrypt: %s", text)
+        payload = json.loads(text)
+    except (Exception) as e:
+        log.warning("failed to parse tool output as JSON: %s", e)
         return text
     
     if isinstance(payload, list):

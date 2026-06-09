@@ -81,6 +81,16 @@
         "set_visibility"
       ];
     };
+    mcpServers.github = {
+      command = "npx";
+      args = [
+        "-y"
+        "@modelcontextprotocol/server-github"
+      ];
+      # env = {
+      #   GITHUB_PERSONAL_ACCESS_TOKEN = "\${GITHUB_PERSONAL_ACCESS_TOKEN}";
+      # };
+    };
 
     addToSystemPackages = true;
     restart = "no";

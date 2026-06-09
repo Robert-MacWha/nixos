@@ -23,10 +23,17 @@
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_CA.UTF-8";
 
-  users.users.root = {
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRvLqaDP5TEXir4skoP4+VzqrbQgjXYPQA2tCF9hc1z rmacwha@robert-desktop"
-    ];
+  virtualisation.docker.enable = true;
+
+  users.users = {
+    root = {
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRvLqaDP5TEXir4skoP4+VzqrbQgjXYPQA2tCF9hc1z rmacwha@robert-desktop"
+      ];
+    };
+    hermes = {
+      extraGroups = [ "docker" ];
+    };
   };
 
   nix.settings.experimental-features = [
@@ -56,13 +63,14 @@
     ];
   };
 
+  systemd.services.hermes-agent.path = [ pkgs.docker ];
+  systemd.services.hermes-agent.serviceConfig.TimeoutStopSec = 210;
   services.hermes-agent = {
     enable = true;
     user = "hermes";
     group = "hermes";
     createUser = true;
     stateDir = "/var/lib/hermes";
-    workingDirectory = "/var/lib/hermes-working";
     environmentFiles = [ config.sops.secrets."hermes-env".path ];
     extraDependencyGroups = [ "messaging" ];
     settings = {
@@ -76,9 +84,7 @@
       toolsets = [ "all" ];
       max_turns = 100;
       terminal = {
-        backend = "local";
-        cwd = ".";
-        timeout = 180;
+        backend = "docker";
       };
       web = {
         backend = "ddgs";
@@ -106,9 +112,14 @@
     };
 
     addToSystemPackages = true;
-    restart = "always";
+    restart = "no";
     restartSec = 5;
   };
+
+  systemd.tmpfiles.rules = [
+    "Z /var/lib/hermes/.hermes - hermes hermes -"
+    "L+ /var/lib/hermes/.hermes/SOUL.md - - - - ${./SOUL.md}"
+  ];
 
   system.stateVersion = "25.05";
 }

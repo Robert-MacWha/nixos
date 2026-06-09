@@ -17,7 +17,17 @@
         "/var/lib/systemd/timers"
         "/var/lib/nixos"
         "/var/log"
-        "/var/lib/hermes"
+        {
+          directory = "/var/lib/hermes";
+          user = "hermes";
+          group = "hermes";
+        }
+        {
+          directory = "/var/lib/docker";
+          user = "root";
+          group = "root";
+          mode = "0710";
+        }
       ];
     };
   };

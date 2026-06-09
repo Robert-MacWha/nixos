@@ -1,7 +1,6 @@
 """HackenProof MCP proxy with tool filtering + transparent decryption.
 
 Proxies MCP requests to the HackenProof MCP server, applying these features:
- - Tool filtering to allowlist or blocklist specific tools
  - Decryption of pgp-encrypted report fields in certain responses
 
 The associated nix flake also exposes the configuration options as native
@@ -10,7 +9,6 @@ instead of via hermes' configuration interface.
 """
 
 import sys
-import json
 import asyncio
 import logging
 import argparse
@@ -39,16 +37,7 @@ PGP_REGEX = re.compile(
 )
 
 KEYS: list[PGPKey] = []
-ALLOWED: set[str] = set()
-BLOCKED: set[str] = set()
 UPSTREAM: ClientSession | None = None
-
-
-def tool_permitted(name: str) -> bool:
-    """Returns True if the tool is permitted by the current allow/block lists"""
-    if ALLOWED and name not in ALLOWED:
-        return False
-    return name not in BLOCKED
 
 def decrypt_armored(armored: str) -> str:
     """Decrypt one armored PGP block; return it unchanged on failure."""
@@ -96,15 +85,13 @@ def transform_block(block):
 @server.list_tools()
 async def list_tools() -> list[types.Tool]:
     result = await UPSTREAM.list_tools()
-    return [t for t in result.tools if tool_permitted(t.name)]
+    return result.tools
 
 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict | None):
-    if not tool_permitted(name):
-        raise ValueError(f"tool {name!r} is not permitted by this proxy")
-    
     log.info("calling tool %s(%s)", name, arguments or {})
+
     try:
         result = await UPSTREAM.call_tool(name, arguments or {})
     except Exception as e:
@@ -125,20 +112,13 @@ async def call_tool(name: str, arguments: dict | None):
 
 
 async def main() -> None:
-    global UPSTREAM, ALLOWED, BLOCKED
+    global UPSTREAM
 
     p = argparse.ArgumentParser(prog="hackenproof-decrypt-proxy")
     p.add_argument("--api-key-file", required=True)
     p.add_argument("--key-file", action="append", default=[], dest="key_files")
     p.add_argument("--upstream-url", default="https://mcp.hackenproof.com/mcp")
-    p.add_argument("--allowed-tools", default="")
-    p.add_argument("--blocked-tools", default="")
     args = p.parse_args()
-
-    ALLOWED = {t.strip() for t in args.allowed_tools.split(",") if t.strip()}
-    BLOCKED = {t.strip() for t in args.blocked_tools.split(",") if t.strip()}
-    log.info("allowed tools: %s", ", ".join(ALLOWED) or "(all)")
-    log.info("blocked tools: %s", ", ".join(BLOCKED) or "(none)")
 
     for path in args.key_files:
         key, _ = PGPKey.from_file(path)

@@ -63,7 +63,24 @@
         verbose = false;
       };
     };
-    mcpServers.hackenproof.command = config.services.hackenproof-proxy.command;
+    mcpServers.hackenproof = {
+      command = config.services.hackenproof-proxy.command;
+      tools.exclude = [
+        "add_comment"
+        "comment_with_attachment"
+        "screenshot_and_comment"
+        "update_comment"
+        "delete_comment"
+        "change_state"
+        "change_severity"
+        "add_labels"
+        "remove_labels"
+        "triage_report"
+        "triage_reports_batch"
+        "triage_bulk"
+        "set_visibility"
+      ];
+    };
 
     addToSystemPackages = true;
     restart = "no";
@@ -73,21 +90,6 @@
   services.hackenproof-proxy = {
     apiKeyFile = config.sops.secrets."hackenproof-api-key".path;
     keyFiles = [ config.sops.secrets."opengpg-private-key".path ];
-    blockedTools = [
-      "add_comment"
-      "comment_with_attachment"
-      "screenshot_and_comment"
-      "update_comment"
-      "delete_comment"
-      "change_state"
-      "change_severity"
-      "add_labels"
-      "remove_labels"
-      "triage_report"
-      "triage_reports_batch"
-      "triage_bulk"
-      "set_visibility"
-    ];
   };
 
   systemd.tmpfiles.rules = [

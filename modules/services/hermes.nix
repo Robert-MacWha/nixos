@@ -82,7 +82,7 @@
       ];
     };
     mcpServers.github = {
-      url = "https://api.githubcopilot.com/mcp/";
+      url = "https://api.githubcopilot.com/mcp/readonly";
       headers.Authorization = "Bearer \${GITHUB_MCP_PAT}";
     };
 

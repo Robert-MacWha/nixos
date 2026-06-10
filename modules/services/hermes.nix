@@ -62,6 +62,11 @@
         max_turns = 150;
         verbose = false;
       };
+      stt = {
+        provider = "openai";
+        openai.model = "mistralai/Voxtral-Mini-4B-Realtime-2602";
+        openai.base_url = "https://inference.ethereum.foundation/v1";
+      };
     };
     mcpServers.hackenproof = {
       command = config.services.hackenproof-proxy.command;

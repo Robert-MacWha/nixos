@@ -78,6 +78,10 @@ def transform_block(block):
         return types.TextContent(type="text", text=text)
     
     text = PGP_REGEX.sub(replace_block, text)
+    if "BEGIN PGP MESSAGE" in text:
+        log.warning("pgp block(s) remain after decryption attempt; maybe the regex failed to match something?")
+        return types.TextContent(type="text", text="...pgp block(s) remain after decryption attempt.  Call with fields `vulnerability_description` and `validation_steps` to get full text...")
+
     return types.TextContent(type="text", text=text)
 
 # --- MCP handlers (delegate to upstream) -----------------------------------

@@ -175,7 +175,7 @@ in
         click-to-exit = true;
         sort = true;
         # sorting-method = "fzf";
-        matching = "fuzzy";
+        # matching = "fuzzy";
       };
     };
 

@@ -7,8 +7,6 @@
 }:
 let
   # orca-slicer = pkgs.callPackage ../../modules/packages/orca-slicer.nix { inherit unstable; };
-  # kurve = pkgs.callPackage ../../modules/packages/kurve.nix { };
-  # cavasik = pkgs.callPackage ../../modules/packages/cavasik.nix { };
   # rotki = pkgs.callPackage ../../modules/packages/rotki.nix { };
 
   rofi-vscode = pkgs.writeShellScriptBin "rofi-vscode" (builtins.readFile ./rofi/vscode.sh);

@@ -159,6 +159,7 @@ in
 
     rofi = {
       enable = true;
+      theme = "Adapta-Nokto";
       modes = [
         "combi"
         "drun"

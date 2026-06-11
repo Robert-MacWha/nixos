@@ -35,7 +35,7 @@ in
       zoom-us
 
       # General
-      # orca-slicer
+      orca-slicer
       thunderbird
       mattermost-desktop
       prismlauncher

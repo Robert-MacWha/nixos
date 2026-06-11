@@ -21,7 +21,7 @@ update:
 upgrade:
 	git add .
 	nix flake update
-	nixos-rebuild switch --upgrade $(REBUILD_ARGS)
+	sudo nixos-rebuild switch --upgrade $(REBUILD_ARGS)
 	git commit -m "upgrade: $$(date -Iseconds)" || true
 
 .PHONY: clean

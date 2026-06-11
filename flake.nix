@@ -40,6 +40,7 @@
               home-manager.useUserPackages = true;
               home-manager.sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
               home-manager.extraSpecialArgs = { inherit unstable; };
+              home-manager.users.rmacwha = import ./hosts/robert-desktop/home.nix;
             }
           ];
         };

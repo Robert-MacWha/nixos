@@ -127,7 +127,7 @@ in
 
   services.gpg-agent = {
     enable = true;
-    pinentry.package = pkgs.pinentry-qt;
+    # pinentry.package = pkgs.pinentry-qt;
   };
 
   # https://nix-community.github.io/home-manager/options.xhtml

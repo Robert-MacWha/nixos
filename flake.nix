@@ -45,17 +45,27 @@
           ];
         };
 
+        # 192.168.2.54
         test-vm = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             ./hosts/test-vm/configuration.nix
-            ./hosts/test-vm/preservation.nix
-            ./hosts/test-vm/disko.nix
             inputs.sops-nix.nixosModules.sops
             inputs.disko.nixosModules.disko
             inputs.preservation.nixosModules.preservation
             inputs.hermes-agent.nixosModules.default
             inputs.hackenproof-proxy.nixosModules.default
+          ];
+        };
+
+        # 192.168.2.50
+        perth = inputs.nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/perth/configuration.nix
+            inputs.sops-nix.nixosModules.sops
+            inputs.disko.nixosModules.disko
+            inputs.preservation.nixosModules.preservation
           ];
         };
       };

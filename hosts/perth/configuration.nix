@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
     ./disko.nix
     ./preservation.nix
-    ../../modules/services/hermes.nix
   ];
 
   # Systemd-boot
@@ -20,7 +19,7 @@
   };
   boot.loader.efi.canTouchEfiVariables = false;
 
-  networking.hostName = "test-vm";
+  networking.hostName = "perth";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Toronto";

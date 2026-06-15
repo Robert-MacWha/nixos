@@ -66,7 +66,7 @@
         provider = "openai";
         openai.model = "mistralai/Voxtral-Mini-4B-Realtime-2602";
         openai.base_url = "https://inference.ethereum.foundation/v1";
-        openai.api_key = "\${ETH_FOUNDATION_API_KEY}";
+        openai.api_key = "\${VOICE_TOOLS_OPENAI_KEY}";
       };
     };
     mcpServers.hackenproof = {

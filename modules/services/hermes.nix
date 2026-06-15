@@ -1,9 +1,11 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  apiPort = 6853;
+in
+{
   users.users.hermes = {
     extraGroups = [ "docker" ];
   };
-
-  networking.firewall.allowedTCPPorts = [ 6853 ];
 
   sops.secrets."hermes-env" = {
     owner = "hermes";
@@ -21,6 +23,7 @@
     sopsFile = ../../secrets/secrets.yaml;
   };
 
+  networking.firewall.allowedTCPPorts = [ apiPort ];
   systemd.services.hermes-agent.path = [ pkgs.docker ];
   systemd.services.hermes-agent.serviceConfig.TimeoutStopSec = 210;
   services.hermes-agent = {
@@ -30,6 +33,11 @@
     createUser = true;
     stateDir = "/var/lib/hermes";
     environmentFiles = [ config.sops.secrets."hermes-env".path ];
+    environment = {
+      API_SERVER_ENABLE = "true";
+      API_SERVER_HOST = "0.0.0.0";
+      API_SERVER_PORT = toString apiPort;
+    };
     extraDependencyGroups = [ "messaging" ];
     settings = {
       model = {

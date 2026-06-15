@@ -14,7 +14,7 @@ endif
 .PHONY: update
 update:
 	git add .
-	sudo nixos-rebuild switch $(REBUILD_ARGS)
+	nixos-rebuild switch $(REBUILD_ARGS)
 	git commit -m "update: $$(date -Iseconds)" || true
 
 .PHONY: upgrade
@@ -32,3 +32,7 @@ clean:
 .PHONY: optimise
 optimise:
 	nix-store --optimise
+
+.PHONY: update-keys
+update-keys:
+	for f in secrets/*.yaml; do sops updatekeys -y "$f"; done

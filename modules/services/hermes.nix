@@ -3,6 +3,8 @@
     extraGroups = [ "docker" ];
   };
 
+  networking.firewall.allowedTCPPorts = [ 6853 ];
+
   sops.secrets."hermes-env" = {
     owner = "hermes";
     format = "yaml";

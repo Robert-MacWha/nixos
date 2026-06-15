@@ -23,10 +23,10 @@ in
     sopsFile = ../../secrets/secrets.yaml;
   };
 
-  networking.firewall.allowedTCPPorts = [
-    apiPort
-    8080
-  ];
+  # networking.firewall.allowedTCPPorts = [
+  #   apiPort
+  #   8080
+  # ];
   systemd.services.hermes-agent.path = [ pkgs.docker ];
   systemd.services.hermes-agent.serviceConfig.TimeoutStopSec = 210;
   services.hermes-agent = {

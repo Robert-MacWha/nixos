@@ -45,7 +45,7 @@
           ];
         };
 
-        # 192.168.2.54
+        # 192.168.2.51
         test-vm = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [

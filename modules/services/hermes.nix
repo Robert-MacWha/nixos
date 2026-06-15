@@ -97,6 +97,17 @@
         GITHUB_PERSONAL_ACCESS_TOKEN = "\${GITHUB_PERSONAL_ACCESS_TOKEN}";
       };
     };
+    mcpServers.seal-intel = {
+      command = "npx";
+      args = [
+        "-y"
+        "github:zxzinn/opencti-mcp"
+      ];
+      env = {
+        OPENCTI_URL = "\${OPENCTI_URL}";
+        OPENCTI_TOKEN = "\${OPENCTI_TOKEN}";
+      };
+    };
 
     addToSystemPackages = true;
     restart = "no";

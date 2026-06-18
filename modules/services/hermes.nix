@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   apiPort = 6853;
+  dashboardPort = 9119;
 in
 {
   users.users.hermes = {
@@ -23,10 +24,10 @@ in
     sopsFile = ../../secrets/secrets.yaml;
   };
 
-  # networking.firewall.allowedTCPPorts = [
-  #   apiPort
-  #   8080
-  # ];
+  networking.firewall.allowedTCPPorts = [
+    apiPort
+    dashboardPort
+  ];
   systemd.services.hermes-agent.path = [ pkgs.docker ];
   systemd.services.hermes-agent.serviceConfig.TimeoutStopSec = 210;
   services.hermes-agent = {

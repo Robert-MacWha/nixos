@@ -46,7 +46,7 @@ in
     settings = {
       model = {
         provider = "custom";
-        default = "gemini/gemini-3.1-pro-preview";
+        default = "qwen3.6-27b";
         base_url = "https://inference.ethereum.foundation/v1";
         api_mode = "chat_completions";
         api_key = "\${ETH_FOUNDATION_API_KEY}";

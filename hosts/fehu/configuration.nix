@@ -135,7 +135,7 @@ in
               siteMonitor = "http://${ip}:7878";
               widget = {
                 type = "radarr";
-                url = "http://${ip}:7878";
+                url = "http://localhost:7878";
                 key = config.sops.secrets."radarr_api_key".path;
               };
             };

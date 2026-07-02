@@ -73,7 +73,8 @@
     settings = {
       title = "Fehu";
       description = "Fehu homeserver dashboard";
-      color = "purple";
+      theme = "dark";
+      color = "violet";
     };
     # services = {
 

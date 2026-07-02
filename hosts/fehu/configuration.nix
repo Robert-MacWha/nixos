@@ -11,6 +11,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # igpu drivers
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-compute-runtime
+      vpl-gpu-rt
+    ];
+  };
+
   networking.hostName = "fehu";
   networking.networkmanager.enable = true;
 

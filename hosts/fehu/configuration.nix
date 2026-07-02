@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-
+let
+  ip = builtins.getEnv "IP_ADDRESS";
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -82,6 +84,25 @@
           {
             "Router" = {
               url = "http://192.168.2.1";
+            };
+          }
+        ];
+      }
+      {
+        "media" = [
+          {
+            "Jellyfin" = {
+              url = "http://${ip}:8096";
+            };
+          }
+          {
+            "Sonarr" = {
+              url = "http://${ip}:8989";
+            };
+          }
+          {
+            "Radarr" = {
+              url = "http://${ip}:7878";
             };
           }
         ];

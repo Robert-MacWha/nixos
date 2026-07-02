@@ -83,7 +83,7 @@ in
         "infra" = [
           {
             "Router" = {
-              url = "http://192.168.2.1";
+              href = "http://192.168.2.1";
             };
           }
         ];
@@ -92,17 +92,17 @@ in
         "media" = [
           {
             "Jellyfin" = {
-              url = "http://${ip}:8096";
+              href = "http://${ip}:8096";
             };
           }
           {
             "Sonarr" = {
-              url = "http://${ip}:8989";
+              href = "http://${ip}:8989";
             };
           }
           {
             "Radarr" = {
-              url = "http://${ip}:7878";
+              href = "http://${ip}:7878";
             };
           }
         ];

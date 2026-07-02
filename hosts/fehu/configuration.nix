@@ -124,7 +124,7 @@ in
               siteMonitor = "http://${ip}:8989";
               widget = {
                 type = "sonarr";
-                url = "http://${ip}:8989";
+                url = "http://localhost:8989";
                 key = config.sops.secrets."sonarr_api_key".path;
               };
             };

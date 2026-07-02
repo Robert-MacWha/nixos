@@ -100,7 +100,7 @@ in
       title = "Fehu";
       description = "Fehu homeserver dashboard";
       theme = "dark";
-      color = "fuchsia";
+      # color = "fuchsia";
     };
     environmentFiles = [
       (pkgs.writeText "homepage-dashboard-env" ''

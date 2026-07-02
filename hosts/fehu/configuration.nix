@@ -71,6 +71,11 @@ in
   users.groups.homepage-secrets = { };
 
   sops.secrets = {
+    "jellyfin_api_key" = {
+      sopsFile = ../../secrets/nixflix.yaml;
+      mode = "0440";
+      group = "homepage-secrets";
+    };
     "sonarr_api_key" = {
       sopsFile = ../../secrets/nixflix.yaml;
       mode = "0440";
@@ -81,7 +86,7 @@ in
       mode = "0440";
       group = "homepage-secrets";
     };
-    "jellyfin_api_key" = {
+    "prowlarr_api_key" = {
       sopsFile = ../../secrets/nixflix.yaml;
       mode = "0440";
       group = "homepage-secrets";
@@ -107,6 +112,7 @@ in
         HOMEPAGE_FILE_SONARR_API_KEY=${config.sops.secrets."sonarr_api_key".path}
         HOMEPAGE_FILE_RADARR_API_KEY=${config.sops.secrets."radarr_api_key".path}
         HOMEPAGE_FILE_JELLYFIN_API_KEY=${config.sops.secrets."jellyfin_api_key".path}
+        HOMEPAGE_FILE_PROWLARR_API_KEY=${config.sops.secrets."prowlarr_api_key".path}
       '')
     ];
     services = [
@@ -119,15 +125,6 @@ in
           }
         ];
       }
-      # {
-      #   "machines" = [
-      #     {
-      #       "Fehu" = {
-
-      #       }
-      #     }
-      #   ]
-      # }
       {
         "media" = [
           {
@@ -162,6 +159,17 @@ in
                 type = "radarr";
                 url = "http://${ip}:7878";
                 key = "{{HOMEPAGE_FILE_RADARR_API_KEY}}";
+              };
+            };
+          }
+          {
+            "Prowlarr" = {
+              href = "http://${ip}:9696";
+              siteMonitor = "http://${ip}:9696";
+              widget = {
+                type = "prowlarr";
+                url = "http://${ip}:9696";
+                key = "{{HOMEPAGE_FILE_PROWLARR_API_KEY}}";
               };
             };
           }

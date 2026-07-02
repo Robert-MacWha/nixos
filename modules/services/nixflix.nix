@@ -14,11 +14,14 @@ in
     "jellyfin_api_key".sopsFile = ../../secrets/nixflix.yaml;
     "admin_password".sopsFile = ../../secrets/nixflix.yaml;
     "opensubtitles_password".sopsFile = ../../secrets/nixflix.yaml;
+    "alpharatio_username".sopsFile = ../../secrets/nixflix.yaml;
+    "alpharatio_password".sopsFile = ../../secrets/nixflix.yaml;
   };
 
   networking.firewall = {
     allowedTCPPorts = [
       8096
+      9696
       8989
       7878
     ];
@@ -59,6 +62,21 @@ in
         hostConfig.password = {
           _secret = config.sops.secrets."admin_password".path;
         };
+      };
+    };
+
+    prowlarr = {
+      enable = true;
+      config = {
+        apiKey._secret = config.sops.secrets."prowlarr_api_key".path;
+        hostConfig.password._secret = config.sops.secrets."admin_password".path;
+        indexers = [
+          {
+            name = "AlphaRatio";
+            username._secret = config.sops.secrets."alpharatio_username".path;
+            password._secret = config.sops.secrets."alpharatio_password".path;
+          }
+        ];
       };
     };
 

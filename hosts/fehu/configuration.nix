@@ -103,27 +103,35 @@ in
             "Jellyfin" = {
               href = "http://${ip}:8096";
               siteMonitor = "http://${ip}:8096";
-              widgets = [
-                {
-                  type = "jellyfin";
-                  url = "http://${ip}:8096";
-                  key = config.sops.secrets."jellyfin_api_key".path;
-                  enableBlocks = true;
-                  version = 2;
-                }
-              ];
+              widget = {
+                type = "jellyfin";
+                url = "http://${ip}:8096";
+                key = config.sops.secrets."jellyfin_api_key".path;
+                enableBlocks = true;
+                version = 2;
+              };
             };
           }
           {
             "Sonarr" = {
               href = "http://${ip}:8989";
               siteMonitor = "http://${ip}:8989";
+              widget = {
+                type = "sonarr";
+                url = "http://${ip}:8989";
+                key = config.sops.secrets."sonarr_api_key".path;
+              };
             };
           }
           {
             "Radarr" = {
               href = "http://${ip}:7878";
               siteMonitor = "http://${ip}:7878";
+              widget = {
+                type = "radarr";
+                url = "http://${ip}:7878";
+                key = config.sops.secrets."radarr_api_key".path;
+              };
             };
           }
         ];

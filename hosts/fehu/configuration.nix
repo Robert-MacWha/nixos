@@ -103,6 +103,14 @@ in
             "Jellyfin" = {
               href = "http://${ip}:8096";
               siteMonitor = "http://${ip}:8096";
+              widgets = [
+                {
+                  type = "jellyfin";
+                  url = "http://${ip}:8096";
+                  key = config.sops.secrets."jellyfin_api_key".path;
+                  enableBlocks = true;
+                }
+              ];
             };
           }
           {

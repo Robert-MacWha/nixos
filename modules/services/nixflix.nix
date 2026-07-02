@@ -1,10 +1,19 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  nixflix,
+  ...
+}:
+let
+  fromRepo = nixflix.lib.jellyfinPlugins.fromRepo;
+in
 {
   sops.secrets = {
     "sonarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
     "radarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
     "admin_password".sopsFile = ../../secrets/nixflix.yaml;
     "jellyfin_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "opensubtitles_password".sopsFile = ../../secrets/nixflix.yaml;
   };
 
   networking.firewall = {
@@ -51,10 +60,45 @@
       apiKey = {
         _secret = config.sops.secrets."jellyfin_api_key".path;
       };
+
       users.admin = {
         policy.isAdministrator = true;
         password = {
           _secret = config.sops.secrets."admin_password".path;
+        };
+      };
+
+      system.pluginRepositories = {
+        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+        "Intro Skipper" = {
+          url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
+          hash = "sha256:1rbjzgxfb7ypxhf4np15lszr4v1ywch7c4yjwm57lwpifzrcr36k";
+          enabled = true;
+        };
+      };
+
+      plugins = {
+        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+        "Intro Skipper" = {
+          package = fromRepo {
+            version = "1.10.11.17";
+            hash = "sha256-cfEnLqKeEGpQSth3NPjDnxCkgv2pePfgCXfVIOrYSiQ=";
+          };
+        };
+
+        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
+        "Open Subtitles" = {
+          enable = true;
+          config = {
+            Username = "fiddling9916";
+            Password._secret = config.sops.secrets."opensubtitles_password".path;
+          };
+        };
+
+        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
+        "Subtitle Extract" = {
+          enable = true;
+          config.ExtractionDuringLibraryScan = true;
         };
       };
 

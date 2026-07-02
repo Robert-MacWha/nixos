@@ -51,6 +51,9 @@
 
   environment.systemPackages = with pkgs; [
     nano
+    wget
+    unzip
+    htop
   ];
 
   services.openssh = {

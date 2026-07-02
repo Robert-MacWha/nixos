@@ -8,6 +8,10 @@
     sopsFile = ../../secrets/nixflix.yaml;
   };
 
+  networking.firewall = {
+    allowedTCPPorts = [ 8096 ];
+  };
+
   nixflix = {
     enable = true;
     mediaDir = "/data/nixflix/media";

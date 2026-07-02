@@ -55,6 +55,7 @@ in
           _secret = config.sops.secrets."radarr_api_key".path;
         };
         hostConfig.username = "admin";
+        hostConfig.certificateValidation = "disabled";
         hostConfig.password = {
           _secret = config.sops.secrets."admin_password".path;
         };

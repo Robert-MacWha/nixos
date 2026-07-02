@@ -11,8 +11,8 @@ in
   sops.secrets = {
     "sonarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
     "radarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
-    "admin_password".sopsFile = ../../secrets/nixflix.yaml;
     "jellyfin_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "admin_password".sopsFile = ../../secrets/nixflix.yaml;
     "opensubtitles_password".sopsFile = ../../secrets/nixflix.yaml;
   };
 

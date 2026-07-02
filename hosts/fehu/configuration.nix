@@ -68,6 +68,12 @@ in
     ];
   };
 
+  sops.secrets = {
+    "sonarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "radarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "jellyfin_api_key".sopsFile = ../../secrets/nixflix.yaml;
+  };
+
   services.homepage-dashboard = {
     enable = true;
     allowedHosts = "*";

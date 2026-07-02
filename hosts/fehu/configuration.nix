@@ -74,11 +74,19 @@
       title = "Fehu";
       description = "Fehu homeserver dashboard";
       theme = "dark";
-      color = "violet";
+      color = "fuchsia";
     };
-    # services = {
-
-    # };
+    services = [
+      {
+        "infra" = [
+          {
+            "Router" = {
+              url = "http://192.168.2.1";
+            };
+          }
+        ];
+      }
+    ];
     widgets = [
       {
         resources = {

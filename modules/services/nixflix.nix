@@ -58,7 +58,6 @@ in
           _secret = config.sops.secrets."radarr_api_key".path;
         };
         hostConfig.username = "admin";
-        hostConfig.certificateValidation = "disabled";
         hostConfig.password = {
           _secret = config.sops.secrets."admin_password".path;
         };
@@ -69,6 +68,7 @@ in
       enable = true;
       config = {
         apiKey._secret = config.sops.secrets."prowlarr_api_key".path;
+        hostConfig.username = "admin";
         hostConfig.password._secret = config.sops.secrets."admin_password".path;
         indexers = [
           {

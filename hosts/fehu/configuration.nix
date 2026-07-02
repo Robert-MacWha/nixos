@@ -66,5 +66,11 @@
     ];
   };
 
+  services.homepage-dashboard = {
+    enable = true;
+    allowedHosts = "0.0.0.0:8082";
+    openFirewall = true;
+  };
+
   system.stateVersion = "25.05";
 }

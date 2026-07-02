@@ -73,7 +73,7 @@ in
         indexers = [
           {
             name = "AlphaRatio";
-            enable = true;
+            enable = false;
             username._secret = config.sops.secrets."alpharatio_username".path;
             password._secret = config.sops.secrets."alpharatio_password".path;
           }

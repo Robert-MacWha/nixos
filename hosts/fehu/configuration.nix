@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
+    ../../modules/services/nixflix.nix
   ];
 
   # Systemd-boot

@@ -41,6 +41,7 @@ in
         apiKey = {
           _secret = config.sops.secrets."sonarr_api_key".path;
         };
+        hostConfig.username = "admin";
         hostConfig.password = {
           _secret = config.sops.secrets."admin_password".path;
         };
@@ -53,6 +54,7 @@ in
         apiKey = {
           _secret = config.sops.secrets."radarr_api_key".path;
         };
+        hostConfig.username = "admin";
         hostConfig.password = {
           _secret = config.sops.secrets."admin_password".path;
         };

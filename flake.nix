@@ -12,6 +12,9 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     preservation.url = "github:nix-community/preservation";
 
+    nixflix.url = "github:kiriwalawren/nixflix";
+    nixflix.inputs.nixpkgs.follows = "nixpkgs";
+
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -76,6 +79,7 @@
             ./hosts/fehu/configuration.nix
             inputs.sops-nix.nixosModules.sops
             inputs.disko.nixosModules.disko
+            inputs.nixflix.nixosModules.default
           ];
         };
       };

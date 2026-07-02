@@ -35,7 +35,7 @@
     options = "-d";
   };
 
-  sops.age.sshKeyPaths = [ "/persistent/etc/ssh/ssh_host_ed25519_key" ];
+  sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
 
   environment.systemPackages = with pkgs; [
     nano
@@ -45,7 +45,7 @@
     enable = true;
     hostKeys = [
       {
-        path = "/persistent/etc/ssh/ssh_host_ed25519_key";
+        path = "/root/.ssh/id_ed25519";
         type = "ed25519";
       }
     ];

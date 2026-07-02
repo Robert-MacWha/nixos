@@ -70,6 +70,10 @@
     enable = true;
     allowedHosts = "*";
     openFirewall = true;
+    settings = {
+      title = "Fehu";
+      description = "Fehu homeserver dashboard";
+    };
   };
 
   system.stateVersion = "25.05";

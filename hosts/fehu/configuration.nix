@@ -68,11 +68,29 @@ in
     ];
   };
 
+  users.groups.homepage-secrets = { };
+
   sops.secrets = {
-    "sonarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
-    "radarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
-    "jellyfin_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "sonarr_api_key" = {
+      sopsFile = ../../secrets/nixflix.yaml;
+      mode = "0440";
+      group = "homepage-secrets";
+    };
+    "radarr_api_key" = {
+      sopsFile = ../../secrets/nixflix.yaml;
+      mode = "0440";
+      group = "homepage-secrets";
+    };
+    "jellyfin_api_key" = {
+      sopsFile = ../../secrets/nixflix.yaml;
+      mode = "0440";
+      group = "homepage-secrets";
+    };
   };
+
+  systemd.services.homepage-dashboard.serviceConfig.SupplementaryGroups = [
+    "homepage-secrets"
+  ];
 
   services.homepage-dashboard = {
     enable = true;

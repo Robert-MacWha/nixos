@@ -123,7 +123,7 @@ in
           "vc1"
           "vp8"
           "vp9"
-          "av1" # UHD 730 (Gen 12/Xe-LP) supports AV1 decoding
+          "av1"
         ];
         enableDecodingColorDepth10Hevc = true;
         enableDecodingColorDepth10Vp9 = true;

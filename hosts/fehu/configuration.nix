@@ -84,6 +84,13 @@ in
       theme = "dark";
       color = "fuchsia";
     };
+    environmentFiles = [
+      (pkgs.writeText "homepage-dashboard-env" ''
+        HOMEPAGE_FILE_SONARR_API_KEY=${config.sops.secrets."sonarr_api_key".path}
+        HOMEPAGE_FILE_RADARR_API_KEY=${config.sops.secrets."radarr_api_key".path}
+        HOMEPAGE_FILE_JELLYFIN_API_KEY=${config.sops.secrets."jellyfin_api_key".path}
+      '')
+    ];
     services = [
       {
         "infra" = [
@@ -111,8 +118,8 @@ in
               siteMonitor = "http://${ip}:8096";
               widget = {
                 type = "jellyfin";
-                url = "http://localhost:8096";
-                key = config.sops.secrets."jellyfin_api_key".path;
+                url = "http://${ip}:8096";
+                key = "{{HOMEPAGE_FILE_JELLYFIN_API_KEY}}";
                 enableBlocks = true;
                 version = 2;
               };
@@ -124,8 +131,8 @@ in
               siteMonitor = "http://${ip}:8989";
               widget = {
                 type = "sonarr";
-                url = "http://localhost:8989";
-                key = config.sops.secrets."sonarr_api_key".path;
+                url = "http://${ip}:8989";
+                key = "{{HOMEPAGE_FILE_SONARR_API_KEY}}";
               };
             };
           }
@@ -135,8 +142,8 @@ in
               siteMonitor = "http://${ip}:7878";
               widget = {
                 type = "radarr";
-                url = "http://localhost:7878";
-                key = config.sops.secrets."radarr_api_key".path;
+                url = "http://${ip}:7878";
+                key = "{{HOMEPAGE_FILE_RADARR_API_KEY}}";
               };
             };
           }

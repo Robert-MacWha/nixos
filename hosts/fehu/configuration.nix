@@ -73,7 +73,20 @@
     settings = {
       title = "Fehu";
       description = "Fehu homeserver dashboard";
+      color = "purple";
     };
+    # services = {
+
+    # };
+    widgets = [
+      {
+        resources = {
+          cpu = true;
+          memory = true;
+          uptime = true;
+        };
+      }
+    ];
   };
 
   system.stateVersion = "25.05";

@@ -68,7 +68,7 @@
 
   services.homepage-dashboard = {
     enable = true;
-    allowedHosts = "*:8082";
+    allowedHosts = "192.168.2.52:8082";
     openFirewall = true;
   };
 

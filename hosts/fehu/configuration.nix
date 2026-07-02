@@ -83,6 +83,7 @@
         resources = {
           cpu = true;
           memory = true;
+          disk = "/";
           uptime = true;
         };
       }

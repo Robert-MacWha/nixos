@@ -1,11 +1,10 @@
 { config, pkgs, ... }:
 {
-  sops.secrets."jellyfin_admin_password" = {
-    sopsFile = ../../secrets/nixflix.yaml;
-  };
-
-  sops.secrets."jellyfin_api_key" = {
-    sopsFile = ../../secrets/nixflix.yaml;
+  sops.secrets = {
+    "sonarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "radarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "admin_password".sopsFile = ../../secrets/nixflix.yaml;
+    "jellyfin_api_key".sopsFile = ../../secrets/nixflix.yaml;
   };
 
   networking.firewall = {
@@ -22,6 +21,31 @@
     stateDir = "/data/nixflix/state";
 
     postgres.enable = true;
+
+    sonarr = {
+      enable = true;
+      config = {
+        apiKey = {
+          _secret = config.sops.secrets."sonarr_api_key".path;
+        };
+        hostConfig.password = {
+          _secret = config.sops.secrets."admin_password".path;
+        };
+      };
+    };
+
+    radarr = {
+      enable = true;
+      config = {
+        apiKey = {
+          _secret = config.sops.secrets."radarr_api_key".path;
+        };
+        hostConfig.password = {
+          _secret = config.sops.secrets."admin_password".path;
+        };
+      };
+    };
+
     jellyfin = {
       enable = true;
       apiKey = {
@@ -30,7 +54,7 @@
       users.admin = {
         policy.isAdministrator = true;
         password = {
-          _secret = config.sops.secrets."jellyfin_admin_password".path;
+          _secret = config.sops.secrets."admin_password".path;
         };
       };
 
@@ -53,8 +77,8 @@
         enableDecodingColorDepth10Hevc = true;
         enableDecodingColorDepth10Vp9 = true;
         enableVppTonemapping = true; # UHD 730 supports Intel's VPP-based tonemapping, better than OpenCL tonemap
-        enableIntelLowPowerH264HwEncoder = false; # only enable if you've set up HuC firmware, most people leave off
-        enableIntelLowPowerHevcHwEncoder = false;
+        enableIntelLowPowerH264HwEncoder = true;
+        enableIntelLowPowerHevcHwEncoder = true;
       };
     };
   };

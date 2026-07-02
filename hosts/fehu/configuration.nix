@@ -19,6 +19,7 @@
       intel-compute-runtime
       vpl-gpu-rt
     ];
+    # hardware.enableAllFirmware = true; # Required on n100 CPUs
   };
 
   networking.hostName = "fehu";

@@ -17,7 +17,11 @@ in
   };
 
   networking.firewall = {
-    allowedTCPPorts = [ 8096 ];
+    allowedTCPPorts = [
+      8096
+      8989
+      7878
+    ];
   };
 
   # https://wiki.nixos.org/wiki/Jellyfin

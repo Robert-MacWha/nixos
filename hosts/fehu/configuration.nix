@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  ip = builtins.getEnv "IP_ADDRESS";
+  ip = "192.168.2.52";
 in
 {
   imports = [

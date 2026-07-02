@@ -109,6 +109,7 @@ in
                   url = "http://${ip}:8096";
                   key = config.sops.secrets."jellyfin_api_key".path;
                   enableBlocks = true;
+                  version = 2;
                 }
               ];
             };

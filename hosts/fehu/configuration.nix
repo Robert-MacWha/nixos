@@ -88,21 +88,33 @@ in
           }
         ];
       }
+      # {
+      #   "machines" = [
+      #     {
+      #       "Fehu" = {
+
+      #       }
+      #     }
+      #   ]
+      # }
       {
         "media" = [
           {
             "Jellyfin" = {
               href = "http://${ip}:8096";
+              siteMonitor = "http://${ip}:8096";
             };
           }
           {
             "Sonarr" = {
               href = "http://${ip}:8989";
+              siteMonitor = "http://${ip}:8989";
             };
           }
           {
             "Radarr" = {
               href = "http://${ip}:7878";
+              siteMonitor = "http://${ip}:7878";
             };
           }
         ];

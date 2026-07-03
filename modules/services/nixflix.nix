@@ -82,6 +82,17 @@ in
       };
     };
 
+    downloadarr.qbittorrent = {
+      enable = true;
+      host = "127.0.0.1";
+      port = 5900;
+      username = "admin";
+      password = {
+        _secret = config.sops.secrets."admin_password".path;
+      };
+      dependencies = [ "docker-gluetun.service" ]; # override the default "qbittorrent.service" — that unit doesn't exist since qBittorrent is containerized, not a native nixflix service
+    };
+
     jellyfin = {
       enable = true;
       apiKey = {

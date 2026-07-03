@@ -150,11 +150,11 @@ in
           }
           {
             "qBittorrent" = {
-              href = "http://${ip}:8080";
-              siteMonitor = "http://${ip}:8080";
+              href = "http://${ip}:5900";
+              siteMonitor = "http://${ip}:5900";
               widget = {
                 type = "qbittorrent";
-                url = "http://${ip}:8080";
+                url = "http://${ip}:5900";
                 key = "{{HOMEPAGE_FILE_QBITTORRENT_API_KEY}}";
               };
             };

@@ -58,8 +58,8 @@
         GSP_GTN_API_KEY = "randomapikey";
       };
       volumes = [
-        "/var/lib/qbittorrent:/config"
-        "/mnt/media:/mnt/media"
+        "/data/qbittorrent/config:/config"
+        "/data/downloads:/data/downloads"
       ];
     };
   };

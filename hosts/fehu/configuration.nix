@@ -7,6 +7,7 @@ in
     ./hardware-configuration.nix
     ./disko.nix
     ../../modules/services/nixflix.nix
+    ../../modules/services/qbittorrent.nix
   ];
 
   # Systemd-boot

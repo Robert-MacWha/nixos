@@ -2,7 +2,7 @@
 {
   sops.secrets = {
     "gluetun_env".sopsFile = ../../secrets/nixflix.yaml;
-  }
+  };
 
   networking.firewall = {
     allowedTCPPorts = [

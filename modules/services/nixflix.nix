@@ -8,6 +8,10 @@ let
   fromRepo = nixflix.lib.jellyfinPlugins.fromRepo;
 in
 {
+  users.groups.media = {
+    gid = 3000;
+  };
+
   sops.secrets = {
     "sonarr_api_key".sopsFile = ../../secrets/nixflix.yaml;
     "radarr_api_key".sopsFile = ../../secrets/nixflix.yaml;

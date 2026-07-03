@@ -49,8 +49,8 @@
       dependsOn = [ "gluetun" ];
       extraOptions = [ "--network=container:gluetun" ];
       environment = {
-        PUID = "0";
-        PGID = "0";
+        PUID = "1000";
+        PGID = toString config.users.groups.media.gid;
         TZ = "America/Toronto";
         WEBUI_PORT = "5900";
         QBITTORRENT_INTERFACE = "tun0";

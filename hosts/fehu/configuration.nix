@@ -93,6 +93,11 @@ in
       mode = "0440";
       group = "homepage-secrets";
     };
+    "qbittorrent_api_key" = {
+      sopsFile = ../../secrets/nixflix.yaml;
+      mode = "0440";
+      group = "homepage-secrets";
+    };
   };
 
   systemd.services.homepage-dashboard.serviceConfig.SupplementaryGroups = [
@@ -115,6 +120,7 @@ in
         HOMEPAGE_FILE_RADARR_API_KEY=${config.sops.secrets."radarr_api_key".path}
         HOMEPAGE_FILE_JELLYFIN_API_KEY=${config.sops.secrets."jellyfin_api_key".path}
         HOMEPAGE_FILE_PROWLARR_API_KEY=${config.sops.secrets."prowlarr_api_key".path}
+        HOMEPAGE_FILE_QBITTORRENT_API_KEY=${config.sops.secrets."qbittorrent_api_key".path}
       '')
     ];
     services = [
@@ -139,6 +145,17 @@ in
                 key = "{{HOMEPAGE_FILE_JELLYFIN_API_KEY}}";
                 enableBlocks = true;
                 version = 2;
+              };
+            };
+          }
+          {
+            "qBittorrent" = {
+              href = "http://${ip}:8080";
+              siteMonitor = "http://${ip}:8080";
+              widget = {
+                type = "qbittorrent";
+                url = "http://${ip}:8080";
+                key = "{{HOMEPAGE_FILE_QBITTORRENT_API_KEY}}";
               };
             };
           }

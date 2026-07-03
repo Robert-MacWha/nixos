@@ -11,6 +11,17 @@
   };
 
   # https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/protonvpn.md
+  # Need to do this instead of using nixflix's vpn because proton doesn't support
+  # fixed-port port forwarding. It instead randomly selects a port for you, which
+  # isn't directly compatible with qbittorrent so we use gluetun as a VPN container.
+  #
+  # NOTE: qbittorrent can't have its password set declaratively. So when first setting up,
+  # you will need to check the logs for the temporary password (username = `admin`), and
+  # then set a password in the webui.
+  #
+  # `ssh root@1.2.3.4`
+  # `docker logs -t qbittorrent`
+  # "The WebUI administrator password was not set. A temporary password is provided for this session:"
   virtualisation.oci-containers.containers = {
     gluetun = {
       image = "ghcr.io/qdm12/gluetun:v3";

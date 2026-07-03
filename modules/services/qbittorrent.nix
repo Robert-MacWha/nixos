@@ -59,7 +59,7 @@
       };
       volumes = [
         "/data/qbittorrent/config:/config"
-        "/data/downloads:/downloads"
+        "/data/downloads:/data/downloads"
       ];
     };
   };

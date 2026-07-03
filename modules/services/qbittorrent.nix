@@ -10,6 +10,7 @@
     ];
   };
 
+  # https://github.com/qdm12/gluetun-wiki/blob/main/setup/providers/protonvpn.md
   virtualisation.oci-containers.containers = {
     gluetun = {
       image = "ghcr.io/qdm12/gluetun:v3";

@@ -93,7 +93,7 @@ in
       mode = "0440";
       group = "homepage-secrets";
     };
-    "qbittorrent_api_key" = {
+    "admin_password" = {
       sopsFile = ../../secrets/nixflix.yaml;
       mode = "0440";
       group = "homepage-secrets";
@@ -120,7 +120,7 @@ in
         HOMEPAGE_FILE_RADARR_API_KEY=${config.sops.secrets."radarr_api_key".path}
         HOMEPAGE_FILE_JELLYFIN_API_KEY=${config.sops.secrets."jellyfin_api_key".path}
         HOMEPAGE_FILE_PROWLARR_API_KEY=${config.sops.secrets."prowlarr_api_key".path}
-        HOMEPAGE_FILE_QBITTORRENT_API_KEY=${config.sops.secrets."qbittorrent_api_key".path}
+        HOMEPAGE_FILE_ADMIN_PASSWORD=${config.sops.secrets."admin_password".path}
       '')
     ];
     services = [
@@ -155,7 +155,8 @@ in
               widget = {
                 type = "qbittorrent";
                 url = "http://${ip}:5900";
-                key = "{{HOMEPAGE_FILE_QBITTORRENT_API_KEY}}";
+                username = "admin";
+                password = "{{HOMEPAGE_FILE_ADMIN_PASSWORD}}";
               };
             };
           }

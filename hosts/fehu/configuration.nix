@@ -31,6 +31,7 @@ in
   i18n.defaultLocale = "en_CA.UTF-8";
 
   virtualisation.docker.enable = true;
+  virtualisation.oci-containers.backend = "docker";
 
   users.users.root = {
     openssh.authorizedKeys.keys = [

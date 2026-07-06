@@ -3,16 +3,8 @@
   networking.firewall.checkReversePath = false;
 
   sops.secrets = {
-    "gluetun_env" = {
-      sopsFile = ../../secrets/nixflix.yaml;
-      # mode = "0440";
-      # group = "homepage-secrets";
-    };
-    "transmission_env" = {
-      sopsFile = ../../secrets/nixflix.yaml;
-      # mode = "0440";
-      # group = "homepage-secrets";
-    };
+    "gluetun_env".sopsFile = ../../secrets/nixflix.yaml;
+    "transmission_env".sopsFile = ../../secrets/nixflix.yaml;
   };
 
   virtualisation.oci-containers.containers = {
@@ -28,6 +20,7 @@
         VPN_TYPE = "wireguard";
         VPN_PORT_FORWARDING = "on";
         SERVER_COUNTRIES = "Netherlands";
+        WIREGUARD_MTU = "1280";
       };
       environmentFiles = [ config.sops.secrets."gluetun_env".path ];
       ports = [

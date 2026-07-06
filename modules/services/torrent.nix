@@ -42,9 +42,13 @@
       environmentFiles = [ config.sops.secrets."transmission_env".path ]; # PASS goes here
       volumes = [
         "/var/lib/transmission/config:/config"
-        "/mnt/media:/mnt/media"
+        # "/mnt/media:/mnt/media"
       ];
       extraOptions = [ "--network=container:gluetun" ];
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/transmission/config 0755 root root -"
+  ];
 }

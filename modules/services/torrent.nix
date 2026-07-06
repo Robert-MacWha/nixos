@@ -28,7 +28,7 @@
       extraOptions = [
         "--cap-add=NET_ADMIN"
         "--device=/dev/net/tun:/dev/net/tun"
-        "--sysctl=net.ipv6.conf.all.disable_ipv6=1"
+        # "--sysctl=net.ipv6.conf.all.disable_ipv6=1"
         "--health-cmd=wget --spider -q http://google.com || exit 1"
         "--health-interval=30s"
         "--health-timeout=10s"

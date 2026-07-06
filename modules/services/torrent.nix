@@ -18,7 +18,7 @@
       };
       environmentFiles = [ config.sops.secrets."gluetun_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD live here
       volumes = [ "/var/lib/gluetun:/gluetun" ];
-      ports = [ "5900:5900" ];
+      ports = [ "9091:9091" ];
       extraOptions = [
         "--cap-add=NET_ADMIN"
         "--device=/dev/net/tun:/dev/net/tun"

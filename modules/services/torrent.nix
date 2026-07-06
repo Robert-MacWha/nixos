@@ -13,13 +13,12 @@
 
   virtualisation.oci-containers.containers = {
     gluetun = {
-      image = "ghcr.io/qdm12/gluetun:v3";
+      image = "ghcr.io/qdm12/gluetun:v3.41.1";
       environment = {
         VPN_SERVICE_PROVIDER = "protonvpn";
         VPN_TYPE = "openvpn"; # explicit now, since it's what we're relying on
         VPN_PORT_FORWARDING = "on";
         VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
-        QBT_WEBUI_ENABLED = "true";
         UPDATER_PERIOD = "24h";
       };
       environmentFiles = [ config.sops.secrets."gluetun_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD live here
@@ -37,19 +36,15 @@
     };
 
     transmission = {
-      image = "lscr.io/linuxserver/transmission:latest";
+      image = "lscr.io/linuxserver/transmission:4.1.3-r0-ls352";
       dependsOn = [ "gluetun" ];
       environment = {
-        PUID = "0";
-        PGID = "0";
         TZ = "America/Toronto";
         USER = "admin";
-        TRANSMISSION_RPC_BIND_ADDRESS = "0.0.0.0";
       };
       environmentFiles = [ config.sops.secrets."transmission_env".path ];
       volumes = [
         "/var/lib/transmission/config:/config"
-        "/mnt/media:/mnt/media"
       ];
       extraOptions = [ "--network=container:gluetun" ];
     };

@@ -67,5 +67,36 @@
     ];
   };
 
+  sops.secrets."admin_password" = {
+    sopsFile = ../../secrets/nixflix.yaml;
+    owner = "grafana";
+  };
+
+  sops.secrets."grafana_secret_key" = {
+    sopsFile = ../../secrets/nixflix.yaml;
+    owner = "grafana";
+  };
+
+  services.grafana = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      server = {
+        http_addr = "0.0.0.0";
+        http_port = 3000;
+      };
+      security = {
+        admin_email = "robert@macwha.com";
+        admin_user = "admin";
+        admin_password = "$__file{${config.sops.secrets."admin_password".path}}";
+        secret_key = "$__file{${config.sops.secrets."grafana_secret_key".path}}";
+      };
+    };
+  };
+
+  services.prometheus = {
+    enable = true;
+  };
+
   system.stateVersion = "25.05";
 }

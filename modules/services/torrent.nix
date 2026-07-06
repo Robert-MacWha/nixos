@@ -44,6 +44,7 @@
         PGID = "0";
         TZ = "America/Toronto";
         USER = "admin";
+        TRANSMISSION_RPC_BIND_ADDRESS = "0.0.0.0";
       };
       environmentFiles = [ config.sops.secrets."transmission_env".path ];
       volumes = [

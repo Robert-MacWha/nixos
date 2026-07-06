@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
 {
-  networking.firewall.checkReversePath = false;
-
   sops.secrets = {
     "gluetun_env".sopsFile = ../../secrets/nixflix.yaml;
     "transmission_env".sopsFile = ../../secrets/nixflix.yaml;
@@ -9,36 +7,44 @@
 
   virtualisation.oci-containers.containers = {
     gluetun = {
-      image = "qmcgaw/gluetun:latest";
+      image = "ghcr.io/qdm12/gluetun:v3";
+      environment = {
+        VPN_SERVICE_PROVIDER = "protonvpn";
+        VPN_TYPE = "openvpn"; # explicit now, since it's what we're relying on
+        VPN_PORT_FORWARDING = "on";
+        VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
+        QBT_WEBUI_ENABLED = "true";
+        UPDATER_PERIOD = "24h";
+      };
+      environmentFiles = [ config.sops.secrets."gluetun_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD live here
+      volumes = [ "/var/lib/gluetun:/gluetun" ];
+      ports = [ "5900:5900" ];
       extraOptions = [
         "--cap-add=NET_ADMIN"
         "--device=/dev/net/tun:/dev/net/tun"
-        "--sysctl=net.ipv4.conf.all.src_valid_mark=1"
-      ];
-      environment = {
-        VPN_SERVICE_PROVIDER = "protonvpn";
-        VPN_TYPE = "wireguard";
-        VPN_PORT_FORWARDING = "on";
-        SERVER_COUNTRIES = "Netherlands";
-        WIREGUARD_MTU = "1280";
-      };
-      environmentFiles = [ config.sops.secrets."gluetun_env".path ];
-      ports = [
-        "9091:9091" # transmission webui, exposed via gluetun's netns
-        "51413:51413"
-        "51413:51413/udp"
+        "--sysctl=net.ipv6.conf.all.disable_ipv6=1"
+        "--health-cmd=wget --spider -q http://google.com || exit 1"
+        "--health-interval=30s"
+        "--health-timeout=10s"
+        "--health-retries=3"
       ];
     };
 
     transmission = {
-      image = "linuxserver/transmission:latest";
-      environmentFiles = [ config.sops.secrets."transmission_env".path ];
+      image = "lscr.io/linuxserver/transmission:latest";
+      dependsOn = [ "gluetun" ];
+      environment = {
+        PUID = "0";
+        PGID = "0";
+        TZ = "America/Toronto";
+        USER = "admin"; # transmission webui auth
+      };
+      environmentFiles = [ config.sops.secrets."transmission_env".path ]; # PASS goes here
       volumes = [
         "/var/lib/transmission/config:/config"
-        "/data/torrents:/downloads"
+        "/mnt/media:/mnt/media"
       ];
-      dependsOn = [ "gluetun" ];
-      extraOptions = [ "--network=container:gluetun" ]; # shares gluetun's netns, no separate ports needed
+      extraOptions = [ "--network=container:gluetun" ];
     };
   };
 }

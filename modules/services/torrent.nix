@@ -3,6 +3,7 @@
   networking.firewall = {
     allowedTCPPorts = [
       9091
+      9090
     ];
   };
 

@@ -37,12 +37,12 @@
         PUID = "0";
         PGID = "0";
         TZ = "America/Toronto";
-        USER = "admin"; # transmission webui auth
+        USER = "admin";
       };
-      environmentFiles = [ config.sops.secrets."transmission_env".path ]; # PASS goes here
+      environmentFiles = [ config.sops.secrets."transmission_env".path ];
       volumes = [
         "/var/lib/transmission/config:/config"
-        # "/mnt/media:/mnt/media"
+        "/mnt/media:/mnt/media"
       ];
       extraOptions = [ "--network=container:gluetun" ];
     };

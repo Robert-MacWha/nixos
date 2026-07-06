@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 {
+  networking.firewall.checkReversePath = false;
+
   sops.secrets = {
     "gluetun_env" = {
       sopsFile = ../../secrets/nixflix.yaml;

@@ -16,6 +16,11 @@
   virtualisation.oci-containers.containers = {
     gluetun = {
       image = "qmcgaw/gluetun:latest";
+      extraOptions = [
+        "--cap-add=NET_ADMIN"
+        "--device=/dev/net/tun:/dev/net/tun"
+        "--sysctl=net.ipv4.conf.all.src_valid_mark=1"
+      ];
       environment = {
         VPN_SERVICE_PROVIDER = "protonvpn";
         VPN_TYPE = "wireguard";
@@ -27,10 +32,6 @@
         "9091:9091" # transmission webui, exposed via gluetun's netns
         "51413:51413"
         "51413:51413/udp"
-      ];
-      extraOptions = [
-        "--cap-add=NET_ADMIN"
-        "--device=/dev/net/tun:/dev/net/tun"
       ];
     };
 

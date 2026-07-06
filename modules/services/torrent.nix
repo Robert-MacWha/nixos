@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
 {
+  networking.firewall = {
+    allowedTCPPorts = [
+      9091
+    ];
+  };
+
   sops.secrets = {
     "gluetun_env".sopsFile = ../../secrets/nixflix.yaml;
     "transmission_env".sopsFile = ../../secrets/nixflix.yaml;

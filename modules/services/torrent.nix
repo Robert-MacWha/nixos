@@ -4,6 +4,7 @@
     allowedTCPPorts = [
       9091
       9090
+      9000
     ];
   };
 

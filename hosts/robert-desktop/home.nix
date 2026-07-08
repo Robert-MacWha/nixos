@@ -6,7 +6,6 @@
   ...
 }:
 let
-  # orca-slicer = pkgs.callPackage ../../modules/packages/orca-slicer.nix { inherit unstable; };
   # rotki = pkgs.callPackage ../../modules/packages/rotki.nix { };
 
   rofi-vscode = pkgs.writeShellScriptBin "rofi-vscode" (builtins.readFile ./rofi/vscode.sh);
@@ -54,6 +53,7 @@ in
       watson
       kdePackages.filelight
       kurve
+      cava
       inkscape
       obs-studio
       vlc
@@ -62,19 +62,19 @@ in
       brotli
       sqlite
 
-      (pkgs.runCommand "davinci-resolve-patched" { } ''
-        mkdir -p $out/bin $out/share/applications
+      # (pkgs.runCommand "davinci-resolve-patched" { } ''
+      #   mkdir -p $out/bin $out/share/applications
 
-        ln -s ${davinci-resolve}/bin/davinci-resolve $out/bin/
+      #   ln -s ${davinci-resolve}/bin/davinci-resolve $out/bin/
 
-        substitute ${davinci-resolve}/share/applications/davinci-resolve.desktop \
-          $out/share/applications/davinci-resolve.desktop \
-          --replace "Exec=davinci-resolve" "Exec=env QT_QPA_PLATFORM=xcb davinci-resolve"
+      #   substitute ${davinci-resolve}/share/applications/davinci-resolve.desktop \
+      #     $out/share/applications/davinci-resolve.desktop \
+      #     --replace "Exec=davinci-resolve" "Exec=env QT_QPA_PLATFORM=xcb davinci-resolve"
 
-        if [ -d ${davinci-resolve}/share/icons ]; then
-          cp -r ${davinci-resolve}/share/icons $out/share/
-        fi
-      '')
+      #   if [ -d ${davinci-resolve}/share/icons ]; then
+      #     cp -r ${davinci-resolve}/share/icons $out/share/
+      #   fi
+      # '')
 
       (pkgs.writeShellScriptBin "rofi-launch" ''
         exec rofi -show combi

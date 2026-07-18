@@ -39,15 +39,13 @@ in
         "/data/transmission:/config"
         "/data/downloads/transmission:/data"
       ];
-      environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD
+      environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USERNAME / OPENVPN_PASSWORD
       capabilities = {
+        # https://haugene.github.io/docker-transmission-openvpn/tips-tricks/#running_this_container_with_podman
         NET_ADMIN = true;
+        NET_RAW = true;
         MKNOD = true;
       };
-      extraOptions = [
-        "--device=/dev/net/tun:/dev/net/tun"
-        "--device-cgroup-rule=c 10:200 rwm"
-      ];
     };
   };
 

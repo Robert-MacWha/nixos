@@ -1,3 +1,5 @@
+# https://kiriwalawren.github.io/nixflix/examples/basic-setup/
+
 {
   config,
   pkgs,

@@ -77,10 +77,18 @@
     owner = "grafana";
   };
 
+  users.users.immich.extraGroups = [
+    "video"
+    "render"
+  ];
+
   services.immich = {
     enable = true;
     openFirewall = true;
     host = "0.0.0.0";
+    accelerationDevices = null;
+    mediaLocation = "/data/immich";
+    settings.newVersionCheck.enable = false;
   };
 
   services.grafana = {

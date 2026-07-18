@@ -87,7 +87,7 @@
     openFirewall = true;
     host = "0.0.0.0";
     accelerationDevices = null;
-    mediaLocation = "/data/immich";
+    mediaLocation = "/var/lib/immich";
     settings.newVersionCheck.enable = false;
   };
 

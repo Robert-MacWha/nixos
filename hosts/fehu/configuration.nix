@@ -107,11 +107,6 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [
-    9090
-    9798
-  ];
-
   services.prometheus = {
     enable = true;
     globalConfig.scrape_interval = "10s";
@@ -125,16 +120,19 @@
         ];
       }
       {
-        job_name = "speedtest";
+        job_name = "systemd";
         static_configs = [
           {
-            targets = [ "localhost:${toString config.services.prometheus.exporters.speedtest.port}" ];
+            targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
           }
         ];
       }
     ];
 
     exporters.node = {
+      enable = true;
+    };
+    exporters.systemd = {
       enable = true;
     };
   };

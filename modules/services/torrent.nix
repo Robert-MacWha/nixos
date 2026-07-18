@@ -42,6 +42,7 @@ in
       environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD
       capabilities = {
         NET_ADMIN = true;
+        MKNOD = true;
       };
       extraOptions = [
         "--device=/dev/net/tun:/dev/net/tun"

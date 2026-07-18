@@ -27,22 +27,22 @@ in
   };
 
   virtualisation.oci-containers.containers = {
-    transmission = {
-      image = "haugene/transmission-openvpn:v5.4.1";
-      environment = {
-        OPENVPN_PROVIDER = "custom";
-        OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
-        LOCAL_NETWORK = "192.168.2.0/24";
-      };
-      volumes = [
-        "${protonvpnConfig}:/etc/openvpn/custom:ro"
-      ];
-      environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD
-      capabilities = {
-        NET_ADMIN = true;
-      };
-      ports = [ "9091:9091" ];
-    };
+    # transmission = {
+    #   image = "haugene/transmission-openvpn:v5.4.1";
+    #   environment = {
+    #     OPENVPN_PROVIDER = "custom";
+    #     OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
+    #     LOCAL_NETWORK = "192.168.2.0/24";
+    #   };
+    #   volumes = [
+    #     "${protonvpnConfig}:/etc/openvpn/custom:ro"
+    #   ];
+    #   environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USER / OPENVPN_PASSWORD
+    #   capabilities = {
+    #     NET_ADMIN = true;
+    #   };
+    #   ports = [ "9091:9091" ];
+    # };
     # gluetun = {
     #   image = "ghcr.io/qdm12/gluetun:v3.41.1";
     #   environment = {

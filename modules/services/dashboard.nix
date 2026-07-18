@@ -67,14 +67,14 @@ in
           }
           {
             "Grafana" = {
-              href = "http://${ip}:3000";
-              siteMonitor = "http://${ip}:3000";
+              href = "http://${ip}:${toString config.services.grafana.settings.server.http_port}";
+              siteMonitor = "http://${ip}:${toString config.services.grafana.settings.server.http_port}";
             };
           }
         ];
       }
       {
-        "media" = [
+        "services" = [
           {
             "Jellyfin" = {
               href = "http://${ip}:8096";
@@ -88,6 +88,16 @@ in
               };
             };
           }
+          {
+            "Immich" = {
+              href = "http://${ip}:${toString config.services.immich.port}";
+              siteMonitor = "http://${ip}:${toString config.services.immich.port}";
+            };
+          }
+        ];
+      }
+      {
+        "media" = [
           {
             "Transmission" = {
               href = "http://${ip}:9091";

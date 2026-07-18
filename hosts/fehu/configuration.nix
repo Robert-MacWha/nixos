@@ -77,6 +77,11 @@
     owner = "grafana";
   };
 
+  services.immich = {
+    enable = true;
+    openFirewall = true;
+  };
+
   services.grafana = {
     enable = true;
     openFirewall = true;

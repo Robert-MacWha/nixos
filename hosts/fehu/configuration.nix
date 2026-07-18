@@ -136,13 +136,6 @@
 
     exporters.node = {
       enable = true;
-      enabledCollectors = [
-        # "cpu"
-        # "diskstats"
-        # "systemd"
-        # "meminfo"
-        # "swap"
-      ];
     };
     exporters.speedtest = {
       enable = true;

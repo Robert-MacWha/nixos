@@ -40,6 +40,8 @@ in
         TRANSMISSION_DOWNLOAD_DIR = "/data/downloads/transmission/complete";
         TRANSMISSION_INCOMPLETE_DIR = "/data/downloads/transmission/incomplete";
         TRANSMISSION_WATCH_DIR = "/data/downloads/transmission/watch";
+        PUID = "1000";
+        PGID = toString config.users.groups.media.gid;
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"
@@ -52,15 +54,11 @@ in
         NET_RAW = true;
         MKNOD = true;
       };
-      # extraOptions = [
-      # "--device=/dev/net/tun:/dev/net/tun"
-      # "--device-cgroup-rule=c 10:200 rwm"
-      # ];
     };
   };
 
   systemd.tmpfiles.rules = [
     "d /data/transmission 0755 root root -"
-    "d /data/downloads/transmission 0755 root root -"
+    "d /data/downloads/transmission 0775 root media -"
   ];
 }

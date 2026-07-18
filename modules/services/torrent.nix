@@ -33,10 +33,9 @@ in
         OPENVPN_PROVIDER = "custom";
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
         LOCAL_NETWORK = "192.168.2.0/24";
-        OVERRIDE_DNS_1 = "8.8.8.8";
-        OVERRIDE_DNS_2 = "8.8.4.4";
       };
       volumes = [
+        "/run/dbus:/run/dbus:ro"
         "${protonvpnConfig}:/etc/openvpn/custom"
         "/data/transmission:/config"
         "/data/downloads/transmission:/data"

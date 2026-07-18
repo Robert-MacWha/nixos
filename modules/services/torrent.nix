@@ -27,7 +27,7 @@ in
 
   virtualisation.oci-containers.containers = {
     transmission = {
-      image = "haugene/transmission-openvpn:v5.4.1";
+      image = "haugene/transmission-openvpn:5.4.1";
       environment = {
         OPENVPN_PROVIDER = "custom";
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";

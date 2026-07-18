@@ -2,13 +2,13 @@
 let
   protonvpnConfig = pkgs.runCommand "protonvpn-config" { } ''
     mkdir -p $out
-    cp ${./secrets/protonvpn/node-ca-226.protonvpn.udp.ovpn} \
+    cp ${./protonvpn/ca-226.protonvpn.udp.ovpn} \
        $out/node-ca-226.protonvpn.udp.ovpn
 
     cp ${
       pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/haugene/vpn-configs-contrib/main/openvpn/protonvpn/update-port.sh";
-        sha256 = "REPLACE_WITH_ACTUAL_HASH"; # nix-prefetch-url the raw file to get this
+        sha256 = "19qf73gjy0gfjy6zy4vsnk8bcgyg5qlnwvs83b3rhy9dqxfsdiqg";
       }
     } $out/update-port.sh
     chmod +x $out/update-port.sh

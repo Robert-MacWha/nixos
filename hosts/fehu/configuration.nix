@@ -124,10 +124,10 @@
         ];
       }
       {
-        job_name = "systemd";
+        job_name = "process";
         static_configs = [
           {
-            targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
+            targets = [ "localhost:${toString config.services.prometheus.exporters.process.port}" ];
           }
         ];
       }
@@ -136,7 +136,7 @@
     exporters.node = {
       enable = true;
     };
-    exporters.systemd = {
+    exporters.process = {
       enable = true;
     };
   };

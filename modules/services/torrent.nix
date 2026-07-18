@@ -33,6 +33,8 @@ in
         OPENVPN_PROVIDER = "custom";
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
         LOCAL_NETWORK = "192.168.2.0/24";
+        OVERRIDE_DNS_1 = "8.8.8.8";
+        OVERRIDE_DNS_2 = "8.8.4.4";
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"
@@ -41,11 +43,14 @@ in
       ];
       environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USERNAME / OPENVPN_PASSWORD
       capabilities = {
-        # https://haugene.github.io/docker-transmission-openvpn/tips-tricks/#running_this_container_with_podman
         NET_ADMIN = true;
         NET_RAW = true;
         MKNOD = true;
       };
+      # extraOptions = [
+      # "--device=/dev/net/tun:/dev/net/tun"
+      # "--device-cgroup-rule=c 10:200 rwm"
+      # ];
     };
   };
 

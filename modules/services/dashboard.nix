@@ -37,6 +37,7 @@ in
     "homepage-secrets"
   ];
 
+  # https://gethomepage.dev/configs/
   services.homepage-dashboard = {
     enable = true;
     allowedHosts = "*";
@@ -82,12 +83,12 @@ in
             };
           }
           {
-            "qBittorrent" = {
-              href = "http://${ip}:5900";
-              siteMonitor = "http://${ip}:5900";
+            "transmission" = {
+              href = "http://${ip}:9091";
+              siteMonitor = "http://${ip}:9091";
               widget = {
-                type = "qbittorrent";
-                url = "http://${ip}:5900";
+                type = "transmission";
+                url = "http://${ip}:9091";
                 username = "admin";
                 password = "{{HOMEPAGE_FILE_ADMIN_PASSWORD}}";
               };

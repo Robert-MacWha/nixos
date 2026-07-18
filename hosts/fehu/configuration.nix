@@ -144,6 +144,10 @@
           name = "jellyfin";
           comm = [ "jellyfin" ];
         }
+        {
+          name = "{{.Cgroups}}";
+          cmdline = [ ".+" ];
+        }
       ];
     };
   };

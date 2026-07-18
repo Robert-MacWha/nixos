@@ -64,6 +64,10 @@ in
             "Router" = {
               href = "http://192.168.2.1";
             };
+            "Grafana" = {
+              href = "http://${ip}:3000";
+              siteMonitor = "http://${ip}:3000";
+            };
           }
         ];
       }

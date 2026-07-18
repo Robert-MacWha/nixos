@@ -99,7 +99,7 @@
         {
           name = "Prometheus";
           type = "prometheus";
-          url = "http://127.0.0.1:${toString config.services.prometheus.port}";
+          url = "http://127.0.0.1:8428";
           isDefault = true;
           editable = false;
         }
@@ -107,32 +107,34 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [
-    9090
-    9256
-  ];
+  services.victoriametrics = {
+    enable = true;
+    retentionPeriod = "3y";
+    prometheusConfig = {
+      global.scrape_interval = "10s";
+      scrape_configs = [
+        {
+          job_name = "node";
+          static_configs = [
+            {
+              targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+            }
+          ];
+        }
+        {
+          job_name = "process";
+          static_configs = [
+            {
+              targets = [ "localhost:${toString config.services.prometheus.exporters.process.port}" ];
+            }
+          ];
+        }
+      ];
+    };
+  };
 
   services.prometheus = {
-    enable = true;
-    globalConfig.scrape_interval = "10s";
-    scrapeConfigs = [
-      {
-        job_name = "node";
-        static_configs = [
-          {
-            targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-          }
-        ];
-      }
-      {
-        job_name = "process";
-        static_configs = [
-          {
-            targets = [ "localhost:${toString config.services.prometheus.exporters.process.port}" ];
-          }
-        ];
-      }
-    ];
+    enable = false;
 
     exporters.node = {
       enable = true;

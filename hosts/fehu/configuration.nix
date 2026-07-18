@@ -107,6 +107,10 @@
     };
   };
 
+  networking.firewall.allowedTCPPorts = [
+    9090
+  ];
+
   services.prometheus = {
     enable = true;
     globalConfig.scrape_interval = "10s";
@@ -123,14 +127,16 @@
 
     exporters.node = {
       enable = true;
-      port = 9000;
       enabledCollectors = [
-        "cpu"
-        "diskstats"
-        "systemd"
-        "meminfo"
-        "swap"
+        # "cpu"
+        # "diskstats"
+        # "systemd"
+        # "meminfo"
+        # "swap"
       ];
+    };
+    exporters.speedtest = {
+      enable = true;
     };
   };
 

@@ -17,11 +17,9 @@ let
   '';
 in
 {
-  networking.firewall = {
-    allowedTCPPorts = [
-      9091
-    ];
-  };
+  networking.firewall.allowedTCPPorts = [
+    9091
+  ];
 
   sops.secrets = {
     "transmission_env".sopsFile = ../../secrets/nixflix.yaml;

@@ -83,7 +83,7 @@ in
             };
           }
           {
-            "transmission" = {
+            "Transmission" = {
               href = "http://${ip}:9091";
               siteMonitor = "http://${ip}:9091";
               widget = {

@@ -37,6 +37,7 @@ in
   systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
+  # https://kiriwalawren.github.io/nixflix/getting-started/
   nixflix = {
     enable = true;
     mediaDir = "/data/nixflix/media";
@@ -87,15 +88,16 @@ in
       };
     };
 
-    downloadarr.qbittorrent = {
+    # https://kiriwalawren.github.io/nixflix/reference/downloadarr/transmission/
+    downloadarr.transmission = {
       enable = true;
       host = "127.0.0.1";
-      port = 5900;
+      port = 9091;
       username = "admin";
       password = {
         _secret = config.sops.secrets."admin_password".path;
       };
-      dependencies = [ "docker-gluetun.service" ]; # override the default "qbittorrent.service" — that unit doesn't exist since qBittorrent is containerized, not a native nixflix service
+      dependencies = [ "podman-transmission.service" ];
     };
 
     jellyfin = {

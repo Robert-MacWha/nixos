@@ -27,6 +27,7 @@ in
     "transmission_env".sopsFile = ../../secrets/nixflix.yaml;
   };
 
+  # https://haugene.github.io/docker-transmission-openvpn/
   virtualisation.oci-containers.containers = {
     transmission = {
       image = "haugene/transmission-openvpn:5.4.1";
@@ -36,11 +37,14 @@ in
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
         LOCAL_NETWORK = "192.168.2.0/24";
         TRANSMISSION_RPC_USERNAME = "admin";
+        TRANSMISSION_DOWNLOAD_DIR = "/data/downloads/transmission/complete";
+        TRANSMISSION_INCOMPLETE_DIR = "/data/downloads/transmission/incomplete";
+        TRANSMISSION_WATCH_DIR = "/data/downloads/transmission/watch";
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"
         "/data/transmission:/config"
-        "/data/downloads/transmission:/data"
+        "/data:/data"
       ];
       environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USERNAME / OPENVPN_PASSWORD
       capabilities = {

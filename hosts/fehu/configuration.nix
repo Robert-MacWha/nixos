@@ -109,6 +109,7 @@
 
   networking.firewall.allowedTCPPorts = [
     9090
+    9798
   ];
 
   services.prometheus = {
@@ -137,6 +138,7 @@
     };
     exporters.speedtest = {
       enable = true;
+      port = 9798;
     };
   };
 

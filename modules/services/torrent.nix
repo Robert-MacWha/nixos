@@ -45,6 +45,7 @@ in
       };
       extraOptions = [
         "--device=/dev/net/tun:/dev/net/tun"
+        "--device-cgroup-rule=c 10:200 rwm"
       ];
     };
   };

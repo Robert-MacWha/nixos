@@ -145,9 +145,13 @@
           comm = [ "jellyfin" ];
         }
         {
-          name = "{{.Cgroups}}";
-          cmdline = [ ".+" ];
+          name = "transmission";
+          cmdline = [ ".*transmission-daemon.*" ];
         }
+        # {
+        #   name = "{{.Cgroups}}";
+        #   cmdline = [ ".+" ];
+        # }
       ];
     };
   };

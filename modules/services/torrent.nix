@@ -28,6 +28,7 @@ in
   virtualisation.oci-containers.containers = {
     transmission = {
       image = "haugene/transmission-openvpn:5.4.1";
+      ports = [ "9091:9091" ];
       environment = {
         OPENVPN_PROVIDER = "custom";
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
@@ -42,7 +43,9 @@ in
       capabilities = {
         NET_ADMIN = true;
       };
-      ports = [ "9091:9091" ];
+      extraOptions = [
+        "--device=/dev/net/tun:/dev/net/tun"
+      ];
     };
   };
 

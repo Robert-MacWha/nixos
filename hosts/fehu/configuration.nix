@@ -109,6 +109,7 @@
 
   networking.firewall.allowedTCPPorts = [
     9090
+    9256
   ];
 
   services.prometheus = {
@@ -138,6 +139,8 @@
     };
     exporters.process = {
       enable = true;
+      # settings.process_names = [
+      # ];
     };
   };
 

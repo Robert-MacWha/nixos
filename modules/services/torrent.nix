@@ -35,6 +35,7 @@ in
         OPENVPN_PROVIDER = "custom";
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
         LOCAL_NETWORK = "192.168.2.0/24";
+        TRANSMISSION_RPC_USERNAME = "admin";
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"

@@ -137,10 +137,6 @@
     exporters.node = {
       enable = true;
     };
-    exporters.speedtest = {
-      enable = true;
-      port = 9798;
-    };
   };
 
   system.stateVersion = "25.05";

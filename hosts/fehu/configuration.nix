@@ -141,17 +141,9 @@
       enable = true;
       settings.process_names = [
         {
-          name = "jellyfin";
-          comm = [ "jellyfin" ];
+          name = "{{.Cgroups}}";
+          cmdline = [ ".+" ];
         }
-        {
-          name = "transmission";
-          cmdline = [ ".*transmission-daemon.*" ];
-        }
-        # {
-        #   name = "{{.Cgroups}}";
-        #   cmdline = [ ".+" ];
-        # }
       ];
     };
   };

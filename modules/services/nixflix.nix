@@ -111,39 +111,39 @@ in
         };
       };
 
-      system.pluginRepositories = {
-        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
-        "Intro Skipper" = {
-          url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
-          hash = "sha256:1rbjzgxfb7ypxhf4np15lszr4v1ywch7c4yjwm57lwpifzrcr36k";
-          enabled = true;
-        };
-      };
+      # system.pluginRepositories = {
+      #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+      #   "Intro Skipper" = {
+      #     url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
+      #     hash = "sha256:1rbjzgxfb7ypxhf4np15lszr4v1ywch7c4yjwm57lwpifzrcr36k";
+      #     enabled = true;
+      #   };
+      # };
 
-      plugins = {
-        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
-        "Intro Skipper" = {
-          package = fromRepo {
-            version = "1.10.11.17";
-            hash = "sha256-cfEnLqKeEGpQSth3NPjDnxCkgv2pePfgCXfVIOrYSiQ=";
-          };
-        };
+      # plugins = {
+      #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+      #   "Intro Skipper" = {
+      #     package = fromRepo {
+      #       version = "1.10.11.17";
+      #       hash = "sha256-cfEnLqKeEGpQSth3NPjDnxCkgv2pePfgCXfVIOrYSiQ=";
+      #     };
+      #   };
 
-        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
-        "Open Subtitles" = {
-          enable = true;
-          config = {
-            Username = "fiddling9916";
-            Password._secret = config.sops.secrets."opensubtitles_password".path;
-          };
-        };
+      #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
+      #   "Open Subtitles" = {
+      #     enable = true;
+      #     config = {
+      #       Username = "fiddling9916";
+      #       Password._secret = config.sops.secrets."opensubtitles_password".path;
+      #     };
+      #   };
 
-        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
-        "Subtitle Extract" = {
-          enable = true;
-          config.ExtractionDuringLibraryScan = true;
-        };
-      };
+      #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
+      #   "Subtitle Extract" = {
+      #     enable = true;
+      #     config.ExtractionDuringLibraryScan = true;
+      #   };
+      # };
 
       # https://kiriwalawren.github.io/nixflix/reference/jellyfin/encoding/
       encoding = {

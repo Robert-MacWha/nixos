@@ -35,7 +35,7 @@ in
         LOCAL_NETWORK = "192.168.2.0/24";
       };
       volumes = [
-        "${protonvpnConfig}:/etc/openvpn/custom:ro"
+        "${protonvpnConfig}:/etc/openvpn/custom"
         "/data/transmission:/config"
         "/data/downloads/transmission:/data"
       ];

@@ -24,7 +24,7 @@ in
       unstable.claude-code
       gh
       uv
-      nil
+      nixd
 
       # Communication
       signal-desktop

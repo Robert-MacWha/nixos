@@ -20,6 +20,9 @@
         OPENVPN_PROVIDER = "custom";
         LOCAL_NETWORK = "192.168.2.0/24";
       };
+      capabilities = {
+        NET_ADMIN = true;
+      };
     };
     # gluetun = {
     #   image = "ghcr.io/qdm12/gluetun:v3.41.1";

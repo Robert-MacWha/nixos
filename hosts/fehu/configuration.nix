@@ -139,8 +139,12 @@
     };
     exporters.process = {
       enable = true;
-      # settings.process_names = [
-      # ];
+      settings.process_names = [
+        {
+          name = "jellyfin";
+          comm = [ "jellyfin" ];
+        }
+      ];
     };
   };
 

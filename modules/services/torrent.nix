@@ -2,8 +2,10 @@
 let
   protonvpnConfig = pkgs.runCommand "protonvpn-config" { } ''
     mkdir -p $out
-    cp ${./protonvpn/ca-226.protonvpn.udp.ovpn} \
-       $out/node-ca-226.protonvpn.udp.ovpn
+    # https://github.com/haugene/docker-transmission-openvpn/discussions/2351
+    sed -e '/^up \/etc\/openvpn\/update-resolv-conf/d' \
+        -e '/^down \/etc\/openvpn\/update-resolv-conf/d' \
+        ${./protonvpn/ca-226.protonvpn.udp.ovpn} > $out/node-ca-226.protonvpn.udp.ovpn
 
     cp ${
       pkgs.fetchurl {
@@ -33,11 +35,8 @@ in
         OPENVPN_PROVIDER = "custom";
         OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
         LOCAL_NETWORK = "192.168.2.0/24";
-        OVERRIDE_DNS_1 = "8.8.8.8";
-        OVERRIDE_DNS_2 = "8.8.4.4";
       };
       volumes = [
-        "/run/dbus:/run/dbus:ro"
         "${protonvpnConfig}:/etc/openvpn/custom"
         "/data/transmission:/config"
         "/data/downloads/transmission:/data"

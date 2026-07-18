@@ -109,7 +109,6 @@
 
   networking.firewall.allowedTCPPorts = [
     9090
-    9798
   ];
 
   services.prometheus = {
@@ -121,6 +120,14 @@
         static_configs = [
           {
             targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+          }
+        ];
+      }
+      {
+        job_name = "speedtest";
+        static_configs = [
+          {
+            targets = [ "localhost:${toString config.services.prometheus.exporters.speedtest.port}" ];
           }
         ];
       }
@@ -138,7 +145,6 @@
     };
     exporters.speedtest = {
       enable = true;
-      port = 9798;
     };
   };
 

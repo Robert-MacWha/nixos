@@ -169,23 +169,10 @@
 
     exporters.node = {
       enable = true;
-      # enabledCollectors = [
-      # "systemd"
-      # "process"
-      # ];
     };
     exporters.systemd = {
       enable = true;
     };
-    # exporters.process = {
-    #   enable = true;
-    #   settings.process_names = [
-    #     {
-    #       name = "{{.Cgroups}}";
-    #       cmdline = [ ".+" ];
-    #     }
-    #   ];
-    # };
   };
 
   systemd.settings.Manager = {

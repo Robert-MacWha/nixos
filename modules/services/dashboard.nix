@@ -94,6 +94,12 @@ in
               siteMonitor = "http://${ip}:${toString config.services.immich.port}";
             };
           }
+          {
+            "Gitea" = {
+              href = "http://${ip}:${toString config.services.gitea.settings.server.HTTP_PORT}";
+              siteMonitor = "http://${ip}:${toString config.services.gitea.settings.server.HTTP_PORT}";
+            };
+          }
         ];
       }
       {

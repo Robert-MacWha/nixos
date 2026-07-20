@@ -145,13 +145,21 @@
           ];
         }
         {
-          job_name = "process";
+          job_name = "systemd";
           static_configs = [
             {
-              targets = [ "localhost:${toString config.services.prometheus.exporters.process.port}" ];
+              targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
             }
           ];
         }
+        # {
+        #   job_name = "process";
+        #   static_configs = [
+        #     {
+        #       targets = [ "localhost:${toString config.services.prometheus.exporters.process.port}" ];
+        #     }
+        #   ];
+        # }
       ];
     };
   };
@@ -161,16 +169,30 @@
 
     exporters.node = {
       enable = true;
+      # enabledCollectors = [
+      # "systemd"
+      # "process"
+      # ];
     };
-    exporters.process = {
+    exporters.systemd = {
       enable = true;
-      settings.process_names = [
-        {
-          name = "{{.Cgroups}}";
-          cmdline = [ ".+" ];
-        }
-      ];
     };
+    # exporters.process = {
+    #   enable = true;
+    #   settings.process_names = [
+    #     {
+    #       name = "{{.Cgroups}}";
+    #       cmdline = [ ".+" ];
+    #     }
+    #   ];
+    # };
+  };
+
+  systemd.settings.Manager = {
+    DefaultCPUAccounting = true;
+    DefaultMemoryAccounting = true;
+    DefaultIOAccounting = true;
+    DefaultIPAccounting = true;
   };
 
   system.stateVersion = "25.05";

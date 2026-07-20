@@ -77,6 +77,15 @@
     owner = "grafana";
   };
 
+  networking.firewall.allowedTCPPorts = [ 3030 ];
+
+  services.gitea = {
+    enable = true;
+    stateDir = "/var/lib/gitea";
+    settings.server.HTTP_ADDR = "0.0.0.0";
+    settings.server.HTTP_PORT = 3030;
+  };
+
   users.users.immich.extraGroups = [
     "video"
     "render"

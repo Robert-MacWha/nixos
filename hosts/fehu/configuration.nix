@@ -13,6 +13,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "tank" ];
+  boot.zfs.forceImportRoot = false;
 
   # igpu drivers
   hardware.graphics = {
@@ -70,7 +71,6 @@
     privateNetwork = true;
     hostAddress = "10.233.1.1";
     localAddress = "10.233.1.2";
-    privateUsers = "pick";
 
     bindMounts."/shared" = {
       hostPath = "/tmp/shared-test";
@@ -85,6 +85,7 @@
         pkgs.util-linux
       ];
     };
+    ephemeral = true;
   };
 
   services.openssh = {

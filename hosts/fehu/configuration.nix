@@ -187,91 +187,37 @@ in
     settings.server.HTTP_PORT = 3030;
   };
 
-  users.users.immich.extraGroups = [
-    "video"
-    "render"
-  ];
-
-  services.immich = {
-    enable = true;
-    openFirewall = true;
-    host = "0.0.0.0";
-    accelerationDevices = null;
-    mediaLocation = "/data/photos/immich";
-    settings.newVersionCheck.enable = false;
-  };
-
-  # services.grafana = {
+  # services.immich = {
   #   enable = true;
   #   openFirewall = true;
-  #   dataDir = "/data/appdata/grafana";
-  #   settings = {
-  #     server = {
-  #       http_addr = "0.0.0.0";
-  #       http_port = 3000;
-  #     };
-  #     security = {
-  #       admin_email = "robert@macwha.com";
-  #       admin_user = "admin";
-  #       admin_password = "$__file{${config.sops.secrets."admin_password".path}}";
-  #       secret_key = "$__file{${config.sops.secrets."grafana_secret_key".path}}";
-  #     };
-  #   };
-
-  #   provision = {
-  #     enable = true;
-  #     datasources.settings.datasources = [
-  #       {
-  #         name = "Prometheus";
-  #         type = "prometheus";
-  #         url = "http://127.0.0.1:8428";
-  #         isDefault = true;
-  #         editable = false;
-  #       }
-  #     ];
-  #   };
+  #   port = 2283;
+  #   host = "0.0.0.0";
+  #   accelerationDevices = null;
+  #   mediaLocation = "/data/photos/immich";
+  #   settings.newVersionCheck.enable = false;
   # };
 
-  # services.victoriametrics = {
-  #   enable = true;
-  #   stateDir = "/appdata/victoriametrics";
-  #   retentionPeriod = "24w";
-  #   prometheusConfig = {
-  #     global.scrape_interval = "10s";
-  #     scrape_configs = [
-  #       {
-  #         job_name = "node";
-  #         static_configs = [
-  #           {
-  #             targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-  #           }
-  #         ];
-  #       }
-  #       {
-  #         job_name = "systemd";
-  #         static_configs = [
-  #           {
-  #             targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
-  #           }
-  #         ];
-  #       }
-  #     ];
-  #   };
-  # };
+  containers.immich = mkContainer {
+    ip = "10.233.1.3";
+    ports = [ 2283 ];
+    module = ../../modules/services/immich.nix;
+    bindMounts."/data/photos/immich" = {
+      hostPath = "/data/photos/immich";
+      isReadOnly = false;
+    };
+  };
 
-  containers = {
-    metrics = mkContainer {
-      ip = "10.233.1.2";
-      ports = [ 3000 ];
-      module = ../../modules/services/metrics.nix;
-      bindMounts."/data/appdata/grafana" = {
-        hostPath = "/data/appdata/grafana";
-        isReadOnly = false;
-      };
-      bindMounts."/var/lib/victoriametrics" = {
-        hostPath = "/data/appdata/victoriametrics";
-        isReadOnly = false;
-      };
+  containers.metrics = mkContainer {
+    ip = "10.233.1.2";
+    ports = [ 3000 ];
+    module = ../../modules/services/metrics.nix;
+    bindMounts."/data/appdata/grafana" = {
+      hostPath = "/data/appdata/grafana";
+      isReadOnly = false;
+    };
+    bindMounts."/var/lib/victoriametrics" = {
+      hostPath = "/data/appdata/victoriametrics";
+      isReadOnly = false;
     };
   };
 

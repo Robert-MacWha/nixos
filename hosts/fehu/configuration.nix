@@ -270,6 +270,8 @@ in
     };
   };
 
+  systemd.tmpfiles.rules = mkTmpfilesRules (lib.attrValues config.containers);
+
   systemd.settings.Manager = {
     DefaultCPUAccounting = true;
     DefaultMemoryAccounting = true;

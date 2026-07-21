@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 {
   users.users.immich.extraGroups = [
     "video"

@@ -168,9 +168,9 @@ in
         };
       }
       {
-        resources = {
+        glances = {
           label = "tank";
-          disk = "/data";
+          disk = "/data/appdata";
         };
       }
     ];

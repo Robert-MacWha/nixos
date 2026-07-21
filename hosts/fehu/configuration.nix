@@ -88,6 +88,11 @@ in
   networking.hostName = "fehu";
   networking.hostId = "8425e349";
   networking.networkmanager.enable = true;
+  networking.nat = {
+    enable = true;
+    internalInterfaces = [ "ve-+" ];
+    externalInterface = "enp2s0";
+  };
 
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_CA.UTF-8";

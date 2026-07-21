@@ -63,7 +63,7 @@ in
     ./hardware-configuration.nix
     ./disko.nix
     ../../modules/services/dashboard.nix
-    # ../../modules/services/nixflix.nix
+    ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
   ];
 
@@ -174,33 +174,6 @@ in
   #   bindMounts."/var/lib/postgresql" = {
   #     hostPath = "/data/appdata/immich-postgres";
   #     isReadOnly = false;
-  #   };
-  # };
-
-  # containers.transmission = mkContainer {
-  #   ip = "10.233.1.4";
-  #   ports = [ 9091 ];
-  #   module = ../../modules/services/transmission.nix;
-  #   bindMounts."/data/appdata/transmission" = {
-  #     hostPath = "/data/appdata/transmission";
-  #     isReadOnly = false;
-  #   };
-  #   bindMounts."/data/downloads/transmission" = {
-  #     hostPath = "/data/downloads/transmission";
-  #     isReadOnly = false;
-  #   };
-  # };
-
-  # containers.gitea = mkContainer {
-  #   ip = "10.233.1.4";
-  #   ports = [ 3030 ];
-  #   module = {
-  #     services.gitea = {
-  #       enable = true;
-  #       stateDir = "/data/appdata/gitea";
-  #       settings.server.HTTP_ADDR = "0.0.0.0";
-  #       settings.server.HTTP_PORT = 3030;
-  #     };
   #   };
   # };
 

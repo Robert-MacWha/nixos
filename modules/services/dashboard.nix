@@ -155,15 +155,9 @@ in
     widgets = [
       {
         resources = {
-          label = "system";
           uptime = true;
           cpu = true;
           memory = true;
-        };
-      }
-      {
-        resources = {
-          label = "root";
           disk = "/";
         };
       }

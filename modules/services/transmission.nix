@@ -39,7 +39,7 @@ in
         TRANSMISSION_INCOMPLETE_DIR = "/data/downloads/transmission/incomplete";
         TRANSMISSION_WATCH_DIR = "/data/downloads/transmission/watch";
         PUID = "1000";
-        # PGID = toString config.users.groups.media.gid;
+        PGID = toString config.users.groups.media.gid;
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"

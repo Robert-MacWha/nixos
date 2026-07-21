@@ -155,9 +155,9 @@ in
     widgets = [
       {
         resources = {
-          uptime = true;
           cpu = true;
           memory = true;
+          uptime = true;
           disk = "/";
         };
       }

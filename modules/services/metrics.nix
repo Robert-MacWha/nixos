@@ -40,6 +40,11 @@
     };
   };
 
+  fileSystems."/var/lib/victoriametrics" = {
+    device = "/data/appdata/victoriametrics";
+    options = [ "bind" ];
+  };
+
   services.victoriametrics = {
     enable = true;
     stateDir = "victoriametrics"; # /var/lib/victoriametrics

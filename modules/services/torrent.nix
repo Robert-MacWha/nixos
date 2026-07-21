@@ -43,8 +43,8 @@ in
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"
-        "/data/transmission:/config"
-        "/data:/data"
+        "/data/appdata/transmission:/config"
+        "/data/downloads:/data/downloads"
       ];
       environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USERNAME / OPENVPN_PASSWORD
       capabilities = {
@@ -56,7 +56,7 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d /data/transmission 0755 root root -"
+    "d /data/appdata/transmission 0755 root media -"
     "d /data/downloads/transmission 0775 root media -"
   ];
 }

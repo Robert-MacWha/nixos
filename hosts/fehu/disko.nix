@@ -89,22 +89,22 @@ in
       datasets = {
         "data/appdata" = {
           type = "zfs_fs";
-          mountpoint = "/tank/data/appdata";
+          mountpoint = "/data/appdata";
           options.mountpoint = "legacy";
         };
         "data/photos" = {
           type = "zfs_fs";
-          mountpoint = "/tank/data/photos";
+          mountpoint = "/data/photos";
           options.mountpoint = "legacy";
         };
         "data/media" = {
           type = "zfs_fs";
-          mountpoint = "/tank/data/media";
+          mountpoint = "/data/media";
           options.mountpoint = "legacy";
         };
         "data/downloads" = {
           type = "zfs_fs";
-          mountpoint = "/tank/data/downloads";
+          mountpoint = "/data/downloads";
           options.mountpoint = "legacy";
         };
       };

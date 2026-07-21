@@ -5,66 +5,66 @@
   inputs,
   ...
 }:
-# let
-#   mkContainer =
-#     {
-#       ip,
-#       gateway ? "10.233.0.1",
-#       module,
-#       ports,
-#       bindMounts ? { },
-#     }:
-#     let
-#       allBindMounts = bindMounts // {
-#         "/root/.ssh/id_ed25519" = {
-#           hostPath = "/root/.ssh/id_ed25519";
-#           isReadOnly = true;
-#         };
-#       };
-#     in
-#     {
-#       ephemeral = true;
-#       autoStart = true;
-#       privateNetwork = true;
-#       hostAddress = gateway;
-#       localAddress = ip;
-#       bindMounts = allBindMounts;
-#       forwardPorts = map (port: {
-#         containerPort = port;
-#         hostPort = port;
-#         protocol = "tcp";
-#       }) ports;
-#       config = {
-#         imports = [
-#           module
-#           inputs.sops-nix.nixosModules.sops
-#         ];
-#         sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
-#         system.stateVersion = "25.11";
-#       };
-#     };
+let
+  mkContainer =
+    {
+      ip,
+      gateway ? "10.233.0.1",
+      module,
+      ports,
+      bindMounts ? { },
+    }:
+    let
+      allBindMounts = bindMounts // {
+        "/root/.ssh/id_ed25519" = {
+          hostPath = "/root/.ssh/id_ed25519";
+          isReadOnly = true;
+        };
+      };
+    in
+    {
+      ephemeral = true;
+      autoStart = true;
+      privateNetwork = true;
+      hostAddress = gateway;
+      localAddress = ip;
+      bindMounts = allBindMounts;
+      forwardPorts = map (port: {
+        containerPort = port;
+        hostPort = port;
+        protocol = "tcp";
+      }) ports;
+      config = {
+        imports = [
+          module
+          inputs.sops-nix.nixosModules.sops
+        ];
+        sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
+        system.stateVersion = "25.11";
+      };
+    };
 
-#   # Auto-create host-side dirs for every container's bindMounts
-#   mkTmpfilesRules =
-#     containerDefs:
-#     lib.flatten (
-#       map (
-#         c:
-#         lib.mapAttrsToList (
-#           _: mount:
-#           # Only create directories, not the ssh key file (that must already exist)
-#           lib.optional (!lib.hasSuffix "id_ed25519" mount.hostPath) "d ${mount.hostPath} 0755 root root -"
-#         ) c.bindMounts
-#       ) containerDefs
-#     );
-# in
+  # Auto-create host-side dirs for every container's bindMounts
+  mkTmpfilesRules =
+    containerDefs:
+    lib.flatten (
+      map (
+        c:
+        lib.mapAttrsToList (
+          _: mount:
+          # Only create directories, not the ssh key file (that must already exist)
+          lib.optional (!lib.hasSuffix "id_ed25519" mount.hostPath) "d ${mount.hostPath} 0755 root root -"
+        ) c.bindMounts
+      ) containerDefs
+    );
+in
 {
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
-    ../../modules/services/dashboard.nix
-    ../../modules/services/immich.nix
-    ../../modules/services/metrics.nix
+    # ../../modules/services/dashboard.nix
+    # ../../modules/services/immich.nix
+    # ../../modules/services/metrics.nix
     # ../../modules/services/nixflix.nix
     # ../../modules/services/torrent.nix
   ];
@@ -164,35 +164,35 @@
   #   };
   # };
 
-  # containers.immich = mkContainer {
-  #   ip = "10.233.1.3";
-  #   ports = [ 2283 ];
-  #   module = ../../modules/services/immich.nix;
-  #   bindMounts."/data/photos/immich" = {
-  #     hostPath = "/data/photos/immich";
-  #     isReadOnly = false;
-  #   };
-  #   bindMounts."/var/lib/postgresql" = {
-  #     hostPath = "/data/appdata/immich-postgres";
-  #     isReadOnly = false;
-  #   };
-  # };
+  containers.immich = mkContainer {
+    ip = "10.233.1.3";
+    ports = [ 2283 ];
+    module = ../../modules/services/immich.nix;
+    bindMounts."/data/photos/immich" = {
+      hostPath = "/data/photos/immich";
+      isReadOnly = false;
+    };
+    bindMounts."/var/lib/postgresql" = {
+      hostPath = "/data/appdata/immich-postgres";
+      isReadOnly = false;
+    };
+  };
 
-  # containers.metrics = mkContainer {
-  #   ip = "10.233.1.2";
-  #   ports = [ 3000 ];
-  #   module = ../../modules/services/metrics.nix;
-  #   bindMounts."/data/appdata/grafana" = {
-  #     hostPath = "/data/appdata/grafana";
-  #     isReadOnly = false;
-  #   };
-  #   bindMounts."/var/lib/victoriametrics" = {
-  #     hostPath = "/data/appdata/victoriametrics";
-  #     isReadOnly = false;
-  #   };
-  # };
+  containers.metrics = mkContainer {
+    ip = "10.233.1.2";
+    ports = [ 3000 ];
+    module = ../../modules/services/metrics.nix;
+    bindMounts."/data/appdata/grafana" = {
+      hostPath = "/data/appdata/grafana";
+      isReadOnly = false;
+    };
+    bindMounts."/var/lib/victoriametrics" = {
+      hostPath = "/data/appdata/victoriametrics";
+      isReadOnly = false;
+    };
+  };
 
-  # systemd.tmpfiles.rules = mkTmpfilesRules (lib.attrValues config.containers);
+  systemd.tmpfiles.rules = mkTmpfilesRules (lib.attrValues config.containers);
 
   systemd.settings.Manager = {
     DefaultCPUAccounting = true;

@@ -156,21 +156,15 @@ in
       {
         resources = {
           label = "system";
+          uptime = true;
           cpu = true;
           memory = true;
-          uptime = true;
         };
       }
       {
         resources = {
           label = "root";
           disk = "/";
-        };
-      }
-      {
-        glances = {
-          label = "tank";
-          disk = "/data/appdata";
         };
       }
     ];

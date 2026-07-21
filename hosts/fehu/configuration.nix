@@ -66,6 +66,27 @@
     htop
   ];
 
+  containers.testbox = {
+    privateNetwork = true;
+    hostAddress = "10.233.1.1";
+    localAddress = "10.233.1.2";
+    privateUsers = "pick";
+
+    bindMounts."/shared" = {
+      hostPath = "/tmp/shared-test";
+      isReadOnly = false;
+    };
+
+    config = { config, pkgs, ... }: {
+      system.stateVersion = "25.11";
+      networking.firewall.enable = false; # simplify for testing
+      environment.systemPackages = [
+        pkgs.iproute2
+        pkgs.util-linux
+      ];
+    };
+  };
+
   services.openssh = {
     enable = true;
     hostKeys = [
@@ -118,6 +139,7 @@
   # services.grafana = {
   #   enable = true;
   #   openFirewall = true;
+  #   dataDir = "/data/appdata/grafana";
   #   settings = {
   #     server = {
   #       http_addr = "0.0.0.0";
@@ -147,6 +169,7 @@
 
   # services.victoriametrics = {
   #   enable = true;
+  #   stateDir = "/data/appdata/victoriametrics";
   #   retentionPeriod = "24w";
   #   prometheusConfig = {
   #     global.scrape_interval = "10s";
@@ -173,7 +196,6 @@
 
   # services.prometheus = {
   #   enable = false;
-
   #   exporters.node = {
   #     enable = true;
   #   };

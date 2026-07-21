@@ -39,8 +39,8 @@ in
   # https://kiriwalawren.github.io/nixflix/getting-started/
   nixflix = {
     enable = true;
-    mediaDir = "/data/nixflix/media";
-    stateDir = "/data/nixflix/state";
+    mediaDir = "/data/media";
+    stateDir = "/data/appdata/nixflix";
 
     postgres.enable = true;
 

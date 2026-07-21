@@ -153,7 +153,7 @@ in
 
   containers.dashboard = mkContainer {
     ip = "10.233.1.1";
-    # ports = [  ];
+    ports = [ 8082 ];
     module = ../../modules/services/dashboard.nix;
   };
 

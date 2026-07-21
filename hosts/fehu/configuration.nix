@@ -11,7 +11,7 @@ let
       ip,
       gateway ? "10.233.0.1",
       module,
-      ports,
+      ports ? [ ],
       bindMounts ? { },
     }:
     let
@@ -151,31 +151,10 @@ in
 
   networking.firewall.allowedTCPPorts = [ 3030 ];
 
-  # containers.gitea = mkContainer {
-  #   ip = "10.233.1.4";
-  #   ports = [ 3030 ];
-  #   module = {
-  #     services.gitea = {
-  #       enable = true;
-  #       stateDir = "/data/appdata/gitea";
-  #       settings.server.HTTP_ADDR = "0.0.0.0";
-  #       settings.server.HTTP_PORT = 3030;
-  #     };
-  #   };
-  # };
-
-  containers.immich = mkContainer {
-    ip = "10.233.1.3";
-    ports = [ 2283 ];
-    module = ../../modules/services/immich.nix;
-    bindMounts."/data/photos/immich" = {
-      hostPath = "/data/photos/immich";
-      isReadOnly = false;
-    };
-    bindMounts."/var/lib/postgresql" = {
-      hostPath = "/data/appdata/immich-postgres";
-      isReadOnly = false;
-    };
+  containers.dashboard = mkContainer {
+    ip = "10.233.1.1";
+    # ports = [  ];
+    module = ../../modules/services/dashboard.nix;
   };
 
   containers.metrics = mkContainer {
@@ -191,6 +170,33 @@ in
       isReadOnly = false;
     };
   };
+
+  containers.immich = mkContainer {
+    ip = "10.233.1.3";
+    ports = [ 2283 ];
+    module = ../../modules/services/immich.nix;
+    bindMounts."/data/photos/immich" = {
+      hostPath = "/data/photos/immich";
+      isReadOnly = false;
+    };
+    bindMounts."/var/lib/postgresql" = {
+      hostPath = "/data/appdata/immich-postgres";
+      isReadOnly = false;
+    };
+  };
+
+  # containers.gitea = mkContainer {
+  #   ip = "10.233.1.4";
+  #   ports = [ 3030 ];
+  #   module = {
+  #     services.gitea = {
+  #       enable = true;
+  #       stateDir = "/data/appdata/gitea";
+  #       settings.server.HTTP_ADDR = "0.0.0.0";
+  #       settings.server.HTTP_PORT = 3030;
+  #     };
+  #   };
+  # };
 
   systemd.tmpfiles.rules = mkTmpfilesRules (lib.attrValues config.containers);
 

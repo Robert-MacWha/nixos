@@ -39,12 +39,12 @@ in
         TRANSMISSION_INCOMPLETE_DIR = "/data/downloads/transmission/incomplete";
         TRANSMISSION_WATCH_DIR = "/data/downloads/transmission/watch";
         PUID = "1000";
-        PGID = toString config.users.groups.media.gid;
+        # PGID = toString config.users.groups.media.gid;
       };
       volumes = [
         "${protonvpnConfig}:/etc/openvpn/custom"
         "/data/appdata/transmission:/config"
-        "/data/downloads:/data/downloads"
+        "/data/downloads/transmission:/data/downloads/transmission"
       ];
       environmentFiles = [ config.sops.secrets."transmission_env".path ]; # OPENVPN_USERNAME / OPENVPN_PASSWORD
       capabilities = {
@@ -55,8 +55,8 @@ in
     };
   };
 
-  systemd.tmpfiles.rules = [
-    "d /data/appdata/transmission 0755 root media -"
-    "d /data/downloads/transmission 0775 root media -"
-  ];
+  # systemd.tmpfiles.rules = [
+  #   "d /data/appdata/transmission 0755 root media -"
+  #   "d /data/downloads/transmission 0775 root media -"
+  # ];
 }

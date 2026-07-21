@@ -41,7 +41,7 @@ in
   services.homepage-dashboard = {
     enable = true;
     allowedHosts = "*";
-    openFirewall = true;
+    # openFirewall = true;
     settings = {
       title = "Fehu";
       description = "Fehu homeserver dashboard";

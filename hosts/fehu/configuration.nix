@@ -62,9 +62,6 @@ in
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
-    # ../../modules/services/dashboard.nix
-    # ../../modules/services/immich.nix
-    # ../../modules/services/metrics.nix
     # ../../modules/services/nixflix.nix
     # ../../modules/services/torrent.nix
   ];
@@ -181,6 +178,20 @@ in
     };
     bindMounts."/var/lib/postgresql" = {
       hostPath = "/data/appdata/immich-postgres";
+      isReadOnly = false;
+    };
+  };
+
+  containers.transmission = mkContainer {
+    ip = "10.233.1.4";
+    ports = [ 9091 ];
+    module = ../../modules/services/transmission.nix;
+    bindMounts."/data/appdata/transmission" = {
+      hostPath = "/data/appdata/transmission";
+      isReadOnly = false;
+    };
+    bindMounts."/data/downloads/transmission" = {
+      hostPath = "/data/downloads/transmission";
       isReadOnly = false;
     };
   };

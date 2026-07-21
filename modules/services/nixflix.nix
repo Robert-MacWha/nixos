@@ -2,11 +2,11 @@
 
 {
   config,
-  nixflix,
+  inputs,
   ...
 }:
 let
-  fromRepo = nixflix.lib.jellyfinPlugins.fromRepo;
+  fromRepo = inputs.nixflix.lib.jellyfinPlugins.fromRepo;
 in
 {
   users.groups.media = {

@@ -75,7 +75,9 @@
         # 192.168.2.52
         fehu = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit (inputs) nixflix; };
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
             ./hosts/fehu/configuration.nix
             inputs.sops-nix.nixosModules.sops

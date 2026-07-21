@@ -1,4 +1,63 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+let
+  mkContainer =
+    {
+      ip,
+      gateway ? "10.233.0.1",
+      module,
+      ports,
+      bindMounts ? { },
+    }:
+    let
+      allBindMounts = bindMounts // {
+        "/root/.ssh/id_ed25519" = {
+          hostPath = "/root/.ssh/id_ed25519";
+          isReadOnly = true;
+        };
+      };
+    in
+    {
+      ephemeral = true;
+      autoStart = true;
+      privateNetwork = true;
+      hostAddress = gateway;
+      localAddress = ip;
+      bindMounts = allBindMounts;
+      forwardPorts = map (port: {
+        containerPort = port;
+        hostPort = port;
+        protocol = "tcp";
+      }) ports;
+      config = {
+        imports = [
+          module
+          inputs.sops-nix.nixosModules.sops
+        ];
+        sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
+        system.stateVersion = "25.11";
+      };
+    };
+
+  # Auto-create host-side dirs for every container's bindMounts
+  mkTmpfilesRules =
+    containerDefs:
+    lib.flatten (
+      map (
+        c:
+        lib.mapAttrsToList (
+          _: mount:
+          # Only create directories, not the ssh key file (that must already exist)
+          lib.optional (!lib.hasSuffix "id_ed25519" mount.hostPath) "d ${mount.hostPath} 0755 root root -"
+        ) c.bindMounts
+      ) containerDefs
+    );
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -67,26 +126,26 @@
     htop
   ];
 
-  containers.testbox = {
-    privateNetwork = true;
-    hostAddress = "10.233.1.1";
-    localAddress = "10.233.1.2";
+  # containers.testbox = {
+  #   privateNetwork = true;
+  #   hostAddress = "10.233.1.1";
+  #   localAddress = "10.233.1.2";
 
-    bindMounts."/shared" = {
-      hostPath = "/tmp/shared-test";
-      isReadOnly = false;
-    };
+  #   bindMounts."/shared" = {
+  #     hostPath = "/tmp/shared-test";
+  #     isReadOnly = false;
+  #   };
 
-    config = { config, pkgs, ... }: {
-      system.stateVersion = "25.11";
-      networking.firewall.enable = false; # simplify for testing
-      environment.systemPackages = [
-        pkgs.iproute2
-        pkgs.util-linux
-      ];
-    };
-    ephemeral = true;
-  };
+  #   config = { config, pkgs, ... }: {
+  #     system.stateVersion = "25.11";
+  #     networking.firewall.enable = false; # simplify for testing
+  #     environment.systemPackages = [
+  #       pkgs.iproute2
+  #       pkgs.util-linux
+  #     ];
+  #   };
+  #   ephemeral = true;
+  # };
 
   services.openssh = {
     enable = true;
@@ -114,28 +173,28 @@
   #   owner = "grafana";
   # };
 
-  # networking.firewall.allowedTCPPorts = [ 3030 ];
+  networking.firewall.allowedTCPPorts = [ 3030 ];
 
-  # services.gitea = {
-  #   enable = true;
-  #   stateDir = "/var/lib/gitea";
-  #   settings.server.HTTP_ADDR = "0.0.0.0";
-  #   settings.server.HTTP_PORT = 3030;
-  # };
+  services.gitea = {
+    enable = true;
+    stateDir = "/data/appdata/gitea";
+    settings.server.HTTP_ADDR = "0.0.0.0";
+    settings.server.HTTP_PORT = 3030;
+  };
 
-  # users.users.immich.extraGroups = [
-  #   "video"
-  #   "render"
-  # ];
+  users.users.immich.extraGroups = [
+    "video"
+    "render"
+  ];
 
-  # services.immich = {
-  #   enable = true;
-  #   openFirewall = true;
-  #   host = "0.0.0.0";
-  #   accelerationDevices = null;
-  #   mediaLocation = "/var/lib/immich";
-  #   settings.newVersionCheck.enable = false;
-  # };
+  services.immich = {
+    enable = true;
+    openFirewall = true;
+    host = "0.0.0.0";
+    accelerationDevices = null;
+    mediaLocation = "/data/photos/immich";
+    settings.newVersionCheck.enable = false;
+  };
 
   # services.grafana = {
   #   enable = true;
@@ -170,7 +229,7 @@
 
   # services.victoriametrics = {
   #   enable = true;
-  #   stateDir = "/data/appdata/victoriametrics";
+  #   stateDir = "/appdata/victoriametrics";
   #   retentionPeriod = "24w";
   #   prometheusConfig = {
   #     global.scrape_interval = "10s";
@@ -195,22 +254,28 @@
   #   };
   # };
 
-  # services.prometheus = {
-  #   enable = false;
-  #   exporters.node = {
-  #     enable = true;
-  #   };
-  #   exporters.systemd = {
-  #     enable = true;
-  #   };
-  # };
+  containers = {
+    metrics = mkContainer {
+      ip = "10.233.1.2";
+      ports = [ 3000 ];
+      module = ../../modules/services/metrics.nix;
+      bindMounts."/data/appdata/grafana" = {
+        hostPath = "/data/appdata/grafana";
+        isReadOnly = false;
+      };
+      bindMounts."/var/lib/victoriametrics" = {
+        hostPath = "/data/appdata/victoriametrics";
+        isReadOnly = false;
+      };
+    };
+  };
 
-  # systemd.settings.Manager = {
-  #   DefaultCPUAccounting = true;
-  #   DefaultMemoryAccounting = true;
-  #   DefaultIOAccounting = true;
-  #   DefaultIPAccounting = true;
-  # };
+  systemd.settings.Manager = {
+    DefaultCPUAccounting = true;
+    DefaultMemoryAccounting = true;
+    DefaultIOAccounting = true;
+    DefaultIPAccounting = true;
+  };
 
   system.stateVersion = "25.05";
 }

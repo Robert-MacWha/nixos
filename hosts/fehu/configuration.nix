@@ -62,6 +62,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
+    ../../modules/services/dashboard.nix
     # ../../modules/services/nixflix.nix
     # ../../modules/services/torrent.nix
   ];
@@ -148,53 +149,47 @@ in
 
   networking.firewall.allowedTCPPorts = [ 3030 ];
 
-  containers.dashboard = mkContainer {
-    ip = "10.233.1.1";
-    ports = [ 8082 ];
-    module = ../../modules/services/dashboard.nix;
-  };
+  # containers.metrics = mkContainer {
+  #   ip = "10.233.1.2";
+  #   ports = [ 3000 ];
+  #   module = ../../modules/services/metrics.nix;
+  #   bindMounts."/data/appdata/grafana" = {
+  #     hostPath = "/data/appdata/grafana";
+  #     isReadOnly = false;
+  #   };
+  #   bindMounts."/var/lib/private/victoriametrics" = {
+  #     hostPath = "/data/appdata/victoriametrics";
+  #     isReadOnly = false;
+  #   };
+  # };
 
-  containers.metrics = mkContainer {
-    ip = "10.233.1.2";
-    ports = [ 3000 ];
-    module = ../../modules/services/metrics.nix;
-    bindMounts."/data/appdata/grafana" = {
-      hostPath = "/data/appdata/grafana";
-      isReadOnly = false;
-    };
-    bindMounts."/var/lib/victoriametrics" = {
-      hostPath = "/data/appdata/victoriametrics";
-      isReadOnly = false;
-    };
-  };
+  # containers.immich = mkContainer {
+  #   ip = "10.233.1.3";
+  #   ports = [ 2283 ];
+  #   module = ../../modules/services/immich.nix;
+  #   bindMounts."/data/photos/immich" = {
+  #     hostPath = "/data/photos/immich";
+  #     isReadOnly = false;
+  #   };
+  #   bindMounts."/var/lib/postgresql" = {
+  #     hostPath = "/data/appdata/immich-postgres";
+  #     isReadOnly = false;
+  #   };
+  # };
 
-  containers.immich = mkContainer {
-    ip = "10.233.1.3";
-    ports = [ 2283 ];
-    module = ../../modules/services/immich.nix;
-    bindMounts."/data/photos/immich" = {
-      hostPath = "/data/photos/immich";
-      isReadOnly = false;
-    };
-    bindMounts."/var/lib/postgresql" = {
-      hostPath = "/data/appdata/immich-postgres";
-      isReadOnly = false;
-    };
-  };
-
-  containers.transmission = mkContainer {
-    ip = "10.233.1.4";
-    ports = [ 9091 ];
-    module = ../../modules/services/transmission.nix;
-    bindMounts."/data/appdata/transmission" = {
-      hostPath = "/data/appdata/transmission";
-      isReadOnly = false;
-    };
-    bindMounts."/data/downloads/transmission" = {
-      hostPath = "/data/downloads/transmission";
-      isReadOnly = false;
-    };
-  };
+  # containers.transmission = mkContainer {
+  #   ip = "10.233.1.4";
+  #   ports = [ 9091 ];
+  #   module = ../../modules/services/transmission.nix;
+  #   bindMounts."/data/appdata/transmission" = {
+  #     hostPath = "/data/appdata/transmission";
+  #     isReadOnly = false;
+  #   };
+  #   bindMounts."/data/downloads/transmission" = {
+  #     hostPath = "/data/downloads/transmission";
+  #     isReadOnly = false;
+  #   };
+  # };
 
   # containers.gitea = mkContainer {
   #   ip = "10.233.1.4";

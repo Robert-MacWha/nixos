@@ -55,8 +55,8 @@ in
     };
   };
 
-  # systemd.tmpfiles.rules = [
-  #   "d /data/appdata/transmission 0755 root media -"
-  #   "d /data/downloads/transmission 0775 root media -"
-  # ];
+  systemd.tmpfiles.rules = [
+    "d /data/appdata/transmission 0755 root media -"
+    "d /data/downloads/transmission 0775 root media -"
+  ];
 }

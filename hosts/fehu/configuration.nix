@@ -64,7 +64,7 @@ in
     ./disko.nix
     ../../modules/services/dashboard.nix
     # ../../modules/services/nixflix.nix
-    # ../../modules/services/torrent.nix
+    ../../modules/services/transmission.nix
   ];
 
   # Systemd-boot

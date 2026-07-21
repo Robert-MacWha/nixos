@@ -3,14 +3,16 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
-    ../../modules/services/nixflix.nix
-    ../../modules/services/dashboard.nix
-    ../../modules/services/torrent.nix
+    # ../../modules/services/nixflix.nix
+    # ../../modules/services/dashboard.nix
+    # ../../modules/services/torrent.nix
   ];
 
   # Systemd-boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.extraPools = [ "tank" ];
 
   # igpu drivers
   hardware.graphics = {
@@ -24,6 +26,7 @@
   };
 
   networking.hostName = "fehu";
+  networking.hostId = "8425e349";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Toronto";
@@ -31,10 +34,16 @@
 
   virtualisation.oci-containers.backend = "podman";
 
+  sops.secrets."root_password_hash" = {
+    sopsFile = ../../secrets/secrets.yaml;
+    owner = "root";
+  };
+
   users.users.root = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRvLqaDP5TEXir4skoP4+VzqrbQgjXYPQA2tCF9hc1z rmacwha@robert-desktop"
     ];
+    hashedPasswordFile = config.sops.secrets.root_password_hash.path;
   };
 
   nix.settings.experimental-features = [
@@ -67,120 +76,118 @@
     ];
   };
 
-  sops.secrets."admin_password" = {
-    sopsFile = ../../secrets/nixflix.yaml;
-    owner = "grafana";
-  };
-
-  sops.secrets."grafana_secret_key" = {
-    sopsFile = ../../secrets/nixflix.yaml;
-    owner = "grafana";
-  };
-
-  networking.firewall.allowedTCPPorts = [ 3030 ];
-
-  services.gitea = {
+  services.zfs.autoScrub = {
     enable = true;
-    stateDir = "/var/lib/gitea";
-    settings.server.HTTP_ADDR = "0.0.0.0";
-    settings.server.HTTP_PORT = 3030;
+    interval = "weekly";
+    pools = [ "tank" ];
   };
 
-  users.users.immich.extraGroups = [
-    "video"
-    "render"
-  ];
+  # sops.secrets."admin_password" = {
+  #   sopsFile = ../../secrets/nixflix.yaml;
+  #   owner = "grafana";
+  # };
 
-  services.immich = {
-    enable = true;
-    openFirewall = true;
-    host = "0.0.0.0";
-    accelerationDevices = null;
-    mediaLocation = "/var/lib/immich";
-    settings.newVersionCheck.enable = false;
-  };
+  # sops.secrets."grafana_secret_key" = {
+  #   sopsFile = ../../secrets/nixflix.yaml;
+  #   owner = "grafana";
+  # };
 
-  services.grafana = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      server = {
-        http_addr = "0.0.0.0";
-        http_port = 3000;
-      };
-      security = {
-        admin_email = "robert@macwha.com";
-        admin_user = "admin";
-        admin_password = "$__file{${config.sops.secrets."admin_password".path}}";
-        secret_key = "$__file{${config.sops.secrets."grafana_secret_key".path}}";
-      };
-    };
+  # networking.firewall.allowedTCPPorts = [ 3030 ];
 
-    provision = {
-      enable = true;
-      datasources.settings.datasources = [
-        {
-          name = "Prometheus";
-          type = "prometheus";
-          url = "http://127.0.0.1:8428";
-          isDefault = true;
-          editable = false;
-        }
-      ];
-    };
-  };
+  # services.gitea = {
+  #   enable = true;
+  #   stateDir = "/var/lib/gitea";
+  #   settings.server.HTTP_ADDR = "0.0.0.0";
+  #   settings.server.HTTP_PORT = 3030;
+  # };
 
-  services.victoriametrics = {
-    enable = true;
-    retentionPeriod = "24w";
-    prometheusConfig = {
-      global.scrape_interval = "10s";
-      scrape_configs = [
-        {
-          job_name = "node";
-          static_configs = [
-            {
-              targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-            }
-          ];
-        }
-        {
-          job_name = "systemd";
-          static_configs = [
-            {
-              targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
-            }
-          ];
-        }
-        # {
-        #   job_name = "process";
-        #   static_configs = [
-        #     {
-        #       targets = [ "localhost:${toString config.services.prometheus.exporters.process.port}" ];
-        #     }
-        #   ];
-        # }
-      ];
-    };
-  };
+  # users.users.immich.extraGroups = [
+  #   "video"
+  #   "render"
+  # ];
 
-  services.prometheus = {
-    enable = false;
+  # services.immich = {
+  #   enable = true;
+  #   openFirewall = true;
+  #   host = "0.0.0.0";
+  #   accelerationDevices = null;
+  #   mediaLocation = "/var/lib/immich";
+  #   settings.newVersionCheck.enable = false;
+  # };
 
-    exporters.node = {
-      enable = true;
-    };
-    exporters.systemd = {
-      enable = true;
-    };
-  };
+  # services.grafana = {
+  #   enable = true;
+  #   openFirewall = true;
+  #   settings = {
+  #     server = {
+  #       http_addr = "0.0.0.0";
+  #       http_port = 3000;
+  #     };
+  #     security = {
+  #       admin_email = "robert@macwha.com";
+  #       admin_user = "admin";
+  #       admin_password = "$__file{${config.sops.secrets."admin_password".path}}";
+  #       secret_key = "$__file{${config.sops.secrets."grafana_secret_key".path}}";
+  #     };
+  #   };
 
-  systemd.settings.Manager = {
-    DefaultCPUAccounting = true;
-    DefaultMemoryAccounting = true;
-    DefaultIOAccounting = true;
-    DefaultIPAccounting = true;
-  };
+  #   provision = {
+  #     enable = true;
+  #     datasources.settings.datasources = [
+  #       {
+  #         name = "Prometheus";
+  #         type = "prometheus";
+  #         url = "http://127.0.0.1:8428";
+  #         isDefault = true;
+  #         editable = false;
+  #       }
+  #     ];
+  #   };
+  # };
+
+  # services.victoriametrics = {
+  #   enable = true;
+  #   retentionPeriod = "24w";
+  #   prometheusConfig = {
+  #     global.scrape_interval = "10s";
+  #     scrape_configs = [
+  #       {
+  #         job_name = "node";
+  #         static_configs = [
+  #           {
+  #             targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+  #           }
+  #         ];
+  #       }
+  #       {
+  #         job_name = "systemd";
+  #         static_configs = [
+  #           {
+  #             targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
+  #           }
+  #         ];
+  #       }
+  #     ];
+  #   };
+  # };
+
+  # services.prometheus = {
+  #   enable = false;
+
+  #   exporters.node = {
+  #     enable = true;
+  #   };
+  #   exporters.systemd = {
+  #     enable = true;
+  #   };
+  # };
+
+  # systemd.settings.Manager = {
+  #   DefaultCPUAccounting = true;
+  #   DefaultMemoryAccounting = true;
+  #   DefaultIOAccounting = true;
+  #   DefaultIPAccounting = true;
+  # };
 
   system.stateVersion = "25.05";
 }

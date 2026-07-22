@@ -34,6 +34,9 @@
     # hardware.enableAllFirmware = true; # Required on n100 CPUs
   };
 
+  # Ram RGB control
+  hardware.i2c.enable = true;
+
   networking.hostName = "fehu";
   networking.hostId = "8425e349";
   networking.networkmanager.enable = true;
@@ -73,6 +76,7 @@
     wget
     unzip
     htop
+    openrgb # Ram RGB control
   ];
 
   services.openssh = {

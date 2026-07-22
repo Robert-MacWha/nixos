@@ -6,6 +6,7 @@
     ../../modules/services/dashboard.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
+    ../../modules/services/metrics.nix
   ];
 
   # Systemd-boot

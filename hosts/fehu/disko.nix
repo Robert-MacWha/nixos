@@ -45,32 +45,18 @@ in
                 mountpoint = "/boot";
               };
             };
-            root = {
-              name = "root";
+            nix = {
+              name = "nix";
               size = "100%";
               content = {
-                type = "lvm_pv";
-                vg = "pool";
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/nix";
+                mountOptions = [
+                  "defaults"
+                  "noatime"
+                ];
               };
-            };
-          };
-        };
-      };
-    };
-
-    lvm_vg = {
-      pool = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%FREE";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
-              mountOptions = [
-                "defaults"
-              ];
             };
           };
         };
@@ -87,9 +73,9 @@ in
       options.ashift = "12";
 
       datasets = {
-        "system/persist" = {
+        "local/root" = {
           type = "zfs_fs";
-          mountpoint = "/persistent";
+          mountpoint = "/";
           options.mountpoint = "legacy";
         };
         "data/photos" = {

@@ -3,7 +3,6 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
-    ./preservation.nix
     ../../modules/services/dashboard.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
@@ -13,7 +12,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.extraPools = [ "tank" ];
   boot.zfs.forceImportRoot = false;
 
   # igpu drivers
@@ -59,7 +57,7 @@
     options = "-d";
   };
 
-  sops.age.sshKeyPaths = [ "/persistent/root/.ssh/id_ed25519" ];
+  sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
 
   environment.systemPackages = with pkgs; [
     nano
@@ -72,7 +70,7 @@
     enable = true;
     hostKeys = [
       {
-        path = "/persistent/root/.ssh/id_ed25519";
+        path = "/root/.ssh/id_ed25519";
         type = "ed25519";
       }
     ];

@@ -82,7 +82,6 @@
             ./hosts/fehu/configuration.nix
             inputs.sops-nix.nixosModules.sops
             inputs.disko.nixosModules.disko
-            inputs.preservation.nixosModules.preservation
             inputs.nixflix.nixosModules.default
           ];
         };

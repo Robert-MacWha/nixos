@@ -9,6 +9,8 @@
     owner = "grafana";
   };
 
+  networking.firewall.allowedTCPPorts = [ 3000 ];
+
   services.grafana = {
     enable = true;
     openFirewall = true;

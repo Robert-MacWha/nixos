@@ -3,6 +3,7 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
+    ../../modules/services/rgb.nix
     ../../modules/services/dashboard.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
@@ -33,9 +34,6 @@
     ];
     # hardware.enableAllFirmware = true; # Required on n100 CPUs
   };
-
-  # Ram RGB control
-  hardware.i2c.enable = true;
 
   networking.hostName = "fehu";
   networking.hostId = "8425e349";
@@ -76,10 +74,7 @@
     wget
     unzip
     htop
-    openrgb # Ram RGB control
   ];
-
-  services.udev.packages = [ pkgs.openrgb ];
 
   services.openssh = {
     enable = true;

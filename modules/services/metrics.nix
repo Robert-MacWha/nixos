@@ -71,6 +71,7 @@
   services.prometheus = {
     enable = false;
     exporters.node.enable = true;
+    exporters.node.enabledCollectors = [ "rapl" ];
     exporters.systemd.enable = true;
   };
 }

@@ -79,6 +79,8 @@
     openrgb # Ram RGB control
   ];
 
+  services.udev.packages = [ pkgs.openrgb ];
+
   services.openssh = {
     enable = true;
     hostKeys = [

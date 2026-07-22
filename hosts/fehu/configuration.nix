@@ -1,67 +1,9 @@
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
-}:
-let
-  mkContainer =
-    {
-      ip,
-      gateway ? "10.233.0.1",
-      module,
-      ports ? [ ],
-      bindMounts ? { },
-    }:
-    let
-      allBindMounts = bindMounts // {
-        "/root/.ssh/id_ed25519" = {
-          hostPath = "/root/.ssh/id_ed25519";
-          isReadOnly = true;
-        };
-      };
-    in
-    {
-      ephemeral = true;
-      autoStart = true;
-      privateNetwork = true;
-      hostAddress = gateway;
-      localAddress = ip;
-      bindMounts = allBindMounts;
-      forwardPorts = map (port: {
-        containerPort = port;
-        hostPort = port;
-        protocol = "tcp";
-      }) ports;
-      config = {
-        imports = [
-          module
-          inputs.sops-nix.nixosModules.sops
-        ];
-        sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
-        system.stateVersion = "25.11";
-      };
-    };
-
-  # Auto-create host-side dirs for every container's bindMounts
-  mkTmpfilesRules =
-    containerDefs:
-    lib.flatten (
-      map (
-        c:
-        lib.mapAttrsToList (
-          _: mount:
-          # Only create directories, not the ssh key file (that must already exist)
-          lib.optional (!lib.hasSuffix "id_ed25519" mount.hostPath) "d ${mount.hostPath} 0755 root root -"
-        ) c.bindMounts
-      ) containerDefs
-    );
-in
+{ config, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
+    ./preservation.nix
     ../../modules/services/dashboard.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
@@ -88,11 +30,6 @@ in
   networking.hostName = "fehu";
   networking.hostId = "8425e349";
   networking.networkmanager.enable = true;
-  networking.nat = {
-    enable = true;
-    internalInterfaces = [ "ve-+" ];
-    externalInterface = "enp2s0";
-  };
 
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_CA.UTF-8";
@@ -122,7 +59,7 @@ in
     options = "-d";
   };
 
-  sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
+  sops.age.sshKeyPaths = [ "/persistent/root/.ssh/id_ed25519" ];
 
   environment.systemPackages = with pkgs; [
     nano
@@ -135,7 +72,7 @@ in
     enable = true;
     hostKeys = [
       {
-        path = "/root/.ssh/id_ed25519";
+        path = "/persistent/root/.ssh/id_ed25519";
         type = "ed25519";
       }
     ];
@@ -148,36 +85,6 @@ in
   };
 
   networking.firewall.allowedTCPPorts = [ 3030 ];
-
-  # containers.metrics = mkContainer {
-  #   ip = "10.233.1.2";
-  #   ports = [ 3000 ];
-  #   module = ../../modules/services/metrics.nix;
-  #   bindMounts."/data/appdata/grafana" = {
-  #     hostPath = "/data/appdata/grafana";
-  #     isReadOnly = false;
-  #   };
-  #   bindMounts."/var/lib/private/victoriametrics" = {
-  #     hostPath = "/data/appdata/victoriametrics";
-  #     isReadOnly = false;
-  #   };
-  # };
-
-  # containers.immich = mkContainer {
-  #   ip = "10.233.1.3";
-  #   ports = [ 2283 ];
-  #   module = ../../modules/services/immich.nix;
-  #   bindMounts."/data/photos/immich" = {
-  #     hostPath = "/data/photos/immich";
-  #     isReadOnly = false;
-  #   };
-  #   bindMounts."/var/lib/postgresql" = {
-  #     hostPath = "/data/appdata/immich-postgres";
-  #     isReadOnly = false;
-  #   };
-  # };
-
-  systemd.tmpfiles.rules = mkTmpfilesRules (lib.attrValues config.containers);
 
   systemd.settings.Manager = {
     DefaultCPUAccounting = true;

@@ -12,7 +12,6 @@
   services.grafana = {
     enable = true;
     openFirewall = true;
-    dataDir = "/data/appdata/grafana";
     settings = {
       server = {
         http_addr = "0.0.0.0";
@@ -38,11 +37,6 @@
         }
       ];
     };
-  };
-
-  fileSystems."/var/lib/victoriametrics" = {
-    device = "/data/appdata/victoriametrics";
-    options = [ "bind" ];
   };
 
   services.victoriametrics = {

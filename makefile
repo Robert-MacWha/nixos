@@ -4,7 +4,7 @@ HOST ?=
 REBUILD_ARGS :=
 
 ifdef TARGET
-REBUILD_ARGS += --flake .#$(TARGET)
+REBUILD_ARGS += --flake .\#$(TARGET)
 endif
 
 ifdef HOST

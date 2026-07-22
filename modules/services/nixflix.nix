@@ -40,7 +40,6 @@ in
   nixflix = {
     enable = true;
     mediaDir = "/data/media";
-    stateDir = "/data/appdata/nixflix";
 
     postgres.enable = true;
 

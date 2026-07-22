@@ -87,9 +87,9 @@ in
       options.ashift = "12";
 
       datasets = {
-        "data/appdata" = {
+        "system/persist" = {
           type = "zfs_fs";
-          mountpoint = "/data/appdata";
+          mountpoint = "/persistent";
           options.mountpoint = "legacy";
         };
         "data/photos" = {

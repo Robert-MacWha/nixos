@@ -14,6 +14,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
+  boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ];
+
+  swapDevices = [
+    {
+      device = "/nix/swapfile";
+      size = 8192;
+    }
+  ];
 
   # igpu drivers
   hardware.graphics = {

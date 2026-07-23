@@ -15,7 +15,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
-  boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ];
+  boot.kernelParams = [
+    "zfs.zfs_arc_max=17179869184"
+    "nmi_watchdog=0"
+  ];
 
   swapDevices = [
     {
@@ -92,13 +95,43 @@
     pools = [ "tank" ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 3030 ];
-
   systemd.settings.Manager = {
     DefaultCPUAccounting = true;
     DefaultMemoryAccounting = true;
     DefaultIOAccounting = true;
     DefaultIPAccounting = true;
+  };
+
+  # Power efficiency
+  services.power-profiles-daemon.enable = false;
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      # --- CPU ---
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+
+      # --- PCIe ASPM ---
+      PCIE_ASPM_ON_AC = "powersupersave";
+      PCIE_ASPM_ON_BAT = "powersupersave";
+
+      # --- SATA link power management (your 3 SSDs in raidz1) ---
+      SATA_LINKPWR_ON_AC = "min_power";
+      SATA_LINKPWR_ON_BAT = "min_power";
+
+      # --- Runtime PM for all PCI/SATA devices ---
+      RUNTIME_PM_ON_AC = "auto";
+      RUNTIME_PM_ON_BAT = "auto";
+      # safety valve: add driver names here if something misbehaves after enabling PM broadly
+      # RUNTIME_PM_DRIVER_BLACKLIST = "";
+
+      # --- Audio codec ---
+      SOUND_POWER_SAVE_ON_AC = 1;
+      SOUND_POWER_SAVE_ON_BAT = 1;
+    };
   };
 
   system.stateVersion = "25.05";

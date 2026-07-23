@@ -92,6 +92,8 @@ in
       };
     };
 
+    flaresolverr.enable = true;
+
     # https://kiriwalawren.github.io/nixflix/reference/downloadarr/transmission/
     downloadarr.transmission = {
       enable = true;
@@ -122,23 +124,23 @@ in
         password = "";
       };
 
-      # system.pluginRepositories = {
-      #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
-      #   "Intro Skipper" = {
-      #     url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
-      #     hash = "sha256:0wh2iszaapyha52z9zxj95562mcph5dj0m0bvkm3q0217r51vq3f";
-      #     enabled = true;
-      #   };
-      # };
+      system.pluginRepositories = {
+        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+        "Intro Skipper" = {
+          url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
+          hash = "sha256:0wh2iszaapyha52z9zxj95562mcph5dj0m0bvkm3q0217r51vq3f";
+          enabled = true;
+        };
+      };
 
       plugins = {
         # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
-        # "Intro Skipper" = {
-        #   package = fromRepo {
-        #     version = "1.10.11.17";
-        #     hash = "sha256-cfEnLqKeEGpQSth3NPjDnxCkgv2pePfgCXfVIOrYSiQ=";
-        #   };
-        # };
+        "Intro Skipper" = {
+          package = fromRepo {
+            version = "1.10.11.17";
+            hash = "sha256-cfEnLqKeEGpQSth3NPjDnxCkgv2pePfgCXfVIOrYSiQ=";
+          };
+        };
 
         # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
         "Open Subtitles" = {

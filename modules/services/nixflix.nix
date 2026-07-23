@@ -111,6 +111,11 @@ in
         };
       };
 
+      users.tv = {
+        enableAutoLogin = true;
+        password = "";
+      };
+
       # system.pluginRepositories = {
       #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
       #   "Intro Skipper" = {

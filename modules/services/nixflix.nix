@@ -116,14 +116,14 @@ in
         password = "";
       };
 
-      # system.pluginRepositories = {
-      #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
-      #   "Intro Skipper" = {
-      #     url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
-      #     hash = "sha256:1rbjzgxfb7ypxhf4np15lszr4v1ywch7c4yjwm57lwpifzrcr36k";
-      #     enabled = true;
-      #   };
-      # };
+      system.pluginRepositories = {
+        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+        "Intro Skipper" = {
+          url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
+          hash = "sha256:1rbjzgxfb7ypxhf4np15lszr4v1ywch7c4yjwm57lwpifzrcr36k";
+          enabled = true;
+        };
+      };
 
       # plugins = {
       #   # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration

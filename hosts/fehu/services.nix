@@ -77,4 +77,9 @@ in
     group = "infra";
     href = "http://192.168.2.1";
   };
+  adguard = {
+    label = "AdGuard";
+    group = "infra";
+    href = "http://192.168.2.1:3000";
+  };
 }

@@ -6,6 +6,7 @@ in
 {
   services.caddy = {
     enable = true;
+    openFirewall = true;
     virtualHosts = lib.mapAttrs' (
       name: svc:
       lib.nameValuePair "${name}.${domain}" {

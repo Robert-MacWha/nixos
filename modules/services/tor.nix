@@ -37,6 +37,6 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "Z /persist/tor-relay/keys 0700 ${toString torUser.uid} ${toString torGroup.gid} -"
+    "Z /var/lib/tor/keys 0700 ${toString torUser.uid} ${toString torGroup.gid} -"
   ];
 }

@@ -1,4 +1,11 @@
-{ pkgs, ... }:
+{ config, lib, ... }:
+
+let
+  containerCfg = config.containers.tor-relay.config;
+  torUser = containerCfg.users.users.tor;
+  torGroup = containerCfg.users.groups.${torUser.group};
+in
+
 {
   containers.tor-relay = {
     ephemeral = true;
@@ -28,4 +35,8 @@
       system.stateVersion = "25.05";
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "Z /persist/tor-relay/keys 0700 ${toString torUser.uid} ${toString torGroup.gid} -"
+  ];
 }

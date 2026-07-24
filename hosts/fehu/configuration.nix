@@ -8,6 +8,7 @@
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
     ../../modules/services/metrics.nix
+    ../../modules/services/tor.nix
   ];
 
   # Systemd-boot

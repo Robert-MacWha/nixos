@@ -5,8 +5,6 @@
   ...
 }:
 let
-  ip = "192.168.2.52";
-  domain = "local";
   myServices = import ./services.nix { inherit config; };
   byGroup = lib.groupBy (n: myServices.${n}.group) (builtins.attrNames myServices);
 
@@ -71,17 +69,27 @@ in
         name:
         let
           svc = myServices.${name};
+          url = if svc ? href then svc.href else "http://${svc.ip}:${toString svc.port}";
         in
         {
-          "${svc.label}" = {
-            href = "http://${name}.${domain}";
-            siteMonitor = "http://${ip}:${toString svc.port}";
-          }
-          // lib.optionalAttrs (svc ? widget) {
-            widget = svc.widget // {
-              url = "http://${ip}:${toString svc.port}";
+          "${svc.label}" =
+            (
+              if svc ? href then
+                {
+                  href = svc.href;
+                  siteMonitor = svc.href;
+                }
+              else
+                {
+                  href = url;
+                  siteMonitor = url;
+                }
+            )
+            // lib.optionalAttrs (svc ? widget) {
+              widget = svc.widget // {
+                url = url;
+              };
             };
-          };
         }
       ) names;
     }) byGroup;

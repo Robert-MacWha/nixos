@@ -1,9 +1,16 @@
 { config, pkgs, ... }:
+let
+  myServices = import ./services.nix { inherit config; };
+in
 {
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
     ./dashboard.nix
+    (import ../../modules/services/caddy.nix {
+      services = myServices;
+      domain = "lan";
+    })
     ../../modules/services/rgb.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix

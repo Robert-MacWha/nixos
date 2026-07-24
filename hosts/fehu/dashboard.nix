@@ -66,7 +66,7 @@ in
         HOMEPAGE_FILE_ADMIN_PASSWORD=${config.sops.secrets."admin_password".path}
       '')
     ];
-    settings.services = lib.mapAttrsToList (group: names: {
+    services = lib.mapAttrsToList (group: names: {
       "${group}" = map (
         name:
         let

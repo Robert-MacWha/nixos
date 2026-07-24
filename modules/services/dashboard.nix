@@ -1,6 +1,15 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   ip = "192.168.2.52";
+  domain = "local";
+  byGroup = lib.groupBy (n: config.myHomelab.services.${n}.group) (
+    builtins.attrNames config.myHomelab.services
+  );
 in
 {
   users.groups.homepage-secrets = { };
@@ -57,101 +66,27 @@ in
         HOMEPAGE_FILE_ADMIN_PASSWORD=${config.sops.secrets."admin_password".path}
       '')
     ];
-    services = [
-      {
-        "infra" = [
-          {
-            "Router" = {
-              href = "http://192.168.2.1";
-            };
+    services = lib.mapAttrsToList (group: names: {
+      "${group}" = map (
+        name:
+        let
+          svc = config.myHomelab.services.${name};
+        in
+        {
+          "${svc.label}" = {
+            href = "http://${name}.${domain}";
+            siteMonitor = "http://${ip}:${toString svc.port}";
           }
-          {
-            "Grafana" = {
-              href = "http://${ip}:${toString config.services.grafana.settings.server.http_port}";
-              siteMonitor = "http://${ip}:${toString config.services.grafana.settings.server.http_port}";
+          // lib.optionalAttrs (svc.widget != null) {
+            widget = {
+              type = svc.widget.type;
+              url = "http://${ip}:${toString svc.port}";
+              key = "{{HOMEPAGE_FILE_${svc.widget.apiKeyEnv}}}";
             };
-          }
-        ];
-      }
-      {
-        "services" = [
-          {
-            "Jellyfin" = {
-              href = "http://${ip}:8096";
-              siteMonitor = "http://${ip}:8096";
-              widget = {
-                type = "jellyfin";
-                url = "http://${ip}:8096";
-                key = "{{HOMEPAGE_FILE_JELLYFIN_API_KEY}}";
-                enableBlocks = true;
-                version = 2;
-              };
-            };
-          }
-          {
-            "Immich" = {
-              href = "http://${ip}:${toString config.services.immich.port}";
-              siteMonitor = "http://${ip}:${toString config.services.immich.port}";
-            };
-          }
-          {
-            "Gitea" = {
-              href = "http://${ip}:${toString config.services.gitea.settings.server.HTTP_PORT}";
-              siteMonitor = "http://${ip}:${toString config.services.gitea.settings.server.HTTP_PORT}";
-            };
-          }
-        ];
-      }
-      {
-        "media" = [
-          {
-            "Transmission" = {
-              href = "http://${ip}:9091";
-              siteMonitor = "http://${ip}:9091";
-              widget = {
-                type = "transmission";
-                url = "http://${ip}:9091";
-                username = "admin";
-                password = "{{HOMEPAGE_FILE_ADMIN_PASSWORD}}";
-              };
-            };
-          }
-          {
-            "Sonarr" = {
-              href = "http://${ip}:8989";
-              siteMonitor = "http://${ip}:8989";
-              widget = {
-                type = "sonarr";
-                url = "http://${ip}:8989";
-                key = "{{HOMEPAGE_FILE_SONARR_API_KEY}}";
-              };
-            };
-          }
-          {
-            "Radarr" = {
-              href = "http://${ip}:7878";
-              siteMonitor = "http://${ip}:7878";
-              widget = {
-                type = "radarr";
-                url = "http://${ip}:7878";
-                key = "{{HOMEPAGE_FILE_RADARR_API_KEY}}";
-              };
-            };
-          }
-          {
-            "Prowlarr" = {
-              href = "http://${ip}:9696";
-              siteMonitor = "http://${ip}:9696";
-              widget = {
-                type = "prowlarr";
-                url = "http://${ip}:9696";
-                key = "{{HOMEPAGE_FILE_PROWLARR_API_KEY}}";
-              };
-            };
-          }
-        ];
-      }
-    ];
+          };
+        }
+      ) names;
+    }) byGroup;
     widgets = [
       {
         resources = {

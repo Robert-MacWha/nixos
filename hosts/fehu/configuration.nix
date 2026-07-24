@@ -3,12 +3,13 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
+    ./services.nix
     ../../modules/services/rgb.nix
     ../../modules/services/dashboard.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
     ../../modules/services/metrics.nix
-    ../../modules/services/tor.nix
+    # ../../modules/services/tor.nix
   ];
 
   # Systemd-boot

@@ -8,17 +8,6 @@ in
     ip = ip;
     port = 8096;
     group = "services";
-    widget = {
-      type = "jellyfin";
-      key = "{{HOMEPAGE_FILE_JELLYFIN_API_KEY}}";
-      fields = [
-        "movies"
-        "series"
-      ];
-      enableBlocks = false;
-      enableNowPlaying = false;
-      enableUser = false;
-    };
   };
   immich = {
     label = "Immich";
@@ -41,6 +30,10 @@ in
     widget = {
       type = "sonarr";
       key = "{{HOMEPAGE_FILE_SONARR_API_KEY}}";
+      fields = [
+        "wanted"
+        "queued"
+      ];
     };
   };
   radarr = {
@@ -51,6 +44,10 @@ in
     widget = {
       type = "radarr";
       key = "{{HOMEPAGE_FILE_RADARR_API_KEY}}";
+      fields = [
+        "wanted"
+        "queued"
+      ];
     };
   };
   transmission = {
@@ -69,10 +66,6 @@ in
     ip = ip;
     port = 9696;
     group = "media";
-    widget = {
-      type = "prowlarr";
-      key = "{{HOMEPAGE_FILE_PROWLARR_API_KEY}}";
-    };
   };
 
   router = {

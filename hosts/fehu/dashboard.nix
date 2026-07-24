@@ -7,9 +7,9 @@
 let
   ip = "192.168.2.52";
   domain = "local";
-  byGroup = lib.groupBy (n: config.myHomelab.services.${n}.group) (
-    builtins.attrNames config.myHomelab.services
-  );
+  myServices = import ./services.nix { inherit config; };
+  byGroup = lib.groupBy (n: myServices.${n}.group) (builtins.attrNames myServices);
+
 in
 {
   users.groups.homepage-secrets = { };
@@ -66,27 +66,26 @@ in
         HOMEPAGE_FILE_ADMIN_PASSWORD=${config.sops.secrets."admin_password".path}
       '')
     ];
-    services = lib.mapAttrsToList (group: names: {
+    settings.services = lib.mapAttrsToList (group: names: {
       "${group}" = map (
         name:
         let
-          svc = config.myHomelab.services.${name};
+          svc = myServices.${name};
         in
         {
           "${svc.label}" = {
             href = "http://${name}.${domain}";
             siteMonitor = "http://${ip}:${toString svc.port}";
           }
-          // lib.optionalAttrs (svc.widget != null) {
-            widget = {
-              type = svc.widget.type;
+          // lib.optionalAttrs (svc ? widget) {
+            widget = svc.widget // {
               url = "http://${ip}:${toString svc.port}";
-              key = "{{HOMEPAGE_FILE_${svc.widget.apiKeyEnv}}}";
             };
           };
         }
       ) names;
     }) byGroup;
+
     widgets = [
       {
         resources = {

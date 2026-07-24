@@ -3,9 +3,8 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
-    ./services.nix
+    ./dashboard.nix
     ../../modules/services/rgb.nix
-    ../../modules/services/dashboard.nix
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
     ../../modules/services/metrics.nix

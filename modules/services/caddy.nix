@@ -9,7 +9,7 @@ in
     openFirewall = true;
     virtualHosts = lib.mapAttrs' (
       name: svc:
-      lib.nameValuePair "${name}.${domain}" {
+      lib.nameValuePair "http://${name}.${domain}" {
         extraConfig = ''
           reverse_proxy ${svc.ip}:${toString svc.port}
         '';

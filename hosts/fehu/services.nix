@@ -82,4 +82,10 @@ in
     group = "infra";
     href = "http://192.168.2.1:3000";
   };
+  # caddy = {
+  # label = "Caddy";
+  # group = "infra";
+  # ip = ip;
+  # port = 2019;
+  # };
 }

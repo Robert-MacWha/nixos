@@ -59,6 +59,10 @@ in
       type = "transmission";
       username = "admin";
       password = "{{HOMEPAGE_FILE_ADMIN_PASSWORD}}";
+      fields = [
+        "download"
+        "upload"
+      ];
     };
   };
   prowlarr = {

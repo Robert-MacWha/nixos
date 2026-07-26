@@ -46,7 +46,7 @@ in
       kdePackages.kdbusaddons
       obsidian
       firefox
-      google-chrome
+      # google-chrome
       libreoffice-qt6-fresh
       proton-vpn
       calibre
@@ -126,6 +126,9 @@ in
     enable = true;
     # pinentry.package = pkgs.pinentry-qt;
   };
+
+  programs.chromium.enable = true;
+  programs.chromium.package = pkgs.ungoogled-chromium;
 
   # https://nix-community.github.io/home-manager/options.xhtml
   # or `man home-configuration.nix` for version-specific docs

@@ -88,11 +88,6 @@ in
             enable = true;
             apikey._secret = config.sops.secrets."retrotoon_api_key".path;
           }
-          {
-            name = "1337x";
-            enable = true;
-
-          }
         ];
       };
     };

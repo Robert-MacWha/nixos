@@ -155,13 +155,6 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  # services.wivrn = {
-  #   enable = true;
-  #   openFirewall = true;
-  #   defaultRuntime = true;
-  #   autoStart = true;
-  # };
-
   # Allow binaries to run
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = [
@@ -177,11 +170,19 @@
     "nix-command"
     "flakes"
   ];
+
   environment.systemPackages = with pkgs; [
     wget
     gnumake
     android-tools
   ];
+
+  programs.chromium = {
+    enable = true;
+    extraOpts = {
+      "WebRtcIPHandling" = "default_public_and_private_interfaces";
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

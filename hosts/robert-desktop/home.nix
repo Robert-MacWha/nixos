@@ -127,9 +127,6 @@ in
     # pinentry.package = pkgs.pinentry-qt;
   };
 
-  programs.chromium.enable = true;
-  programs.chromium.package = pkgs.ungoogled-chromium;
-
   # https://nix-community.github.io/home-manager/options.xhtml
   # or `man home-configuration.nix` for version-specific docs
   programs = {

@@ -46,7 +46,7 @@ in
       kdePackages.kdbusaddons
       obsidian
       firefox
-      # google-chrome
+      google-chrome
       libreoffice-qt6-fresh
       proton-vpn
       calibre

@@ -177,6 +177,7 @@
     android-tools
   ];
 
+  # TODO: Disable this
   programs.chromium = {
     enable = true;
     extraOpts = {

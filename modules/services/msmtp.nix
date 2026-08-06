@@ -12,6 +12,8 @@
       tls_starttls = true;
     };
     accounts.default = {
+      auth = true;
+
       host = "smtp.purelymail.com";
       from = "info@macwha.com";
       user = "info@macwha.com";

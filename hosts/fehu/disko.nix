@@ -2,7 +2,7 @@
 let
   sataDisks = {
     sata1 = "ata-Samsung_SSD_870_QVO_8TB_S5SSNF0TA02676H";
-    sata2 = "ata-Samsung_SSD_870_QVO_8TB_S5SSNF0TA02681B";
+    sata2 = "ata-Samsung_SSD_870_QVO_8TB_S5SSNF0TA02682R";
     sata3 = "ata-Samsung_SSD_870_QVO_8TB_S5SSNF0TA02686L";
   };
 

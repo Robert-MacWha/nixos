@@ -15,6 +15,7 @@ in
     ../../modules/services/nixflix.nix
     ../../modules/services/transmission.nix
     ../../modules/services/metrics.nix
+    ../../modules/services/msmtp.nix
     # ../../modules/services/tor.nix
   ];
 

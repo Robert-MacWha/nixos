@@ -128,7 +128,7 @@ in
         # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
         "Intro Skipper" = {
           url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
-          hash = "sha256:0wh2iszaapyha52z9zxj95562mcph5dj0m0bvkm3q0217r51vq3f";
+          hash = "sha256:13jkssw50fvjy1hbxxdz26g21wc6icncpzpp7wbvwvzskb3v45gc";
           enabled = true;
         };
       };

@@ -9,8 +9,8 @@ let
 
     cp ${
       pkgs.fetchurl {
-        url = "https://raw.githubusercontent.com/haugene/vpn-configs-contrib/main/openvpn/protonvpn/update-port.sh";
-        sha256 = "19qf73gjy0gfjy6zy4vsnk8bcgyg5qlnwvs83b3rhy9dqxfsdiqg";
+        url = "https://raw.githubusercontent.com/haugene/vpn-configs-contrib/cdba4cfb3e41170fa45dabd746b06a688447e423/openvpn/protonvpn/update-port.sh";
+        sha256 = "sha256-F/9TjQXMWnMpo+49rpcoX2fnqIVTigHCrQbWahZUyIw=";
       }
     } $out/update-port.sh
     chmod +x $out/update-port.sh

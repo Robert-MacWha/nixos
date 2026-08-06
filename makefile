@@ -14,7 +14,7 @@ endif
 .PHONY: update
 update:
 	git add .
-	nixos-rebuild switch --sudo $(REBUILD_ARGS)
+	nixos-rebuild switch $(REBUILD_ARGS)
 	git commit -m "update: $$(date -Iseconds)" || true
 
 .PHONY: upgrade

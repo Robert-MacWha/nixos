@@ -104,6 +104,23 @@ in
     pools = [ "tank" ];
   };
 
+  services.zfs.zed = {
+    enableMail = true;
+    settings = {
+      ZED_EMAIL_ADDR = [ "robert@macwha.com" ];
+      ZED_EMAIL_PROG = "${pkgs.msmtp}/bin/msmtp";
+      ZED_NOTIFY_INTERVAL_SECS = 3600;
+      ZED_NOTIFY_VERBOSE = false;
+      ZED_SCRUB_AFTER_RESILVER = true;
+    };
+  };
+
+  services.smartd = {
+    enable = true;
+    notifications.mail.enable = true;
+    notifications.mail.mailer = "${pkgs.msmtp}/bin/msmtp";
+  };
+
   systemd.settings.Manager = {
     DefaultCPUAccounting = true;
     DefaultMemoryAccounting = true;
@@ -117,6 +134,9 @@ in
   services.tlp = {
     enable = true;
     settings = {
+      TLP_DEFAULT_MODE = "AC";
+      TLP_PERSISTENT_DEFAULT = 1;
+
       # --- CPU ---
       CPU_SCALING_GOVERNOR_ON_AC = "powersave";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";

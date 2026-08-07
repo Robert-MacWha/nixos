@@ -46,7 +46,7 @@
     stateDir = "victoriametrics"; # /var/lib/victoriametrics
     retentionPeriod = "24w";
     prometheusConfig = {
-      global.scrape_interval = "10s";
+      global.scrape_interval = "1m";
       scrape_configs = [
         {
           job_name = "node";
@@ -56,14 +56,14 @@
             }
           ];
         }
-        {
-          job_name = "systemd";
-          static_configs = [
-            {
-              targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
-            }
-          ];
-        }
+        # {
+        #   job_name = "systemd";
+        #   static_configs = [
+        #     {
+        #       targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
+        #     }
+        #   ];
+        # }
       ];
     };
   };
@@ -72,6 +72,6 @@
     enable = false;
     exporters.node.enable = true;
     exporters.node.enabledCollectors = [ "rapl" ];
-    exporters.systemd.enable = true;
+    # exporters.systemd.enable = true;
   };
 }

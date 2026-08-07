@@ -134,6 +134,7 @@ in
   services.tlp = {
     enable = true;
     settings = {
+      TLP_DEBUG = "disk sysfs pm";
       SATA_LINKPWR_DENYLIST = "host0 host1 host2 host3";
 
       # --- CPU ---

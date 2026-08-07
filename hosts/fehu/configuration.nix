@@ -134,8 +134,7 @@ in
   services.tlp = {
     enable = true;
     settings = {
-      TLP_DEFAULT_MODE = "AC";
-      TLP_PERSISTENT_DEFAULT = 1;
+      TLP_DEBUG = "disk sysfs pm";
 
       # --- CPU ---
       CPU_SCALING_GOVERNOR_ON_AC = "powersave";
@@ -147,7 +146,7 @@ in
       PCIE_ASPM_ON_AC = "powersupersave";
       PCIE_ASPM_ON_BAT = "powersupersave";
 
-      # --- SATA link power management (your 3 SSDs in raidz1) ---
+      # --- SATA link power management ---
       SATA_LINKPWR_ON_AC = "min_power";
       SATA_LINKPWR_ON_BAT = "min_power";
 

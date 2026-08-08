@@ -8,8 +8,8 @@
     enable = true;
     mode = "netclient";
 
-    upsmon.monitor."nut" = {
-      system = "192.168.2.163:3493";
+    upsmon.monitor."myups" = {
+      system = "myups@192.168.2.163:3493";
       user = "monuser";
       passwordFile = config.sops.secrets.root_password.path;
       type = "secondary";

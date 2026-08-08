@@ -22,6 +22,7 @@ in
     "alpharatio_username".sopsFile = ../../secrets/nixflix.yaml;
     "alpharatio_password".sopsFile = ../../secrets/nixflix.yaml;
     "retrotoon_api_key".sopsFile = ../../secrets/nixflix.yaml;
+    "peergarden_api_key".sopsFile = ../../secrets/nixflix.yaml;
   };
 
   networking.firewall = {
@@ -87,6 +88,11 @@ in
             name = "RetroToon";
             enable = true;
             apikey._secret = config.sops.secrets."retrotoon_api_key".path;
+          }
+          {
+            name = "PeerGarden";
+            enable = true;
+            apikey._secret = config.sops.secrets."peergarden_api_key".path;
           }
         ];
       };

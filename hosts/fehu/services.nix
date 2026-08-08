@@ -82,6 +82,11 @@ in
     group = "infra";
     href = "http://192.168.2.1:3000";
   };
+  homeassistant = {
+    label = "Home Assistant";
+    group = "infra";
+    href = "http://192.168.2.163:8123/lovelace";
+  };
   # caddy = {
   # label = "Caddy";
   # group = "infra";

@@ -16,6 +16,7 @@ in
     ../../modules/services/transmission.nix
     ../../modules/services/metrics.nix
     ../../modules/services/msmtp.nix
+    ../../modules/services/ups.nix
     # ../../modules/services/tor.nix
   ];
 
@@ -127,6 +128,8 @@ in
     DefaultIOAccounting = true;
     DefaultIPAccounting = true;
   };
+
+  # NUT
 
   # Power efficiency
   services.power-profiles-daemon.enable = false;

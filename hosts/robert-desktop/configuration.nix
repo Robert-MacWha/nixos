@@ -182,9 +182,9 @@
   # TODO: Disable this
   programs.chromium = {
     enable = true;
-    extraOpts = {
-      "WebRtcIPHandling" = "default_public_and_private_interfaces";
-    };
+    # extraOpts = {
+    #   "WebRtcIPHandling" = "default_public_and_private_interfaces";
+    # };
   };
 
   # Some programs need SUID wrappers, can be configured further or are

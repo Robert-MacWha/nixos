@@ -11,7 +11,6 @@
     enable = true;
     openFirewall = true;
     settings = {
-      network = "mainnet";
       checkpoint-sync-url = "https://mainnet.checkpoint.sigp.io";
       execution-jwt = config.sops.secrets."jwt_secret".path;
       http-address = "0.0.0.0";

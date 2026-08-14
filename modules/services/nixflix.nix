@@ -132,9 +132,10 @@ in
 
       system.pluginRepositories = {
         # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
+        # https://github.com/intro-skipper/manifest
         "Intro Skipper" = {
-          url = "https://raw.githubusercontent.com/intro-skipper/manifest/main/10.11/manifest.json";
-          hash = "sha256:13jkssw50fvjy1hbxxdz26g21wc6icncpzpp7wbvwvzskb3v45gc";
+          url = "https://raw.githubusercontent.com/intro-skipper/manifest/0ce0de7e1c60219618b312ee6ba17abe633a9e47/10.11/manifest.json";
+          hash = "sha256:0ibxlyvg3875b6yn1slyhxk34qg8i28g62vkfqfb2l0j4dk3mw8x";
           enabled = true;
         };
       };

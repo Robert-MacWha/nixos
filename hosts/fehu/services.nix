@@ -15,12 +15,6 @@ in
     port = config.services.immich.port;
     group = "services";
   };
-  gitea = {
-    label = "Gitea";
-    ip = ip;
-    port = config.services.gitea.settings.server.HTTP_PORT;
-    group = "services";
-  };
 
   sonarr = {
     label = "Sonarr";
@@ -86,6 +80,12 @@ in
     label = "Home Assistant";
     group = "infra";
     href = "http://192.168.2.163:8123/lovelace";
+  };
+  grafana = {
+    label = "Grafana";
+    ip = ip;
+    port = 3000;
+    group = "infra";
   };
   # caddy = {
   # label = "Caddy";

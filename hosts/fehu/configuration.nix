@@ -10,6 +10,10 @@ in
     (import ../../modules/services/caddy.nix {
       services = myServices;
       domain = "macwha.com";
+      default = {
+        ip = "192.168.2.52";
+        port = 8082;
+      };
     })
     ../../modules/services/rgb.nix
     ../../modules/services/nixflix.nix

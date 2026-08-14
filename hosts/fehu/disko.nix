@@ -61,6 +61,29 @@ in
           };
         };
       };
+      disk2 = {
+        device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_2TB_S6S2NS0TA05862N";
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            reth = {
+              name = "reth";
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/data/reth";
+                mountOptions = [
+                  "defaults"
+                  "noatime"
+                  "nofail"
+                ];
+              };
+            };
+          };
+        };
+      };
     };
 
     zpool.tank = {

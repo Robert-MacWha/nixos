@@ -20,6 +20,8 @@
 
     hackenproof-proxy.url = "path:./modules/services/hermes/mcp/hackenproof";
     hackenproof-proxy.inputs.nixpkgs.follows = "nixpkgs";
+
+    ethereum.url = "github:nix-community/ethereum.nix";
   };
   outputs =
     inputs:

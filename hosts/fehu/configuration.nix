@@ -22,7 +22,7 @@ in
     ../../modules/services/msmtp.nix
     ../../modules/services/ups.nix
     ../../modules/services/immich.nix
-    # ../../modules/services/tor.nix
+    ../../modules/services/mainnet.nix
   ];
 
   # Systemd-boot

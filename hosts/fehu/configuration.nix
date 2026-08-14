@@ -9,7 +9,7 @@ in
     ./dashboard.nix
     (import ../../modules/services/caddy.nix {
       services = myServices;
-      domain = "lan";
+      domain = "macwha.com";
     })
     ../../modules/services/rgb.nix
     ../../modules/services/nixflix.nix

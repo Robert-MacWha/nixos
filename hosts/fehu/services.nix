@@ -87,10 +87,4 @@ in
     port = 3000;
     group = "infra";
   };
-  caddy = {
-    label = "Caddy";
-    group = "infra";
-    ip = ip;
-    port = 2019;
-  };
 }

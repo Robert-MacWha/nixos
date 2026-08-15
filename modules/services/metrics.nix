@@ -56,14 +56,16 @@
             }
           ];
         }
-        # {
-        #   job_name = "systemd";
-        #   static_configs = [
-        #     {
-        #       targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ];
-        #     }
-        #   ];
-        # }
+        {
+          job_name = "lighthouse";
+          static_configs = [
+            {
+              targets = [
+                "localhost:${toString config.services.ethereum.lighthouse-beacon.mainnet.settings.metrics-port}"
+              ];
+            }
+          ];
+        }
       ];
     };
   };
@@ -71,7 +73,5 @@
   services.prometheus = {
     enable = false;
     exporters.node.enable = true;
-    exporters.node.enabledCollectors = [ "rapl" ];
-    # exporters.systemd.enable = true;
   };
 }

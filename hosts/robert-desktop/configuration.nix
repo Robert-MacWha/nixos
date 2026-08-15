@@ -109,7 +109,15 @@
     #media-session.enable = true;
   };
 
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    settings = {
+      global = {
+        hide_env_diff = true;
+      };
+    };
+  };
+
   services.angrr = {
     enable = true;
     settings.temporary-root-policies.direnv = {

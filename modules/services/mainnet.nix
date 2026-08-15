@@ -7,6 +7,12 @@
     sopsFile = ../../secrets/ethereum.yaml;
   };
 
+  # services.ethereum.reth.mainnet = {
+  #   enable = true;
+  #   openFirewall = true;
+
+  # };
+
   services.ethereum.lighthouse-beacon.mainnet = {
     enable = true;
     openFirewall = true;
@@ -19,6 +25,7 @@
       metrics = true;
       metrics-address = "0.0.0.0";
       metrics-port = 5054;
+      http = true;
     };
   };
 }

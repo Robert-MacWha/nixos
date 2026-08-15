@@ -21,8 +21,8 @@
     hackenproof-proxy.url = "path:./modules/services/hermes/mcp/hackenproof";
     hackenproof-proxy.inputs.nixpkgs.follows = "nixpkgs";
 
-    ethereum.url = "github:nix-community/ethereum.nix";
-    ethereum.inputs.nixpkgs.follows = "nixpkgs";
+    # ethereum.url = "github:nix-community/ethereum.nix";
+    # ethereum.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     inputs:
@@ -86,7 +86,7 @@
             inputs.sops-nix.nixosModules.sops
             inputs.disko.nixosModules.disko
             inputs.nixflix.nixosModules.default
-            inputs.ethereum.nixosModules.default
+            # inputs.ethereum.nixosModules.default
           ];
         };
       };

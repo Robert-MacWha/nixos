@@ -56,16 +56,16 @@
             }
           ];
         }
-        {
-          job_name = "lighthouse";
-          static_configs = [
-            {
-              targets = [
-                "localhost:${toString config.services.ethereum.lighthouse-beacon.mainnet.settings.metrics-port}"
-              ];
-            }
-          ];
-        }
+        # {
+        #   job_name = "lighthouse";
+        #   static_configs = [
+        #     {
+        #       targets = [
+        #         "localhost:${toString config.services.ethereum.lighthouse-beacon.mainnet.settings.metrics-port}"
+        #       ];
+        #     }
+        #   ];
+        # }
       ];
     };
   };

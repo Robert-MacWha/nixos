@@ -136,6 +136,6 @@ in
   systemd.tmpfiles.rules = [
     "Z /var/lib/hermes/.hermes - hermes hermes -"
     "Z /var/lib/hermes/.hermes/jobs - hermes hermes -"
-    "L+ /var/lib/hermes/.hermes/SOUL.md - - - - ${./hermes/SOUL.md}"
+    "L+ /var/lib/hermes/.hermes/SOUL.md - - - - ${./SOUL.md}"
   ];
 }

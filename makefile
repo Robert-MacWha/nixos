@@ -1,7 +1,7 @@
 TARGET ?=
 HOST ?=
 
-REBUILD_ARGS :=
+REBUILD_ARGS := --sudo
 
 ifdef TARGET
 REBUILD_ARGS += --flake .\#$(TARGET)
@@ -14,15 +14,22 @@ endif
 .PHONY: update
 update:
 	git add .
-	sudo nixos-rebuild switch $(REBUILD_ARGS)
+	nixos-rebuild switch $(REBUILD_ARGS)
 	git commit -m "update: $$(date -Iseconds)" || true
 
 .PHONY: upgrade
 upgrade:
 	git add .
 	nix flake update
-	nixos-rebuild switch --upgrade --sudo $(REBUILD_ARGS)
+	nixos-rebuild switch --upgrade $(REBUILD_ARGS)
 	git commit -m "upgrade: $$(date -Iseconds)" || true
+
+.PHONY: push
+push:
+	git fetch
+	git reset --soft @{u}
+	git commit -m "squash: $$(date -Iseconds)" || true
+	git push
 
 .PHONY: clean
 clean:
@@ -36,4 +43,4 @@ optimise:
 
 .PHONY: update-keys
 update-keys:
-	for f in secrets/*.yaml; do sops updatekeys -y "$f"; done
+	for f in secrets/*.yaml; do sops updatekeys -y "$$f"; done

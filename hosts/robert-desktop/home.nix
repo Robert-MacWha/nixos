@@ -1,16 +1,11 @@
 {
   config,
   pkgs,
-  unstable,
   ...
 }:
-let
-  # rotki = pkgs.callPackage ../../modules/packages/rotki.nix { };
-
-  rofi-vscode = pkgs.writeShellScriptBin "rofi-vscode" (builtins.readFile ./rofi/vscode.sh);
-  rofi-watson = pkgs.writeShellScriptBin "rofi-watson" (builtins.readFile ./rofi/watson.sh);
-in
 {
+  imports = [ ../../modules/rofi ];
+
   home = {
     # https://mynixos.com/nixpkgs/package
     packages = with pkgs; [
@@ -20,7 +15,7 @@ in
       sops
 
       # Dev
-      unstable.claude-code
+      pkgs.unstable.claude-code
       gh
       uv
       nixd
@@ -61,24 +56,6 @@ in
       gnupg
       brotli
       sqlite
-
-      # (pkgs.runCommand "davinci-resolve-patched" { } ''
-      #   mkdir -p $out/bin $out/share/applications
-
-      #   ln -s ${davinci-resolve}/bin/davinci-resolve $out/bin/
-
-      #   substitute ${davinci-resolve}/share/applications/davinci-resolve.desktop \
-      #     $out/share/applications/davinci-resolve.desktop \
-      #     --replace "Exec=davinci-resolve" "Exec=env QT_QPA_PLATFORM=xcb davinci-resolve"
-
-      #   if [ -d ${davinci-resolve}/share/icons ]; then
-      #     cp -r ${davinci-resolve}/share/icons $out/share/
-      #   fi
-      # '')
-
-      (pkgs.writeShellScriptBin "rofi-launch" ''
-        exec rofi -show combi
-      '')
     ];
 
     username = "rmacwha";
@@ -156,50 +133,5 @@ in
     vscode = {
       enable = true;
     };
-
-    rofi = {
-      enable = true;
-      theme = "Adapta-Nokto";
-      modes = [
-        "combi"
-        "drun"
-        "ssh"
-        "vs:${rofi-vscode}/bin/rofi-vscode"
-        "tt:${rofi-watson}/bin/rofi-watson"
-      ];
-      extraConfig = {
-        show-icons = true;
-        show = "combi";
-        combi-modes = "drun,ssh,vs,tt";
-        combi-hide-mode-prefix = false;
-        click-to-exit = true;
-        sort = true;
-        # sorting-method = "fzf";
-        # matching = "fuzzy";
-      };
-    };
-
-    # anyrun = {
-    #   enable = true;
-    #   config = {
-    #     closeOnClick = true;
-    #     x.fraction = 0.5;
-    #     y.fraction = 0.4;
-    #     ignoreExclusiveZones = true;
-    #     width.absolute = 800;
-    #     plugins = [
-    #       "${anyrun-plugins.watson}/lib/libanyrun_watson.so"
-    #       "${anyrun-plugins.timestamp}/lib/libanyrun_timestamp.so"
-    #       "${anyrun-plugins.vscode}/lib/libanyrun_vscode.so"
-    #       "${anyrun-plugins.todo}/lib/libanyrun_todo.so"
-    #       "libapplications.so"
-    #       "librink.so"
-    #       "libkidex.so"
-    #       "libwebsearch.so"
-    #       "libtranslate.so"
-    #     ];
-    #   };
-    #   extraCss = builtins.readFile "${assets}/anyrun.css";
-    # };
   };
 }

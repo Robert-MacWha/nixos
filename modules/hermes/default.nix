@@ -54,7 +54,8 @@ in
       toolsets = [ "all" ];
       max_turns = 100;
       terminal = {
-        backend = "docker";
+        # backend = "docker";
+        backend = "local";
       };
       web = {
         backend = "ddgs";

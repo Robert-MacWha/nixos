@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -31,8 +31,19 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRvLqaDP5TEXir4skoP4+VzqrbQgjXYPQA2tCF9hc1z rmacwha@robert-desktop"
     ];
+    extraGroups = [ "docker" ];
     hashedPasswordFile = config.sops.secrets.root_password_hash.path;
   };
+
+  virtualisation.docker.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    nano
+    wget
+    unzip
+    git
+    jq
+  ];
 
   services.openssh = {
     enable = true;

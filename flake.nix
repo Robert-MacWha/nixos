@@ -19,13 +19,14 @@
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
 
-    hackenproof-proxy.url = "path:./modules/hermes/mcp/hackenproof";
+    hackenproof-proxy.url = "path:./modules/hackenproof-proxy";
     hackenproof-proxy.inputs.nixpkgs.follows = "nixpkgs";
 
     # ethereum.url = "github:nix-community/ethereum.nix";
     # ethereum.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = inputs: 
+  outputs =
+    inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
       imports = [

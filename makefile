@@ -1,7 +1,7 @@
 TARGET ?=
 HOST ?=
 
-REBUILD_ARGS := --sudo
+REBUILD_ARGS :=
 
 ifdef TARGET
 REBUILD_ARGS += --flake .\#$(TARGET)
@@ -9,6 +9,8 @@ endif
 
 ifdef HOST
 REBUILD_ARGS += --target-host root@$(HOST)
+else
+REBUILD_ARGS += --sudo
 endif
 
 .PHONY: update

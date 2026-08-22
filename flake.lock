@@ -66,11 +66,11 @@
         ]
       },
       "locked": {
-        "path": "./modules/hermes/mcp/hackenproof",
+        "path": "./modules/hackenproof-proxy",
         "type": "path"
       },
       "original": {
-        "path": "./modules/hermes/mcp/hackenproof",
+        "path": "./modules/hackenproof-proxy",
         "type": "path"
       },
       "parent": []

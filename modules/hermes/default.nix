@@ -111,9 +111,9 @@ in
         GITHUB_PERSONAL_ACCESS_TOKEN = "\${GITHUB_PERSONAL_ACCESS_TOKEN}";
       };
     };
-    # mcpServers.docs = {
-    #   url = config.services.docs-mcp-server.url;
-    # };
+    mcpServers.docs = {
+      url = config.services.docs-mcp-server.url;
+    };
 
     addToSystemPackages = true;
     restart = "no";

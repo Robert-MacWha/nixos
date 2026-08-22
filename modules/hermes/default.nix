@@ -62,7 +62,7 @@ in
       compression = {
         enabled = true;
         threshold = 0.5;
-        summary_model = "google/gemma-4-26B-A4B-it";
+        summary_model = "qwen3.6-27b";
       };
       memory = {
         memory_enabled = true;
@@ -111,16 +111,8 @@ in
         GITHUB_PERSONAL_ACCESS_TOKEN = "\${GITHUB_PERSONAL_ACCESS_TOKEN}";
       };
     };
-    mcpServers.seal-intel = {
-      command = "npx";
-      args = [
-        "-y"
-        "github:zxzinn/opencti-mcp"
-      ];
-      env = {
-        OPENCTI_URL = "\${OPENCTI_URL}";
-        OPENCTI_TOKEN = "\${OPENCTI_TOKEN}";
-      };
+    mcpServers.docs = {
+      url = config.services.docs-mcp-server.url;
     };
 
     addToSystemPackages = true;
@@ -132,6 +124,8 @@ in
     apiKeyFile = config.sops.secrets."hackenproof-api-key".path;
     keyFiles = [ config.sops.secrets."opengpg-private-key".path ];
   };
+
+  services.docs-mcp-server.enable = true;
 
   systemd.tmpfiles.rules = [
     "Z /var/lib/hermes/.hermes - hermes hermes -"

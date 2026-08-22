@@ -22,6 +22,9 @@
     hackenproof-proxy.url = "path:./modules/hackenproof-proxy";
     hackenproof-proxy.inputs.nixpkgs.follows = "nixpkgs";
 
+    docs-mcp-server.url = "path:./modules/docs-mcp-server";
+    docs-mcp-server.inputs.nixpkgs.follows = "nixpkgs";
+
     # ethereum.url = "github:nix-community/ethereum.nix";
     # ethereum.inputs.nixpkgs.follows = "nixpkgs";
   };

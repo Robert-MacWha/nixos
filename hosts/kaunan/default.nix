@@ -14,6 +14,7 @@
       inputs.disko.nixosModules.disko
       inputs.hermes-agent.nixosModules.default
       inputs.hackenproof-proxy.nixosModules.default
+      inputs.docs-mcp-server.nixosModules.default
     ];
   };
 }

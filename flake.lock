@@ -20,6 +20,22 @@
         "type": "github"
       }
     },
+    "docs-mcp-server": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./modules/docs-mcp-server",
+        "type": "path"
+      },
+      "original": {
+        "path": "./modules/docs-mcp-server",
+        "type": "path"
+      },
+      "parent": []
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -296,6 +312,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "docs-mcp-server": "docs-mcp-server",
         "flake-parts": "flake-parts",
         "hackenproof-proxy": "hackenproof-proxy",
         "hermes-agent": "hermes-agent",

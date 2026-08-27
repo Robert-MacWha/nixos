@@ -3,7 +3,7 @@
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
-    ../../modules/hermes
+    ../../profiles/hermes
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -20,11 +20,36 @@
     "flakes"
   ];
 
+  users.groups.gh-cred = { };
+
   sops.secrets."root_password_hash" = {
     sopsFile = ../../secrets/secrets.yaml;
     owner = "root";
   };
-
+  sops.secrets."github-pat" = {
+    sopsFile = ../../secrets/hermes.yaml;
+  };
+  sops.templates."gh-hosts" = {
+    content = ''
+      github.com:
+          oauth_token: ${config.sops.placeholder."github-pat"}
+          user: rmacwha
+          git_protocol: https
+    '';
+    path = "/etc/gh/hosts.yml";
+    owner = "root";
+    group = "gh-cred";
+    mode = "0640";
+  };
+  sops.templates."gh-config-yml" = {
+    content = ''
+      version: "1"
+    '';
+    path = "/etc/gh/config.yml";
+    owner = "root";
+    group = "gh-cred";
+    mode = "0640";
+  };
   sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
 
   users.users.root = {
@@ -41,9 +66,23 @@
     nano
     wget
     unzip
-    git
+    gh
     jq
+    playwright-driver.browsers
+    chromium
+    uv
   ];
+
+  programs.git = {
+    enable = true;
+    config = {
+      credential.helper = "!gh auth git-credential";
+      user.name = "rmacwha-hermes";
+      user.email = "trebor.ahwcam@gmail.com";
+    };
+  };
+
+  environment.variables.GH_CONFIG_DIR = "/etc/gh";
 
   services.openssh = {
     enable = true;

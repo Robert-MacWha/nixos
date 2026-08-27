@@ -1,0 +1,5 @@
+{
+    "mode": "local_external",
+    "api_url": "http://127.0.0.1:8888",
+    "bank_id": "solidity_triager"
+}

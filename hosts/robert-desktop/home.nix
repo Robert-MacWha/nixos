@@ -4,7 +4,7 @@
   ...
 }:
 {
-  imports = [ ../../modules/rofi ];
+  imports = [ ../../profiles/rofi ];
 
   home = {
     # https://mynixos.com/nixpkgs/package

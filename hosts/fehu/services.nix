@@ -15,6 +15,12 @@ in
     port = config.services.immich.port;
     group = "services";
   };
+  hermes = {
+    label = "Hermes";
+    ip = "192.168.2.53";
+    port = 9119;
+    group = "services";
+  };
 
   sonarr = {
     label = "Sonarr";

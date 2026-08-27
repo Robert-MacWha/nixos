@@ -7,7 +7,7 @@ in
     ./hardware-configuration.nix
     ./disko.nix
     ./dashboard.nix
-    (import ../../modules/caddy {
+    (import ../../profiles/caddy {
       services = myServices;
       domain = "macwha.com";
       default = {
@@ -15,13 +15,13 @@ in
         port = 8082;
       };
     })
-    ../../modules/rgb
-    ../../modules/nixflix
-    ../../modules/transmission
-    ../../modules/metrics
-    ../../modules/msmtp
-    ../../modules/ups
-    ../../modules/immich
+    ../../profiles/rgb
+    ../../profiles/nixflix
+    ../../profiles/transmission
+    ../../profiles/metrics
+    ../../profiles/msmtp
+    ../../profiles/ups
+    ../../profiles/immich
   ];
 
   # Systemd-boot

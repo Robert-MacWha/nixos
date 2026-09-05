@@ -90,6 +90,7 @@ in
     nano
     wget
     unzip
+    unar
     htop
   ];
 

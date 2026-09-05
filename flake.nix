@@ -18,6 +18,9 @@
 
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
+
+    freesmlauncher.url = "github:FreesmTeam/FreesmLauncher/2.2.2";
+    freesmlauncher.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     inputs:
@@ -27,11 +30,14 @@
         ./hosts
       ];
 
-      flake.overlays.default = final: prev: {
-        unstable = import inputs.nixpkgs-unstable {
-          inherit (prev.stdenv.hostPlatform) system;
-          config.allowUnfree = true;
-        };
-      };
+      flake.overlays.default =
+        final: prev:
+        {
+          unstable = import inputs.nixpkgs-unstable {
+            inherit (prev.stdenv.hostPlatform) system;
+            config.allowUnfree = true;
+          };
+        }
+        // (inputs.freesmlauncher.overlays.default final prev);
     };
 }

@@ -130,6 +130,10 @@ in
         password = "";
       };
 
+      users.ali = {
+        password = "neko";
+      };
+
       system.pluginRepositories = {
         # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
         # https://github.com/intro-skipper/manifest

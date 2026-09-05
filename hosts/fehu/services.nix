@@ -14,6 +14,7 @@ in
     ip = ip;
     port = config.services.immich.port;
     group = "services";
+    aliases = [ "photo" ];
   };
   hermes = {
     label = "Hermes";

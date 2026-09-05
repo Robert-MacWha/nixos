@@ -154,7 +154,6 @@
       "dialout"
       "adbusers"
     ];
-    packages = with pkgs; [ ];
   };
 
   programs.zsh.enable = true; # Required to set zsh as default shell
@@ -185,6 +184,7 @@
     wget
     gnumake
     android-tools
+    freesmlauncher
   ];
 
   # TODO: Disable this

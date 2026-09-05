@@ -83,6 +83,7 @@ in
         api_mode = "chat_completions";
         api_key = "\${ETH_FOUNDATION_API_KEY}";
         reasoning_effort = "low";
+        context_length = 262144;
       };
       agent = {
         max_turns = 30;

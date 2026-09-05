@@ -1,8 +1,9 @@
 keys:
   - &desktop age1wrc3nndwc8vqg5fy4ks9xcldfnzd3wgkd9z6ak5edxa93cs4g4ysjxt0w5
+  - &ansuz age1du3x5naukq6s6rtv9pzhyyxvpdwg2mtn9twckhctfuq8qcdesp2qy9n8td
   - &fehu age1khc0egzhgw2kdkkgad8dkhl7ec20s5kf6rqhrnprs2ln6uhpaensge2su5
   - &kaunan age1m7puecylyw5jqf7jvjm8ye49qgmdr76rmy9rtlavf6rneg2psfzqstpypl
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-      - age: [*desktop, *fehu, *kaunan]
+      - age: [*desktop, *ansuz, *fehu, *kaunan]

@@ -13,6 +13,9 @@
       inputs.sops-nix.nixosModules.sops
       inputs.disko.nixosModules.disko
       inputs.hermes-agent.nixosModules.default
+      {
+        nixpkgs.overlays = [ self.overlays.default ];
+      }
     ];
   };
 }

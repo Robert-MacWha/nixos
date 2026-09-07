@@ -168,7 +168,6 @@
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = [
     config.boot.kernelPackages.nvidia_x11
-    # any missing dynamic libraries
   ];
 
   # Allow unfree packages

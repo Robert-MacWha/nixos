@@ -8,6 +8,10 @@
         inputs.sops-nix.nixosModules.sops
         inputs.disko.nixosModules.disko
         inputs.nixflix.nixosModules.default
+        inputs.nix-minecraft.nixosModules.minecraft-servers
+        {
+          nixpkgs.overlays = [ self.overlays.default ];
+        }
       ];
     };
   };

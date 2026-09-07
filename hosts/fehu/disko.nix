@@ -116,6 +116,11 @@ in
           mountpoint = "/data/downloads";
           options.mountpoint = "legacy";
         };
+        "data/documents" = {
+          type = "zfs_fs";
+          mountpoint = "/data/documents";
+          options.mountpoint = "legacy";
+        };
       };
     };
   };

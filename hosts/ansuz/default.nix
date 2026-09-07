@@ -7,6 +7,9 @@
       ./configuration.nix
       inputs.sops-nix.nixosModules.sops
       inputs.disko.nixosModules.disko
+      {
+        nixpkgs.overlays = [ self.overlays.default ];
+      }
     ];
   };
 }

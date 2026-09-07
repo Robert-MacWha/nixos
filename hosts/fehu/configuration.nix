@@ -22,6 +22,7 @@ in
     ../../profiles/msmtp
     ../../profiles/ups
     ../../profiles/immich
+    ../../profiles/mc
   ];
 
   # Systemd-boot
@@ -41,6 +42,9 @@ in
     }
   ];
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # igpu drivers
   hardware.graphics = {
     enable = true;
@@ -49,7 +53,6 @@ in
       intel-compute-runtime
       vpl-gpu-rt
     ];
-    # hardware.enableAllFirmware = true; # Required on n100 CPUs
   };
 
   networking.hostName = "fehu";
@@ -104,6 +107,7 @@ in
     ];
   };
 
+  # ZFS
   services.zfs.autoScrub = {
     enable = true;
     interval = "weekly";
@@ -121,6 +125,7 @@ in
     };
   };
 
+  # smartD monitoring
   services.smartd = {
     enable = true;
     notifications.mail.enable = true;
@@ -133,8 +138,6 @@ in
     DefaultIOAccounting = true;
     DefaultIPAccounting = true;
   };
-
-  # NUT
 
   # Power efficiency
   services.power-profiles-daemon.enable = false;

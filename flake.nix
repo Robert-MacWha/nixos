@@ -1,16 +1,18 @@
 {
-  description = "My NixOS configs";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
     preservation.url = "github:nix-community/preservation";
 
     nixflix.url = "github:kiriwalawren/nixflix";
@@ -19,8 +21,8 @@
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
 
-    freesmlauncher.url = "github:FreesmTeam/FreesmLauncher/2.2.2";
-    freesmlauncher.inputs.nixpkgs.follows = "nixpkgs";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     inputs:
@@ -38,6 +40,6 @@
             config.allowUnfree = true;
           };
         }
-        // (inputs.freesmlauncher.overlays.default final prev);
+        // (inputs.nix-minecraft.overlay final prev);
     };
 }

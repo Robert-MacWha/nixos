@@ -134,6 +134,16 @@ in
         password = "neko";
       };
 
+      users.ann = {
+        enableAutoLogin = true;
+        password = "";
+      };
+
+      users.henry = {
+        enableAutoLogin = true;
+        password = "";
+      };
+
       system.pluginRepositories = {
         # https://kiriwalawren.github.io/nixflix/examples/jellyfin-plugins/#configuration
         # https://github.com/intro-skipper/manifest
@@ -153,20 +163,20 @@ in
           };
         };
 
-        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
-        "Open Subtitles" = {
-          enable = true;
-          config = {
-            Username = "fiddling9916";
-            Password._secret = config.sops.secrets."opensubtitles_password".path;
-          };
-        };
+        # # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
+        # "Open Subtitles" = {
+        #   enable = true;
+        #   config = {
+        #     Username = "fiddling9916";
+        #     Password._secret = config.sops.secrets."opensubtitles_password".path;
+        #   };
+        # };
 
-        # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
-        "Subtitle Extract" = {
-          enable = true;
-          config.ExtractionDuringLibraryScan = true;
-        };
+        # # https://kiriwalawren.github.io/nixflix/examples/jellyfin-subtitles/
+        # "Subtitle Extract" = {
+        #   enable = true;
+        #   config.ExtractionDuringLibraryScan = true;
+        # };
       };
 
       # https://kiriwalawren.github.io/nixflix/reference/jellyfin/encoding/

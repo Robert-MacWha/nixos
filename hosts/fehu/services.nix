@@ -16,6 +16,12 @@ in
     group = "services";
     aliases = [ "photo" ];
   };
+  cooklang = {
+    label = "Cooklang";
+    ip = ip;
+    port = config.services.cooklang-server.port;
+    group = "services";
+  };
   hermes = {
     label = "Hermes";
     ip = "192.168.2.53";

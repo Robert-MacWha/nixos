@@ -23,6 +23,7 @@ in
     ../../profiles/ups
     ../../profiles/immich
     ../../profiles/mc
+    ../../profiles/cooklang
   ];
 
   # Systemd-boot
@@ -44,6 +45,11 @@ in
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # TODO: Remove me after upgrading to 26.11
+  nixpkgs.config.permittedInsecurePackages = [
+    "immich-2.7.5"
+  ];
 
   # igpu drivers
   hardware.graphics = {

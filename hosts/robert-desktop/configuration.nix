@@ -10,6 +10,8 @@
     ./hardware-configuration.nix
   ];
 
+  services.flatpak.enable = true;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -183,10 +185,10 @@
     wget
     gnumake
     android-tools
-    freesmlauncher
   ];
 
-  # TODO: Disable this
+  programs.partition-manager.enable = true;
+
   programs.chromium = {
     enable = true;
     # extraOpts = {
@@ -212,6 +214,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  hardware.bluetooth.enable = true;
 
   # Enable OpenGL
   hardware.graphics = {

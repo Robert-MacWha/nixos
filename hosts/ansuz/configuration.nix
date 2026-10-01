@@ -24,6 +24,13 @@
   services.displayManager.defaultSession = "plasma";
   environment.plasma6.excludePackages = [ pkgs.kdePackages.discover ];
 
+  services.flatpak.enable = true;
+
+  environment.sessionVariables.XDG_DATA_DIRS = [
+    "/var/lib/flatpak/exports/share"
+    "$HOME/.local/share/flatpak/exports/share"
+  ];
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -59,7 +66,14 @@
     chromium
     libreoffice
     vlc
+    signal-desktop
   ];
+
+  nix.gc = {
+    automatic = true;
+    dates = "03:00";
+    options = "-d";
+  };
 
   services.openssh = {
     enable = true;

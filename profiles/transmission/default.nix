@@ -1,11 +1,16 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   protonvpnConfig = pkgs.runCommand "protonvpn-config" { } ''
     mkdir -p $out
     # https://github.com/haugene/docker-transmission-openvpn/discussions/2351
     sed -e '/^up \/etc\/openvpn\/update-resolv-conf/d' \
         -e '/^down \/etc\/openvpn\/update-resolv-conf/d' \
-        ${./protonvpn/ca-226.protonvpn.udp.ovpn} > $out/node-ca-226.protonvpn.udp.ovpn
+        ${./protonvpn/ca.protonvpn.udp.ovpn} > $out/node-ca.protonvpn.udp.ovpn
 
     cp ${
       pkgs.fetchurl {
@@ -32,7 +37,7 @@ in
       ports = [ "9091:9091" ];
       environment = {
         OPENVPN_PROVIDER = "custom";
-        OPENVPN_CONFIG = "node-ca-226.protonvpn.udp";
+        OPENVPN_CONFIG = "node-ca.protonvpn.udp";
         LOCAL_NETWORK = "192.168.2.0/24";
         TRANSMISSION_RPC_USERNAME = "admin";
         TRANSMISSION_DOWNLOAD_DIR = "/data/downloads/transmission/complete";
@@ -53,6 +58,13 @@ in
         MKNOD = true;
       };
     };
+  };
+
+  # The container exits 0 when the VPN tunnel drops (it remaps openvpn's
+  # SIGUSR1 to SIGTERM), so oci-containers' Restart=on-failure never restarts it.
+  systemd.services.podman-transmission.serviceConfig = {
+    Restart = lib.mkForce "always";
+    RestartSec = 30;
   };
 
   systemd.tmpfiles.rules = [

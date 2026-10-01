@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     home-manager.url = "github:nix-community/home-manager/release-26.05";
@@ -23,6 +24,12 @@
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
+
+    cooklang-server.url = "github:Robert-MacWha/cooklang-server";
+    cooklang-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    anyrun-plugins.url = "github:Robert-MacWha/anyrun-plugins/main";
+    anyrun-plugins.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     inputs:

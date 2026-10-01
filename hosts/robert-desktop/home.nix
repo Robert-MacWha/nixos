@@ -4,7 +4,12 @@
   ...
 }:
 {
-  imports = [ ../../profiles/rofi ];
+  imports = [
+    ../../profiles/rofi
+    ../../profiles/anyrun
+    ../../profiles/git
+    ../../profiles/zsh
+  ];
 
   home = {
     # https://mynixos.com/nixpkgs/package
@@ -56,6 +61,9 @@
       gnupg
       brotli
       sqlite
+      yt-dlp
+      ffmpeg
+      handbrake
     ];
 
     username = "rmacwha";
@@ -101,37 +109,9 @@
 
   services.gpg-agent = {
     enable = true;
-    # pinentry.package = pkgs.pinentry-qt;
   };
 
-  # https://nix-community.github.io/home-manager/options.xhtml
-  # or `man home-configuration.nix` for version-specific docs
-  programs = {
-    zsh = {
-      enable = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      dotDir = "${config.xdg.configHome}/zsh";
-      oh-my-zsh = {
-        enable = true;
-        theme = "eastwood";
-        plugins = [ ];
-      };
-    };
-
-    git = {
-      enable = true;
-      settings = {
-        user.email = "trebor.ahwcam@gmail.com";
-        user.name = "Robert-MacWha";
-      };
-      signing.format = "ssh";
-      signing.key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
-      signing.signByDefault = true;
-    };
-
-    vscode = {
-      enable = true;
-    };
+  programs.vscode = {
+    enable = true;
   };
 }

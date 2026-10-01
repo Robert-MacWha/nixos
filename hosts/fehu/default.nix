@@ -9,6 +9,7 @@
         inputs.disko.nixosModules.disko
         inputs.nixflix.nixosModules.default
         inputs.nix-minecraft.nixosModules.minecraft-servers
+        inputs.cooklang-server.nixosModules.default
         {
           nixpkgs.overlays = [ self.overlays.default ];
         }

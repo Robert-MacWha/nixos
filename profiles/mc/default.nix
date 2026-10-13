@@ -3,6 +3,9 @@ let
   minespudcraft-offline-uuid = "3d2a9e1e-1982-3d31-8982-9550271ee669";
 in
 {
+  # Geyser (Bedrock) on the family server
+  networking.firewall.allowedUDPPorts = [ 19132 ];
+
   services.minecraft-servers = {
     enable = true;
     eula = true;
@@ -83,7 +86,7 @@ in
         gamemode = 0;
         force-gamemode = true;
         view-distance = 12;
-        pvp = true;
+        pvp = false;
         spawn-protection = 0;
         max-players = 10;
         motd = "BTW";
@@ -94,6 +97,43 @@ in
           uuid = minespudcraft-offline-uuid;
           level = 4;
         };
+      };
+    };
+
+    servers.family = {
+      enable = true;
+      package = pkgs.fabricServers.fabric-26_2.override { jre_headless = pkgs.jdk25_headless; };
+      files."config/Geyser-Fabric/config.yml" = pkgs.writeText "config.yml" ''
+        java:
+          auth-type: offline
+        config-version: 9
+      '';
+      symlinks = {
+        mods = pkgs.linkFarmFromDrvs "mods" (
+          builtins.attrValues {
+            FabricAPI = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/ewUK83HI/fabric-api-0.161.0%2B26.2.jar";
+              sha512 = "2502fa5ade78e9a120b3747bc1a9a2167d6671743bea45bf115d3174c94121aeda87c549446d1a604a9c11fb828de17a551e3514ce42f3e93069dd14bdaee55b";
+            };
+            Geyser = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/wKkoqHrH/versions/IaIZ9GpY/Geyser-Fabric-2.11.3-b1251.jar";
+              sha512 = "2498bd1713b628da9a3316deaf7010c753d612fe2194cf02d6276610eec4541fcb85f7259c3d054d8a4e00aca2edb6053ee63ea930131beadf1ab991ede206a8";
+            };
+            Lithium = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/gvQqBUqZ/versions/f7vZ0VWU/lithium-fabric-0.25.3%2Bmc26.2.jar";
+              sha512 = "148b638f3c6229fbaf487120a2344a0af5e411a5aa6533d5db9d75da0a8c0d8304f63eb4cca13f4d03b2c9b4c23d559dd74c1d832422ef8a3087bd005e62a8bd";
+            };
+          }
+        );
+      };
+      serverProperties = {
+        server-port = 25568;
+        difficulty = 1;
+        gamemode = 0;
+        hardcore = false;
+        pvp = true;
+        motd = "Family Server";
+        online-mode = false;
       };
     };
   };
